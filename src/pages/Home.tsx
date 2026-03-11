@@ -33,7 +33,7 @@ export const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
             src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1741689564993_image.png"
@@ -86,9 +86,9 @@ export const Home = () => {
       </section>
 
       {/* Editorial Content: Why coshare. - Bento Grid Redesign */}
-      <section ref={whyRef} className="py-24 bg-[#f8f9fa] overflow-hidden">
+      <section ref={whyRef} className="py-16 bg-[#f8f9fa] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.why.title')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {t('home.why.subtitle')}
@@ -125,7 +125,7 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, delay: index * 0.15, ease: "easeOut" }}
-                className={`relative overflow-hidden rounded-[2rem] bg-white p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 group border border-gray-100 hover:border-[#49bee4]/50 flex flex-col justify-end ${feature.className}`}
+                className={`relative overflow-hidden rounded-[2rem] bg-white p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 group border border-gray-100 hover:border-[#49bee4]/50 flex flex-col justify-end ${feature.className}`}
               >
                 {/* Parallax Background Image */}
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-10 transition-opacity duration-700 overflow-hidden bg-[#0b1b34]">
@@ -139,7 +139,7 @@ export const Home = () => {
                 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col h-full justify-between">
-                  <div className="w-16 h-16 bg-[#f8f9fa] rounded-2xl flex items-center justify-center mb-8 group-hover:bg-[#49bee4]/10 transition-colors duration-500 group-hover:scale-110 origin-left">
+                  <div className="w-16 h-16 bg-[#f8f9fa] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#49bee4]/10 transition-colors duration-500 group-hover:scale-110 origin-left">
                     <feature.icon className="w-8 h-8 text-[#256ab1] group-hover:text-[#49bee4] transition-colors duration-500" />
                   </div>
                   <div>
@@ -158,9 +158,9 @@ export const Home = () => {
       </section>
 
       {/* Featured Assets */}
-      <section className="py-24 bg-[#f8f9fa]">
+      <section className="py-16 bg-[#f8f9fa]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
+          <div className="flex justify-between items-end mb-10">
             <div>
               <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-2">{t('home.featured.title')}</h2>
               <p className="text-gray-600">Discover exclusive opportunities.</p>
@@ -270,16 +270,16 @@ export const Home = () => {
             </div>
 
             {/* Right: Scrolling Steps */}
-            <div className="w-full md:w-1/2 relative pb-24 md:pb-[10vh] md:pt-[10vh]">
+            <div className="w-full md:w-1/2 relative pb-16 md:pb-[5vh] md:pt-[5vh]">
               {/* Progress Line Background */}
-              <div className="absolute left-[27px] top-[10vh] bottom-[10vh] w-0.5 bg-white/10 hidden md:block" />
+              <div className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-white/10 hidden md:block" />
               {/* Animated Progress Line */}
               <motion.div 
-                className="absolute left-[27px] top-[10vh] bottom-[10vh] w-0.5 bg-[#49bee4] origin-top hidden md:block" 
+                className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-[#49bee4] origin-top hidden md:block" 
                 style={{ scaleY: howScrollY }} 
               />
 
-              <div className="flex flex-col gap-16 md:gap-0">
+              <div className="flex flex-col gap-12 md:gap-0">
                 {[
                   {
                     icon: Search,
@@ -306,7 +306,7 @@ export const Home = () => {
                     whileInView={{ opacity: 1 }}
                     viewport={{ margin: "-40% 0px -40% 0px" }}
                     transition={{ duration: 0.5 }}
-                    className="md:min-h-[40vh] flex flex-col justify-center relative pl-0 md:pl-20 group"
+                    className="md:min-h-[30vh] flex flex-col justify-center relative pl-0 md:pl-20 group"
                   >
                     {/* Mobile Number */}
                     <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden">
