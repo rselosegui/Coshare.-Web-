@@ -33,7 +33,7 @@ export const translations: Translations = {
   'home.how.1.title': { EN: '1. Choose your asset', AR: '1. اختر أصلك' },
   'home.how.1.desc': { EN: 'Browse our curated collection of premium assets.', AR: 'تصفح مجموعتنا المختارة من الأصول الفاخرة.' },
   'home.how.2.title': { EN: '2. Buy your fraction', AR: '2. اشترِ حصتك' },
-  'home.how.2.desc': { EN: 'Acquire from 1/8th to 1/2 of the asset securely.', AR: 'احصل على من 1/8 إلى 1/2 من الأصل بأمان.' },
+  'home.how.2.desc': { EN: 'Acquire from 1/10th to 1/2 of the asset securely.', AR: 'احصل على من 1/10 إلى 1/2 من الأصل بأمان.' },
   'home.how.3.title': { EN: '3. Enjoy the lifestyle', AR: '3. استمتع بأسلوب الحياة' },
   'home.how.3.desc': { EN: 'Book your days via the app and let us handle the rest.', AR: 'احجز أيامك عبر التطبيق ودعنا نتولى الباقي.' },
   'asset.calculator.title': { EN: 'Investment Calculator', AR: 'حاسبة الاستثمار' },
