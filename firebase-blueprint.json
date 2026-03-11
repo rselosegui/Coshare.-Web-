@@ -1,0 +1,156 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Represents a user in the system.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "The unique identifier for the user."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The user's email address."
+        },
+        "displayName": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "photoURL": {
+          "type": "string",
+          "description": "The user's profile picture URL."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "user"],
+          "description": "The user's role."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the user was created."
+        }
+      },
+      "required": ["uid", "email", "role", "createdAt"]
+    },
+    "PortfolioItem": {
+      "title": "PortfolioItem",
+      "description": "Represents a user's ownership of an asset.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who owns the fraction."
+        },
+        "assetId": {
+          "type": "string",
+          "description": "The ID of the asset."
+        },
+        "shares": {
+          "type": "number",
+          "description": "The number of shares owned."
+        },
+        "purchasePrice": {
+          "type": "number",
+          "description": "The total purchase price."
+        },
+        "acquiredAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the shares were acquired."
+        }
+      },
+      "required": ["userId", "assetId", "shares", "purchasePrice", "acquiredAt"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Represents a purchase transaction.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user making the transaction."
+        },
+        "assetId": {
+          "type": "string",
+          "description": "The ID of the asset."
+        },
+        "shares": {
+          "type": "number",
+          "description": "The number of shares purchased."
+        },
+        "amount": {
+          "type": "number",
+          "description": "The total amount paid."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["completed", "pending", "failed"],
+          "description": "The status of the transaction."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the transaction occurred."
+        }
+      },
+      "required": ["userId", "assetId", "shares", "amount", "status", "createdAt"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "Represents a reservation of an asset by an owner.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user making the booking."
+        },
+        "assetId": {
+          "type": "string",
+          "description": "The ID of the asset."
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start date of the booking."
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date of the booking."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["confirmed", "cancelled"],
+          "description": "The status of the booking."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the booking was created."
+        }
+      },
+      "required": ["userId", "assetId", "startDate", "endDate", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Stores user profiles."
+    },
+    "portfolio/{portfolioId}": {
+      "schema": { "$ref": "#/entities/PortfolioItem" },
+      "description": "Stores user asset ownership."
+    },
+    "transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Stores purchase transactions."
+    },
+    "bookings/{bookingId}": {
+      "schema": { "$ref": "#/entities/Booking" },
+      "description": "Stores asset reservations."
+    }
+  }
+}
