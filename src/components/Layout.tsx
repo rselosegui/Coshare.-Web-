@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import { useLanguage } from '../store/language';
-import { Menu, X, Globe, User, LayoutDashboard, Car, Calendar, PlusCircle, LogOut } from 'lucide-react';
+import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { Dock } from './Dock';
+import { motion, AnimatePresence } from 'motion/react';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -13,63 +15,129 @@ export function cn(...inputs: ClassValue[]) {
 export const Layout = () => {
   const { user, logout } = useAuth();
   const { lang, toggleLang, t } = useLanguage();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  const navItems = [
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const getPageTitle = () => {
+    if (location.pathname.startsWith('/dashboard')) return 'The Vault';
+    if (location.pathname.startsWith('/assets')) return 'Assets';
+    if (location.pathname.startsWith('/booking')) return 'Booking';
+    if (location.pathname.startsWith('/list-onboarding')) return 'List Asset';
+    if (location.pathname.startsWith('/profile')) return 'Profile';
+    if (location.pathname.startsWith('/settings')) return 'Settings';
+    return '';
+  };
+
+  const userMenuItems = [
+    { name: 'Profile', path: '/profile', icon: User },
     { name: t('nav.vault'), path: '/dashboard', icon: LayoutDashboard },
-    { name: t('nav.assets'), path: '/assets', icon: Car },
     { name: t('nav.booking'), path: '/booking', icon: Calendar },
-    { name: 'List Asset', path: '/list-onboarding', icon: PlusCircle },
+    { name: 'Settings', path: '/settings', icon: Settings },
   ];
 
+  const handleLogout = () => {
+    logout();
+    setIsUserMenuOpen(false);
+    navigate('/');
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[#f8f9fa] font-sans">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <div className="min-h-screen flex flex-col bg-surface font-sans">
+      {/* Contextual Header */}
+      <header className="sticky top-0 z-50 bg-surface/40 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="font-display font-bold text-2xl tracking-tight text-[#0b1b34]">
+            <div className="flex items-center space-x-8">
+              <Link to={user ? "/assets" : "/"} className="font-display font-bold text-2xl tracking-tight text-primary">
                 <span dir="ltr">coshare.</span>
               </Link>
+              {user && (
+                <div className="hidden sm:block h-6 w-px bg-gray-200/50" />
+              )}
+              {user && (
+                <h2 className="hidden sm:block text-sm font-bold text-primary uppercase tracking-widest opacity-50">
+                  {getPageTitle()}
+                </h2>
+              )}
             </div>
+
             <div className="flex items-center space-x-4">
               <button 
                 onClick={toggleLang}
-                className="flex items-center space-x-1 text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors"
+                className="flex items-center space-x-1 text-xs font-bold text-gray-500 hover:text-primary transition-colors uppercase tracking-wider"
               >
-                <Globe className="w-4 h-4" />
+                <Globe className="w-3.5 h-3.5" />
                 <span>{lang === 'EN' ? 'AR' : 'EN'}</span>
               </button>
               
               {!user ? (
                 <div className="flex items-center space-x-3">
                   <Link
-                    to="/assets"
-                    className="hidden sm:inline-flex items-center justify-center px-4 py-2 border border-gray-200 text-sm font-medium rounded-md text-[#0b1b34] bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-colors"
-                  >
-                    {t('nav.assets')}
-                  </Link>
-                  <Link
                     to="/login"
-                    className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#0b1b34] hover:bg-[#0b1b34]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-colors"
+                    className="inline-flex items-center justify-center px-5 py-2 text-xs font-bold uppercase tracking-widest text-on-primary bg-primary rounded-full hover:bg-primary/90 transition-all hover:scale-105"
                   >
                     {t('nav.signin')}
                   </Link>
                 </div>
               ) : (
-                <div className="flex items-center space-x-4">
-                  <div className="hidden md:flex items-center space-x-2 text-sm text-gray-600">
-                    <User className="w-4 h-4" />
-                    <span>{user.displayName || user.email}</span>
-                  </div>
+                <div className="relative" ref={menuRef}>
                   <button
-                    onClick={logout}
-                    className="text-sm font-medium text-gray-500 hover:text-red-600 transition-colors"
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    className="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full border border-white/20 hover:bg-white/20 transition-all"
                   >
-                    <LogOut className="w-4 h-4" />
+                    <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-[10px] text-on-primary font-bold">
+                      {user.displayName?.[0] || user.email?.[0].toUpperCase()}
+                    </div>
+                    <span className="hidden md:block text-xs font-bold text-primary truncate max-w-[120px]">
+                      {user.displayName || user.email}
+                    </span>
+                    <ChevronDown className={cn("w-3.5 h-3.5 text-gray-400 transition-transform", isUserMenuOpen && "rotate-180")} />
                   </button>
+
+                  <AnimatePresence>
+                    {isUserMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-100 dark:border-white/10 overflow-hidden z-[60]"
+                      >
+                        <div className="p-2 space-y-1">
+                          {userMenuItems.map((item) => (
+                            <Link
+                              key={item.name}
+                              to={item.path}
+                              onClick={() => setIsUserMenuOpen(false)}
+                              className="flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-primary transition-colors"
+                            >
+                              <item.icon className="w-4 h-4" />
+                              <span>{item.name}</span>
+                            </Link>
+                          ))}
+                          <div className="h-px bg-gray-100 dark:bg-white/10 my-1" />
+                          <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                          >
+                            <LogOut className="w-4 h-4" />
+                            <span>Sign Out</span>
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               )}
             </div>
@@ -77,90 +145,37 @@ export const Layout = () => {
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col md:flex-row">
-        {/* Desktop Sidebar (Post-login) */}
-        {user && (
-          <aside className="hidden md:flex flex-col w-64 bg-white border-r border-gray-100 pt-8 px-4">
-            <nav className="flex-1 space-y-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname.startsWith(item.path);
-                return (
-                  <Link
-                    key={item.name}
-                    to={item.path}
-                    className={cn(
-                      "flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors",
-                      isActive 
-                        ? "bg-[#0b1b34] text-white" 
-                        : "text-gray-600 hover:bg-gray-50 hover:text-[#0b1b34]"
-                    )}
-                  >
-                    <Icon className="w-5 h-5" />
-                    <span>{item.name}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-            <div className="pb-8 px-4">
-              <div className="flex items-center space-x-2 text-xs font-medium text-[#256ab1]">
-                <span className="w-2 h-2 rounded-full bg-[#49bee4] animate-pulse"></span>
-                <span>OPERATIONAL</span>
-              </div>
-            </div>
-          </aside>
-        )}
-
+      <div className="flex-1 flex flex-col">
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
+        <main className="flex-1 pb-32">
           <Outlet />
         </main>
       </div>
 
-      {/* Mobile Bottom Bar (Post-login) */}
-      {user && (
-        <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-t border-gray-100 pb-safe">
-          <div className="flex justify-around items-center h-16 px-4">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname.startsWith(item.path);
-              return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={cn(
-                    "flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors",
-                    isActive ? "text-[#0b1b34]" : "text-gray-400 hover:text-gray-600"
-                  )}
-                >
-                  <Icon className={cn("w-5 h-5", isActive && "fill-current opacity-20")} />
-                  <span className="text-[10px] font-medium">{item.name}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
-      )}
+      {/* Floating Dock (Post-login) */}
+      {user && <Dock />}
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-gray-100 py-8 mt-auto hidden md:block">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-4 md:mb-0">
-              <h3 className="font-display font-bold text-xl text-[#0b1b34]"><span dir="ltr">coshare.</span></h3>
-              <p className="text-sm text-gray-500 mt-1">{t('footer.tagline')}</p>
+      {/* Minimal Footer */}
+      {!user && (
+        <footer className="bg-surface border-t border-white/10 py-8 mt-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div className="mb-4 md:mb-0">
+                <h3 className="font-display font-bold text-xl text-primary"><span dir="ltr">coshare.</span></h3>
+                <p className="text-sm text-gray-500 mt-1">{t('footer.tagline')}</p>
+              </div>
+              <div className="flex space-x-6 text-xs font-bold uppercase tracking-widest text-gray-400">
+                <a href="#" className="hover:text-primary transition-colors">{t('footer.terms')}</a>
+                <a href="#" className="hover:text-primary transition-colors">{t('footer.privacy')}</a>
+                <a href="#" className="hover:text-primary transition-colors">{t('footer.contact')}</a>
+              </div>
             </div>
-            <div className="flex space-x-6 text-sm font-medium text-gray-600">
-              <a href="#" className="hover:text-[#0b1b34] transition-colors">{t('footer.terms')}</a>
-              <a href="#" className="hover:text-[#0b1b34] transition-colors">{t('footer.privacy')}</a>
-              <a href="#" className="hover:text-[#0b1b34] transition-colors">{t('footer.contact')}</a>
+            <div className="mt-8 text-[10px] font-bold uppercase tracking-widest text-gray-300 text-center md:text-left">
+              &copy; {new Date().getFullYear()} Coshare. All rights reserved.
             </div>
           </div>
-          <div className="mt-8 text-xs text-gray-400 text-center md:text-left">
-            &copy; {new Date().getFullYear()} Coshare. All rights reserved.
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </div>
   );
 };

@@ -14,6 +14,8 @@ import { AssetDetails } from './pages/AssetDetails';
 import { Dashboard } from './pages/Dashboard';
 import { ListOnboarding } from './pages/ListOnboarding';
 import { Booking } from './pages/Booking';
+import { Profile } from './pages/Profile';
+import { Settings } from './pages/Settings';
 import { Login } from './pages/Login';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { SEO } from './components/SEO';
@@ -36,6 +38,8 @@ export default function App() {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="list-onboarding" element={<ListOnboarding />} />
                 <Route path="booking" element={<Booking />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
             </Routes>
           </BrowserRouter>

@@ -133,6 +133,73 @@
         }
       },
       "required": ["userId", "assetId", "startDate", "endDate", "status", "createdAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Represents a message in an asset's co-owner chat.",
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "description": "The ID of the asset the chat belongs to."
+        },
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who sent the message."
+        },
+        "userName": {
+          "type": "string",
+          "description": "The display name of the user who sent the message."
+        },
+        "text": {
+          "type": "string",
+          "description": "The content of the message."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the message was sent."
+        }
+      },
+      "required": ["assetId", "userId", "userName", "text", "timestamp"]
+    },
+    "Dispute": {
+      "title": "Dispute",
+      "description": "Represents a reported violation by a co-owner.",
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "description": "The ID of the asset the dispute is about."
+        },
+        "reporterId": {
+          "type": "string",
+          "description": "The ID of the user reporting the violation."
+        },
+        "reporterName": {
+          "type": "string",
+          "description": "The name of the user reporting the violation."
+        },
+        "reason": {
+          "type": "string",
+          "description": "The category of the violation."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of the violation."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "resolved", "dismissed"],
+          "description": "The current status of the dispute."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the dispute was reported."
+        }
+      },
+      "required": ["assetId", "reporterId", "reporterName", "reason", "description", "status", "createdAt"]
     }
   },
   "firestore": {
@@ -151,6 +218,14 @@
     "bookings/{bookingId}": {
       "schema": { "$ref": "#/entities/Booking" },
       "description": "Stores asset reservations."
+    },
+    "asset_chats/{chatId}": {
+      "schema": { "$ref": "#/entities/ChatMessage" },
+      "description": "Stores co-owner chat messages for assets."
+    },
+    "disputes/{disputeId}": {
+      "schema": { "$ref": "#/entities/Dispute" },
+      "description": "Stores reported co-owner violations."
     }
   }
 }

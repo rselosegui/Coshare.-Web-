@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../store/auth';
 import { ASSETS } from '../data/assets';
 import { motion } from 'motion/react';
-import { PieChart, Wallet, Car, TrendingUp } from 'lucide-react';
+import { PieChart, Wallet, Car, TrendingUp, ChevronRight } from 'lucide-react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { VaultAssetDetails } from '../components/VaultAssetDetails';
+import { AnimatePresence } from 'motion/react';
 
 interface PortfolioItem {
   id: string;
@@ -18,9 +20,31 @@ export const Dashboard = () => {
   const { user, isAuthReady } = useAuth();
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedAssetForDetails, setSelectedAssetForDetails] = useState<any>(null);
 
   useEffect(() => {
     if (!isAuthReady || !user) {
+      setLoading(false);
+      return;
+    }
+
+    // Handle Demo User
+    if (user.uid === 'demo-user-123') {
+      const mockPortfolio: PortfolioItem[] = [
+        {
+          id: 'demo-p1',
+          assetId: 'car-super-1',
+          shares: 1,
+          purchasePrice: 125000,
+        },
+        {
+          id: 'demo-p2',
+          assetId: 'car-desert-2',
+          shares: 2,
+          purchasePrice: 70000,
+        }
+      ];
+      setPortfolio(mockPortfolio);
       setLoading(false);
       return;
     }
@@ -147,13 +171,14 @@ export const Dashboard = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
-                  className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 flex flex-col sm:flex-row"
+                  className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 flex flex-col sm:flex-row group cursor-pointer hover:shadow-xl hover:border-primary/20 transition-all duration-500"
+                  onClick={() => setSelectedAssetForDetails(asset)}
                 >
-                  <div className="sm:w-2/5 h-48 sm:h-auto relative">
+                  <div className="sm:w-2/5 h-48 sm:h-auto relative overflow-hidden">
                     <img
                       src={asset.imageUrl}
                       alt={asset.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       referrerPolicy="no-referrer"
                     />
                     <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] font-bold text-[#0b1b34] uppercase tracking-wider">
@@ -177,8 +202,15 @@ export const Dashboard = () => {
                           <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Equity Value</p>
                           <p className="text-xl font-bold text-[#0b1b34]">AED {asset.totalValue.toLocaleString()}</p>
                         </div>
-                        <button onClick={() => window.location.href = '/booking'} className="text-sm font-medium text-[#256ab1] hover:text-[#0b1b34] transition-colors">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.location.href = `/booking?assetId=${asset.id}`;
+                          }} 
+                          className="text-sm font-bold text-primary hover:text-accent transition-colors flex items-center group/btn"
+                        >
                           Book Days
+                          <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" />
                         </button>
                       </div>
                     </div>
@@ -189,6 +221,15 @@ export const Dashboard = () => {
           )}
         </div>
       </div>
+
+      <AnimatePresence>
+        {selectedAssetForDetails && (
+          <VaultAssetDetails 
+            asset={selectedAssetForDetails} 
+            onClose={() => setSelectedAssetForDetails(null)} 
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

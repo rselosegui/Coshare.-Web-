@@ -55,6 +55,26 @@ service cloud.firestore {
     //   - status: string (required, 'pending_review', 'approved', 'rejected')
     //   - createdAt: string (required)
     //
+    // Collection: asset_chats
+    // Document ID: {chatId}
+    // Fields:
+    //   - assetId: string (required)
+    //   - userId: string (required)
+    //   - userName: string (required)
+    //   - text: string (required)
+    //   - timestamp: timestamp (required)
+    //
+    // Collection: disputes
+    // Document ID: {disputeId}
+    // Fields:
+    //   - assetId: string (required)
+    //   - reporterId: string (required)
+    //   - reporterName: string (required)
+    //   - reason: string (required)
+    //   - description: string (required)
+    //   - status: string (required, 'pending', 'resolved', 'dismissed')
+    //   - createdAt: timestamp (required)
+    //
     // ===============================================================
 
     // ===============================================================
@@ -98,8 +118,10 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() &&
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
-          (request.auth.token.email == "ramonymony@gmail.com" && request.auth.token.email_verified == true));
+        (
+          (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+          (request.auth.token.email == "ramonymony@gmail.com" && request.auth.token.email_verified == true)
+        );
     }
 
     // ===============================================================
@@ -155,6 +177,26 @@ service cloud.firestore {
              isValidDateString(request.resource.data.createdAt);
     }
 
+    function isValidChatMessage() {
+      return hasOnlyAllowedFields(['assetId', 'userId', 'userName', 'text', 'timestamp']) &&
+             request.resource.data.assetId is string && request.resource.data.assetId.size() > 0 && request.resource.data.assetId.size() < 100 &&
+             request.resource.data.userId is string && request.resource.data.userId == request.auth.uid &&
+             request.resource.data.userName is string && request.resource.data.userName.size() > 0 && request.resource.data.userName.size() < 100 &&
+             request.resource.data.text is string && request.resource.data.text.size() > 0 && request.resource.data.text.size() < 1000 &&
+             request.resource.data.timestamp == request.time;
+    }
+
+    function isValidDispute() {
+      return hasOnlyAllowedFields(['assetId', 'reporterId', 'reporterName', 'reason', 'description', 'status', 'createdAt']) &&
+             request.resource.data.assetId is string && request.resource.data.assetId.size() > 0 &&
+             request.resource.data.reporterId is string && request.resource.data.reporterId == request.auth.uid &&
+             request.resource.data.reporterName is string && request.resource.data.reporterName.size() > 0 &&
+             request.resource.data.reason is string && request.resource.data.reason.size() > 0 &&
+             request.resource.data.description is string && request.resource.data.description.size() > 0 &&
+             request.resource.data.status == 'pending' &&
+             request.resource.data.createdAt == request.time;
+    }
+
     // ===============================================================
     // Rules
     // ===============================================================
@@ -192,6 +234,26 @@ service cloud.firestore {
       allow create: if isAuthenticated() && isValidListing() && request.auth.uid == request.resource.data.userId;
       allow update: if isAuthenticated() && isValidListing() && request.auth.uid == resource.data.userId && request.resource.data.userId == resource.data.userId && request.resource.data.createdAt == resource.data.createdAt;
       allow delete: if isAdmin() || (isAuthenticated() && request.auth.uid == resource.data.userId);
+    }
+
+    match /asset_chats/{chatId} {
+      // Only co-owners (people who have the asset in their portfolio) can read/write
+      // For simplicity in MVP, we allow all authenticated users to read/write if they are co-owners
+      // In a real app, we'd check the portfolio collection
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidChatMessage();
+      allow update, delete: if isAdmin();
+    }
+
+    match /disputes/{disputeId} {
+      allow read: if isAdmin() || (isAuthenticated() && request.auth.uid == resource.data.reporterId);
+      allow create: if isAuthenticated() && isValidDispute();
+      allow update, delete: if isAdmin();
+    }
+
+    // Connection test collection
+    match /test/connection {
+      allow read: if true;
     }
   }
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../store/auth';
 import { ASSETS } from '../data/assets';
-import { motion } from 'motion/react';
-import { format, addDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isWithinInterval } from 'date-fns';
+import { motion, AnimatePresence } from 'motion/react';
+import { format, addDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isWithinInterval, isBefore } from 'date-fns';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Info, CheckCircle } from 'lucide-react';
 import { collection, query, where, onSnapshot, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -35,12 +35,51 @@ export const Booking = () => {
   useEffect(() => {
     if (!isAuthReady || !user) return;
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const assetIdFromUrl = urlParams.get('assetId');
+
+    // Handle Demo User
+    if (user.uid === 'demo-user-123') {
+      const mockPortfolio: PortfolioItem[] = [
+        {
+          id: 'demo-p1',
+          assetId: 'car-super-1',
+          shares: 1,
+        },
+        {
+          id: 'demo-p2',
+          assetId: 'car-desert-2',
+          shares: 2,
+        }
+      ];
+      setPortfolio(mockPortfolio);
+      
+      const mockBookings: BookingItem[] = [
+        {
+          id: 'demo-b1',
+          assetId: 'car-super-1',
+          startDate: addDays(new Date(), 7).toISOString(),
+          endDate: addDays(new Date(), 13).toISOString(),
+          status: 'confirmed'
+        }
+      ];
+      setBookings(mockBookings);
+      if (!selectedAssetId) {
+        setSelectedAssetId(assetIdFromUrl || 'car-super-1');
+      }
+      return;
+    }
+
     // Fetch Portfolio
     const qPortfolio = query(collection(db, 'portfolio'), where('userId', '==', user.uid));
     const unsubPortfolio = onSnapshot(qPortfolio, (snapshot) => {
       const items: PortfolioItem[] = [];
       snapshot.forEach((doc) => items.push({ id: doc.id, ...doc.data() } as PortfolioItem));
       setPortfolio(items);
+      if (items.length > 0 && !selectedAssetId) {
+        const initialAssetId = assetIdFromUrl || items[0].assetId;
+        setSelectedAssetId(initialAssetId);
+      }
     }, (error) => handleFirestoreError(error, OperationType.LIST, 'portfolio'));
 
     // Fetch Bookings
@@ -59,10 +98,10 @@ export const Booking = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
+      <div className="min-h-screen flex items-center justify-center bg-surface">
         <div className="text-center">
-          <h2 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">Access Denied</h2>
-          <p className="text-gray-600">Please sign in to book your assets.</p>
+          <h2 className="text-2xl font-display font-bold text-primary mb-2">Access Denied</h2>
+          <p className="text-gray-500">Please sign in to book your assets.</p>
         </div>
       </div>
     );
@@ -100,33 +139,36 @@ export const Booking = () => {
     }
   };
 
-  // Calculate max days based on rules
-  const getMaxDays = (totalShares: number) => {
-    if (totalShares <= 2) return 182;
-    if (totalShares <= 4) return 91;
-    if (totalShares <= 6) return 60;
-    if (totalShares <= 8) return 45;
-    return 36;
+  const getMaxDays = (sharesOwned: number, totalShares: number) => {
+    // Standard calculation: 365 days / total shares * shares owned
+    const daysPerShare = Math.floor(365 / totalShares);
+    return daysPerShare * sharesOwned;
   };
 
-  const maxDays = selectedAsset ? getMaxDays(selectedAsset.totalShares) : 0;
-
+  const maxDays = selectedAsset ? getMaxDays(selectedAsset.shares, selectedAsset.totalShares) : 0;
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
 
   const onDateClick = (day: Date) => {
-    const start = startOfWeek(day, { weekStartsOn: 1 }); // Monday
-    const end = endOfWeek(day, { weekStartsOn: 1 }); // Sunday
+    if (isDayBooked(day)) return;
 
-    // Check if any day in the selected week is already booked
-    const isWeekBooked = eachDayOfInterval({ start, end }).some(d => isDayBooked(d));
-
-    if (isWeekBooked) {
-      // Don't allow selecting a week that has booked days
-      return;
+    if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
+      setSelectedRange({ start: day, end: null });
+    } else if (selectedRange.start && !selectedRange.end) {
+      if (isBefore(day, selectedRange.start)) {
+        setSelectedRange({ start: day, end: null });
+      } else {
+        // Check if any day in the range is booked
+        const range = eachDayOfInterval({ start: selectedRange.start, end: day });
+        const hasBookedDay = range.some(d => isDayBooked(d));
+        
+        if (hasBookedDay) {
+          setSelectedRange({ start: day, end: null });
+        } else {
+          setSelectedRange({ start: selectedRange.start, end: day });
+        }
+      }
     }
-
-    setSelectedRange({ start, end });
   };
 
   const isDayBooked = (day: Date) => {
@@ -138,206 +180,268 @@ export const Booking = () => {
     });
   };
 
-  const renderHeader = () => {
-    return (
-      <div className="flex justify-between items-center mb-6">
-        <button onClick={prevMonth} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-          <ChevronLeft className="w-5 h-5 text-[#0b1b34]" />
-        </button>
-        <h2 className="text-xl font-bold text-[#0b1b34]">
-          {format(currentMonth, 'MMMM yyyy')}
-        </h2>
-        <button onClick={nextMonth} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-          <ChevronRight className="w-5 h-5 text-[#0b1b34]" />
-        </button>
-      </div>
-    );
-  };
-
-  const renderDays = () => {
-    const days = [];
-    const dateFormat = "EEE";
-    let startDate = startOfWeek(currentMonth, { weekStartsOn: 1 });
-
-    for (let i = 0; i < 7; i++) {
-      days.push(
-        <div className="text-center text-xs font-bold text-gray-400 uppercase tracking-wider py-2" key={i}>
-          {format(addDays(startDate, i), dateFormat)}
-        </div>
-      );
-    }
-    return <div className="grid grid-cols-7 mb-2">{days}</div>;
-  };
-
-  const renderCells = () => {
-    const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
-    const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
-    const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
-    const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
-
-    const rows = [];
-    let days = [];
-    let day = startDate;
-    let formattedDate = "";
-
-    while (day <= endDate) {
-      for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, "d");
-        const cloneDay = day;
-        
-        const isSelected = selectedRange.start && selectedRange.end && isWithinInterval(day, { start: selectedRange.start, end: selectedRange.end });
-        const isCurrentMonth = isSameMonth(day, monthStart);
-        const booked = isDayBooked(day);
-
-        days.push(
-          <div
-            className={`p-1 relative ${booked ? 'cursor-not-allowed' : 'cursor-pointer'} ${!isCurrentMonth ? 'opacity-30' : ''}`}
-            key={day.toString()}
-            onClick={() => {
-              if (!booked) {
-                onDateClick(cloneDay);
-              }
-            }}
-          >
-            <div className={`
-              h-12 w-full flex items-center justify-center text-sm font-medium rounded-lg transition-all
-              ${booked ? 'bg-red-50 text-red-500 border border-red-100 line-through' : 
-                isSelected ? 'bg-[#0b1b34] text-white shadow-md' : 
-                'bg-white text-[#0b1b34] border border-gray-100 hover:border-[#0b1b34] hover:bg-gray-50'}
-            `}>
-              {formattedDate}
-            </div>
-          </div>
-        );
-        day = addDays(day, 1);
-      }
-      rows.push(
-        <div className="grid grid-cols-7 gap-1 mb-1" key={day.toString()}>
-          {days}
-        </div>
-      );
-      days = [];
-    }
-    return <div>{rows}</div>;
-  };
-
   return (
-    <div className="min-h-screen bg-[#f8f9fa] py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-display font-bold text-[#0b1b34]">Smart Booking</h1>
-          <p className="text-gray-600 mt-1">Schedule your time with your assets.</p>
-        </div>
+    <div className="min-h-screen bg-surface flex flex-col lg:flex-row overflow-hidden">
+      {/* Left Pane: Asset Focus */}
+      <div className="w-full lg:w-[40%] h-[50vh] lg:h-screen sticky top-0 bg-primary relative overflow-hidden">
+        <AnimatePresence mode="wait">
+          {selectedAsset ? (
+            <motion.div
+              key={selectedAsset.id}
+              initial={{ opacity: 0, scale: 1.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.8 }}
+              className="absolute inset-0"
+            >
+              <img 
+                src={selectedAsset.imageUrl} 
+                alt={selectedAsset.name} 
+                className="w-full h-full object-cover opacity-60"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent" />
+            </motion.div>
+          ) : (
+            <div className="absolute inset-0 bg-primary flex items-center justify-center">
+              <CalendarIcon className="w-24 h-24 text-white/10" />
+            </div>
+          )}
+        </AnimatePresence>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Sidebar */}
-          <div className="md:col-span-1 space-y-6">
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-              <label className="block text-sm font-bold text-[#0b1b34] mb-3 uppercase tracking-wider">Select Asset</label>
-              <div className="space-y-3">
+        <div className="relative h-full flex flex-col justify-end p-8 lg:p-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-4 h-4 text-accent" />
+              </div>
+              <span className="text-accent text-xs font-bold uppercase tracking-[0.3em] block">Booking Portal</span>
+            </div>
+            <h1 className="text-4xl lg:text-6xl font-display font-bold text-white mb-8 leading-tight">
+              {selectedAsset?.name || 'Select an Asset'}
+            </h1>
+
+            {selectedAsset && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
+                    <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Your Shares</p>
+                    <p className="text-xl font-bold text-white">{selectedAsset.shares} / {selectedAsset.totalShares}</p>
+                  </div>
+                  <div className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
+                    <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Max Stay</p>
+                    <p className="text-xl font-bold text-white">{maxDays} Days</p>
+                  </div>
+                </div>
+
+                <div className="p-4 bg-accent/10 border border-accent/20 rounded-2xl">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <Info className="w-4 h-4 text-accent" />
+                    <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Asset Details</p>
+                  </div>
+                  <p className="text-xs text-white/80 leading-relaxed">
+                    {selectedAsset.subcategory} • {selectedAsset.specs?.location}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <div className="mt-12">
+              <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-4">Switch Asset</p>
+              <div className="flex flex-wrap gap-2">
                 {portfolioAssets.map(asset => (
                   <button
                     key={asset.id}
                     onClick={() => setSelectedAssetId(asset.id)}
-                    className={`w-full text-left p-3 rounded-xl border-2 transition-all flex items-center ${
-                      selectedAssetId === asset.id ? 'border-[#256ab1] bg-[#256ab1]/5' : 'border-gray-100 hover:border-gray-200'
+                    className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${
+                      selectedAssetId === asset.id 
+                        ? 'bg-accent text-primary' 
+                        : 'bg-white/10 text-white/70 hover:bg-white/20'
                     }`}
                   >
-                    <img src={asset.imageUrl} alt={asset.name} className="w-10 h-10 rounded-lg object-cover mr-3" referrerPolicy="no-referrer" />
-                    <div>
-                      <p className="text-sm font-bold text-[#0b1b34] truncate">{asset.name}</p>
-                      <p className="text-xs text-gray-500">{asset.shares}/{asset.totalShares} Shares</p>
-                    </div>
+                    {asset.name}
                   </button>
                 ))}
               </div>
             </div>
+          </motion.div>
+        </div>
+      </div>
 
-            {selectedAsset && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-[#0b1b34] p-6 rounded-3xl text-white shadow-lg"
-              >
-                <div className="flex items-center mb-4 text-[#49bee4]">
-                  <Info className="w-5 h-5 mr-2" />
-                  <h3 className="font-bold">Booking Rules</h3>
-                </div>
-                <ul className="space-y-3 text-sm text-gray-300">
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span>
-                    First-in, first-out priority.
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span>
-                    Minimum booking: 1 day.
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span>
-                    Maximum consecutive days: <strong className="text-white ml-1">{maxDays} days</strong> (based on {selectedAsset.totalShares} co-owners).
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">•</span>
-                    Selecting a day highlights the full Mon-Sun block.
-                  </li>
-                </ul>
-              </motion.div>
-            )}
+      {/* Right Pane: Booking Experience */}
+      <div className="flex-1 h-screen overflow-y-auto custom-scrollbar">
+        <div className="max-w-3xl mx-auto p-8 lg:p-16">
+          {/* Asset Context Header (Mobile/Small screens) */}
+          <div className="lg:hidden mb-8 p-6 bg-primary rounded-[2rem] text-white">
+            <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2">Currently Booking</p>
+            <h2 className="text-2xl font-display font-bold">{selectedAsset?.name}</h2>
           </div>
 
-          {/* Calendar Area */}
-          <div className="md:col-span-2">
-            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100">
-              {!selectedAssetId ? (
-                <div className="h-64 flex flex-col items-center justify-center text-center">
-                  <CalendarIcon className="w-12 h-12 text-gray-300 mb-4" />
-                  <p className="text-gray-500 font-medium">Select an asset to view availability</p>
-                </div>
-              ) : (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  {renderHeader()}
-                  {renderDays()}
-                  {renderCells()}
-
-                  <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center">
-                    <div>
-                      {selectedRange.start && selectedRange.end ? (
-                        <div>
-                          <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Selected Period</p>
-                          <p className="text-sm font-bold text-[#0b1b34]">
-                            {format(selectedRange.start, 'MMM d')} - {format(selectedRange.end, 'MMM d, yyyy')}
-                          </p>
-                        </div>
-                      ) : (
-                        <p className="text-sm text-gray-500">Select a week to book</p>
-                      )}
-                    </div>
-                    <button
-                      disabled={!selectedRange.start || isBooking || bookingSuccess}
-                      onClick={handleConfirmBooking}
-                      className="px-6 py-3 bg-[#256ab1] text-white font-medium rounded-full hover:bg-[#256ab1]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+          {/* Upcoming Timeline */}
+          <div className="mb-16">
+            <h3 className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-6">Your Upcoming Trips</h3>
+            <div className="flex space-x-4 overflow-x-auto pb-4 no-scrollbar">
+              {bookings.length > 0 ? (
+                bookings.map(booking => {
+                  const asset = ASSETS.find(a => a.id === booking.assetId);
+                  return (
+                    <motion.div 
+                      key={booking.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="flex-shrink-0 w-64 bg-white dark:bg-gray-900 p-6 rounded-[2rem] border border-gray-100 dark:border-white/10 shadow-sm"
                     >
-                      {isBooking ? (
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      ) : bookingSuccess ? (
-                        <>
-                          <CheckCircle className="w-5 h-5 mr-2" />
-                          Confirmed
-                        </>
-                      ) : (
-                        'Confirm Booking'
-                      )}
-                    </button>
-                  </div>
-                </motion.div>
+                      <div className="flex items-center space-x-3 mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                          <CalendarIcon className="w-5 h-5 text-accent" />
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-primary">{asset?.name}</p>
+                          <p className="text-[10px] text-gray-500">{booking.status.toUpperCase()}</p>
+                        </div>
+                      </div>
+                      <p className="text-sm font-medium text-primary">
+                        {format(new Date(booking.startDate), 'MMM d')} — {format(new Date(booking.endDate), 'MMM d, yyyy')}
+                      </p>
+                    </motion.div>
+                  );
+                })
+              ) : (
+                <p className="text-sm text-gray-400 italic">No upcoming bookings scheduled.</p>
               )}
+            </div>
+          </div>
+
+          {/* Oversized Calendar */}
+          <div className="relative">
+            <div className="flex items-center justify-between mb-12">
+              <div className="relative">
+                <span className="absolute -top-12 -left-4 text-[120px] font-display font-black text-primary/5 select-none pointer-events-none">
+                  {format(currentMonth, 'MM')}
+                </span>
+                <h2 className="text-4xl font-display font-bold text-primary relative z-10">
+                  {format(currentMonth, 'MMMM')}
+                  <span className="text-accent ml-2">.</span>
+                </h2>
+              </div>
+              <div className="flex space-x-2">
+                <button onClick={prevMonth} className="p-3 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors border border-gray-100 dark:border-white/10">
+                  <ChevronLeft className="w-5 h-5 text-primary" />
+                </button>
+                <button onClick={nextMonth} className="p-3 hover:bg-gray-100 dark:hover:bg-white/5 rounded-full transition-colors border border-gray-100 dark:border-white/10">
+                  <ChevronRight className="w-5 h-5 text-primary" />
+                </button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-7 mb-4">
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => (
+                <div key={d} className="text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">{d}</div>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-7 gap-2">
+              {(() => {
+                const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
+                const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
+                const startDate = startOfWeek(monthStart, { weekStartsOn: 1 });
+                const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 });
+                const days = [];
+                let day = startDate;
+
+                while (day <= endDate) {
+                  const cloneDay = day;
+                  const isSelected = selectedRange.start && (
+                    selectedRange.end 
+                      ? isWithinInterval(day, { start: selectedRange.start, end: selectedRange.end })
+                      : isSameDay(day, selectedRange.start)
+                  );
+                  const isCurrentMonth = isSameMonth(day, monthStart);
+                  const booked = isDayBooked(day);
+                  const isToday = isSameDay(day, new Date());
+
+                  days.push(
+                    <div
+                      key={day.toString()}
+                      onClick={() => !booked && onDateClick(cloneDay)}
+                      className={`
+                        aspect-square flex flex-col items-center justify-center rounded-2xl transition-all relative group
+                        ${!isCurrentMonth ? 'opacity-20' : ''}
+                        ${booked ? 'cursor-not-allowed' : 'cursor-pointer'}
+                        ${isSelected ? 'bg-primary text-on-primary shadow-xl scale-105 z-10' : 'hover:bg-gray-50 dark:hover:bg-white/5'}
+                      `}
+                    >
+                      {isToday && !isSelected && <div className="absolute top-2 w-1 h-1 bg-accent rounded-full" />}
+                      <span className={`text-sm font-bold ${booked ? 'text-gray-300 line-through' : ''}`}>
+                        {format(day, 'd')}
+                      </span>
+                      {booked && <div className="absolute inset-0 bg-red-500/5 rounded-2xl" />}
+                    </div>
+                  );
+                  day = addDays(day, 1);
+                }
+                return days;
+              })()}
+            </div>
+          </div>
+
+          {/* Rules Grid */}
+          <div className="mt-24 grid grid-cols-2 gap-4">
+            <div className="p-6 rounded-3xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
+              <Info className="w-5 h-5 text-accent mb-4" />
+              <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-2">FIFO Priority</h4>
+              <p className="text-[10px] text-gray-500 leading-relaxed">Bookings are confirmed on a first-come, first-served basis to ensure fairness.</p>
+            </div>
+            <div className="p-6 rounded-3xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
+              <CalendarIcon className="w-5 h-5 text-accent mb-4" />
+              <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-2">Flexible Stays</h4>
+              <p className="text-[10px] text-gray-500 leading-relaxed">Book individual days or custom ranges. Select a start and end date to define your stay.</p>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Floating Action Bar */}
+      <AnimatePresence>
+        {selectedRange.start && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="fixed bottom-12 left-1/2 -translate-x-1/2 w-[90%] max-w-xl z-[100]"
+          >
+            <div className="bg-primary/80 backdrop-blur-2xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl flex items-center justify-between">
+              <div>
+                <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Confirm Selection</p>
+                <p className="text-sm font-bold text-white">
+                  {format(selectedRange.start, 'MMM d')}
+                  {selectedRange.end ? ` — ${format(selectedRange.end, 'MMM d, yyyy')}` : ' (Select end date)'}
+                </p>
+              </div>
+              <button
+                disabled={isBooking || bookingSuccess || !selectedRange.end}
+                onClick={handleConfirmBooking}
+                className="px-8 py-3 bg-accent text-primary font-bold text-xs uppercase tracking-widest rounded-full hover:scale-105 transition-all disabled:opacity-50 flex items-center"
+              >
+                {isBooking ? (
+                  <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                ) : bookingSuccess ? (
+                  <>
+                    <CheckCircle className="w-4 h-4 mr-2" />
+                    Confirmed
+                  </>
+                ) : (
+                  'Book Now'
+                )}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

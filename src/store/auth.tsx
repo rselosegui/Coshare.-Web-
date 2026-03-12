@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null;
   isAuthReady: boolean;
   login: () => Promise<void>;
+  loginDemo: () => void;
   logout: () => Promise<void>;
 }
 
@@ -55,16 +56,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const loginDemo = () => {
+    const demoUser = {
+      uid: 'demo-user-123',
+      email: 'demo@coshare.com',
+      displayName: 'Demo User',
+      photoURL: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Demo',
+      emailVerified: true,
+      isAnonymous: false,
+      providerData: [],
+      metadata: {},
+      phoneNumber: null,
+      tenantId: null,
+      delete: async () => {},
+      getIdToken: async () => '',
+      getIdTokenResult: async () => ({}) as any,
+      reload: async () => {},
+      toJSON: () => ({}),
+    } as unknown as User;
+    
+    setUser(demoUser);
+    setIsAuthReady(true);
+  };
+
   const logout = async () => {
     try {
-      await firebaseSignOut(auth);
+      if (user?.uid === 'demo-user-123') {
+        setUser(null);
+      } else {
+        await firebaseSignOut(auth);
+      }
     } catch (error) {
       console.error('Logout error:', error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthReady, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthReady, login, loginDemo, logout }}>
       {children}
     </AuthContext.Provider>
   );

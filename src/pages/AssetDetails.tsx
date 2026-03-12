@@ -43,6 +43,17 @@ export const AssetDetails = () => {
       const now = new Date().toISOString();
       const totalPrice = asset.pricePerShare * selectedShares;
 
+      // Handle Demo User
+      if (user.uid === 'demo-user-123') {
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        setPurchaseSuccess(true);
+        setTimeout(() => {
+          navigate('/dashboard');
+        }, 2000);
+        return;
+      }
+
       // Add to transactions
       await addDoc(collection(db, 'transactions'), {
         userId: user.uid,

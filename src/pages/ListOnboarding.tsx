@@ -31,6 +31,13 @@ export const ListOnboarding = () => {
       }
       setIsSubmitting(true);
       try {
+        // Handle Demo User
+        if (user.uid === 'demo-user-123') {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          setStep(3);
+          return;
+        }
+
         await addDoc(collection(db, 'listings'), {
           userId: user.uid,
           category: formData.category,
