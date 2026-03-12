@@ -113,7 +113,7 @@ export const Home = () => {
       <section ref={whyRef} className="py-16 bg-[#f8f9fa] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.why.title')}</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">Why <span dir="ltr">coshare.</span></h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {t('home.why.subtitle')}
             </p>
@@ -369,25 +369,25 @@ export const Home = () => {
       <section className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">Frequently Asked Questions</h2>
-            <p className="text-gray-600">Everything you need to know about fractional ownership in the UAE.</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h2>
+            <p className="text-gray-600">{t('home.faq.subtitle')}</p>
           </div>
           <div className="space-y-2">
             <FAQItem 
-              question="What is fractional ownership?" 
-              answer="Fractional ownership is a method in which several unrelated parties can share in, and mitigate the risk of, ownership of a high-value tangible asset. In Coshare's case, this includes supercars, yachts, and luxury real estate."
+              question={t('home.faq.1.q')} 
+              answer={t('home.faq.1.a')} 
             />
             <FAQItem 
-              question="Is it legal in the UAE?" 
-              answer="Yes. Coshare utilizes Special Purpose Vehicles (SPVs) registered in the Abu Dhabi Global Market (ADGM). This provides a robust legal framework where each owner holds a direct share in the company that owns the asset."
+              question={t('home.faq.2.q')} 
+              answer={t('home.faq.2.a')} 
             />
             <FAQItem 
-              question="How are maintenance and insurance handled?" 
-              answer="Coshare provides a fully managed service. We handle all maintenance, comprehensive insurance, secure storage, and cleaning. Owners simply pay a proportional monthly management fee."
+              question={t('home.faq.3.q')} 
+              answer={t('home.faq.3.a')} 
             />
             <FAQItem 
-              question="Can I sell my fraction later?" 
-              answer="Yes. Coshare provides a secondary marketplace where you can list your shares for sale to other verified users, providing liquidity to your luxury investments."
+              question={t('home.faq.4.q')} 
+              answer={t('home.faq.4.a')} 
             />
           </div>
         </div>

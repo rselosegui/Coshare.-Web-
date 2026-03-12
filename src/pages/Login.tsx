@@ -29,7 +29,7 @@ export const Login = () => {
           Back to Home
         </button>
         <h2 className="mt-6 text-center text-4xl font-display font-bold text-[#0b1b34]">
-          Sign in to coshare.
+          Sign in to <span dir="ltr">coshare.</span>
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
           Access your premium fractional assets

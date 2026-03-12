@@ -1,5 +1,5 @@
-export type AssetCategory = 'Cars' | 'Others';
-export type AssetSubcategory = 'Supercars' | 'Desert 4x4' | 'Classics' | 'Sailing' | 'Superbikes';
+export type AssetCategory = 'Cars' | 'Superbikes' | 'Yachts' | 'Real Estate' | 'Watches' | 'Others';
+export type AssetSubcategory = 'Supercars' | 'Desert 4x4' | 'Classics' | 'Sailing' | 'Superbikes' | 'Villas' | 'Apartments' | 'Luxury';
 
 export interface Asset {
   id: string;
@@ -95,7 +95,7 @@ export const ASSETS: Asset[] = [
   {
     id: 'other-sail-1',
     name: 'Sunseeker Predator 74',
-    category: 'Others',
+    category: 'Yachts',
     subcategory: 'Sailing',
     imageUrl: 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=1000',
     pricePerShare: 350000,
@@ -107,7 +107,7 @@ export const ASSETS: Asset[] = [
   {
     id: 'other-sail-2',
     name: 'Azimut Grande 27M',
-    category: 'Others',
+    category: 'Yachts',
     subcategory: 'Sailing',
     imageUrl: 'https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&q=80&w=1000',
     pricePerShare: 600000,
@@ -119,7 +119,7 @@ export const ASSETS: Asset[] = [
   {
     id: 'other-bike-1',
     name: 'Ducati Superleggera V4',
-    category: 'Others',
+    category: 'Superbikes',
     subcategory: 'Superbikes',
     imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1000',
     pricePerShare: 25000,
@@ -131,7 +131,7 @@ export const ASSETS: Asset[] = [
   {
     id: 'other-bike-2',
     name: 'BMW M 1000 RR',
-    category: 'Others',
+    category: 'Superbikes',
     subcategory: 'Superbikes',
     imageUrl: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000', // Reusing image for now
     pricePerShare: 15000,

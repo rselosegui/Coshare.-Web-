@@ -208,7 +208,7 @@ export const AssetDetails = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-[#0b1b34]">Fully Managed</h4>
-                    <p className="text-sm text-gray-600 mt-1">Maintenance, insurance, and storage are completely handled by the coshare. team.</p>
+                    <p className="text-sm text-gray-600 mt-1">Maintenance, insurance, and storage are completely handled by the <span dir="ltr">coshare.</span> team.</p>
                   </div>
                 </div>
               </div>

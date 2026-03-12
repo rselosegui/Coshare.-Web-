@@ -50,6 +50,16 @@ export const translations: Translations = {
   'footer.terms': { EN: 'Terms', AR: 'الشروط' },
   'footer.privacy': { EN: 'Privacy', AR: 'الخصوصية' },
   'footer.contact': { EN: 'Contact', AR: 'اتصل بنا' },
+  'home.faq.title': { EN: 'Frequently Asked Questions', AR: 'الأسئلة الشائعة' },
+  'home.faq.subtitle': { EN: 'Everything you need to know about fractional ownership in the UAE.', AR: 'كل ما تحتاج لمعرفته حول الملكية الجزئية في الإمارات.' },
+  'home.faq.1.q': { EN: 'What is fractional ownership?', AR: 'ما هي الملكية الجزئية؟' },
+  'home.faq.1.a': { EN: "Fractional ownership is a method in which several unrelated parties can share in, and mitigate the risk of, ownership of a high-value tangible asset. In Coshare's case, this includes supercars, yachts, and luxury real estate.", AR: 'الملكية الجزئية هي طريقة يمكن من خلالها لعدة أطراف غير مرتبطة المشاركة في ملكية أصل ملموس عالي القيمة وتخفيف مخاطرها. في حالة Coshare، يشمل ذلك السيارات الخارقة واليخوت والعقارات الفاخرة.' },
+  'home.faq.2.q': { EN: 'Is it legal in the UAE?', AR: 'هل هي قانونية في الإمارات؟' },
+  'home.faq.2.a': { EN: 'Yes. Coshare utilizes Special Purpose Vehicles (SPVs) registered in the Abu Dhabi Global Market (ADGM). This provides a robust legal framework where each owner holds a direct share in the company that owns the asset.', AR: 'نعم. تستخدم Coshare شركات ذات غرض خاص (SPVs) مسجلة في سوق أبوظبي العالمي (ADGM). يوفر هذا إطاراً قانونياً قوياً حيث يمتلك كل مالك حصة مباشرة في الشركة التي تمتلك الأصل.' },
+  'home.faq.3.q': { EN: 'How are maintenance and insurance handled?', AR: 'كيف يتم التعامل مع الصيانة والتأمين؟' },
+  'home.faq.3.a': { EN: 'Coshare provides a fully managed service. We handle all maintenance, comprehensive insurance, secure storage, and cleaning. Owners simply pay a proportional monthly management fee.', AR: 'توفر Coshare خدمة مدارة بالكامل. نحن نتولى جميع أعمال الصيانة والتأمين الشامل والتخزين الآمن والتنظيف. يدفع المالكون ببساطة رسوم إدارة شهرية تناسبية.' },
+  'home.faq.4.q': { EN: 'Can I sell my fraction later?', AR: 'هل يمكنني بيع حصتي لاحقاً؟' },
+  'home.faq.4.a': { EN: 'Yes. Coshare provides a secondary marketplace where you can list your shares for sale to other verified users, providing liquidity to your luxury investments.', AR: 'نعم. توفر Coshare سوقاً ثانوياً حيث يمكنك عرض حصصك للبيع لمستخدمين آخرين تم التحقق منهم، مما يوفر السيولة لاستثماراتك الفاخرة.' },
 };
 
 interface LanguageContextType {

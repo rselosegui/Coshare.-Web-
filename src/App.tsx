@@ -17,6 +17,7 @@ import { Booking } from './pages/Booking';
 import { Login } from './pages/Login';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { SEO } from './components/SEO';
+import { ScrollToTop } from './components/ScrollToTop';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <AuthProvider>
           <SEO />
           <BrowserRouter>
+            <ScrollToTop />
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Layout />}>
