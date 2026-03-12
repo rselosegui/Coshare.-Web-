@@ -32,7 +32,7 @@ export const Dock = () => {
                 key={item.name}
                 to={item.path}
                 className={cn(
-                  "relative flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group",
+                  "relative flex flex-col items-center justify-center w-12 h-12 rounded-full transition-all duration-300 group active:scale-90",
                   isActive ? "text-primary" : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100/50 dark:hover:bg-white/5"
                 )}
               >

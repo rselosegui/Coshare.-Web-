@@ -44,42 +44,46 @@ export const Assets = () => {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-wrap gap-4 mb-12">
-          <button
-            onClick={() => { setActiveCategory('All'); setActiveSubcategory('All'); }}
-            className={`flex items-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${
-              activeCategory === 'All' ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
-            }`}
-          >
-            <LayoutGrid className="w-4 h-4 mr-2" />
-            All Assets
-          </button>
-          {[
-            { id: 'Real Estate', icon: Home, label: 'Real Estate' },
-            { id: 'Yachts', icon: Ship, label: 'Yachts' },
-            { id: 'Cars', icon: Car, label: 'Supercars' },
-            { id: 'Superbikes', icon: Bike, label: 'Superbikes' },
-            { id: 'Watches', icon: Watch, label: 'Watches' },
-            { id: 'Others', icon: Filter, label: 'Others' }
-          ].map(cat => (
+        <div className="relative mb-12">
+          <div className="flex overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap gap-4">
             <button
-              key={cat.id}
-              onClick={() => { setActiveCategory(cat.id as AssetCategory); setActiveSubcategory('All'); }}
-              className={`flex items-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${
-                activeCategory === cat.id ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+              onClick={() => { setActiveCategory('All'); setActiveSubcategory('All'); }}
+              className={`flex-shrink-0 flex items-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${
+                activeCategory === 'All' ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
               }`}
             >
-              <cat.icon className="w-4 h-4 mr-2" />
-              {cat.label}
+              <LayoutGrid className="w-4 h-4 mr-2" />
+              All Assets
             </button>
-          ))}
+            {[
+              { id: 'Real Estate', icon: Home, label: 'Real Estate' },
+              { id: 'Yachts', icon: Ship, label: 'Yachts' },
+              { id: 'Cars', icon: Car, label: 'Supercars' },
+              { id: 'Superbikes', icon: Bike, label: 'Superbikes' },
+              { id: 'Watches', icon: Watch, label: 'Watches' },
+              { id: 'Others', icon: Filter, label: 'Others' }
+            ].map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => { setActiveCategory(cat.id as AssetCategory); setActiveSubcategory('All'); }}
+                className={`flex-shrink-0 flex items-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${
+                  activeCategory === cat.id ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                }`}
+              >
+                <cat.icon className="w-4 h-4 mr-2" />
+                {cat.label}
+              </button>
+            ))}
+          </div>
+          {/* Mobile Scroll Indicator Gradient */}
+          <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-[#f8f9fa] to-transparent pointer-events-none md:hidden" />
         </div>
 
         {activeCategory !== 'All' && (
-          <div className="flex flex-wrap gap-3 mb-8 pb-4 border-b border-gray-200">
+          <div className="flex overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap gap-3 mb-8 border-b border-gray-200">
             <button
               onClick={() => setActiveSubcategory('All')}
-              className={`px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
+              className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
                 activeSubcategory === 'All' ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
@@ -91,7 +95,7 @@ export const Assets = () => {
                 <button
                   key={sub}
                   onClick={() => setActiveSubcategory(sub as AssetSubcategory)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
+                  className={`flex-shrink-0 px-4 py-1.5 rounded-full text-xs font-medium transition-colors ${
                     activeSubcategory === sub ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                   }`}
                 >

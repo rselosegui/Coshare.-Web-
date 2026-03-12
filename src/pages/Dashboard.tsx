@@ -105,51 +105,51 @@ export const Dashboard = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"
+            className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-[#0b1b34]/5 rounded-2xl flex items-center justify-center">
-                <Wallet className="w-6 h-6 text-[#256ab1]" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#0b1b34]/5 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                <Wallet className="w-5 h-5 sm:w-6 sm:h-6 text-[#256ab1]" />
               </div>
-              <span className="text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">+12.5%</span>
+              <span className="text-[10px] sm:text-xs font-medium text-green-600 bg-green-50 px-2 py-1 rounded-full">+12.5%</span>
             </div>
-            <p className="text-sm text-gray-500 font-medium uppercase tracking-wider mb-1">Total Equity Value</p>
-            <h2 className="text-3xl font-display font-bold text-[#0b1b34]">AED {totalValue.toLocaleString()}</h2>
+            <p className="text-[10px] sm:text-sm text-gray-500 font-medium uppercase tracking-wider mb-1">Total Equity Value</p>
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-[#0b1b34]">AED {totalValue.toLocaleString()}</h2>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"
+            className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-[#0b1b34]/5 rounded-2xl flex items-center justify-center">
-                <Car className="w-6 h-6 text-[#256ab1]" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#0b1b34]/5 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                <Car className="w-5 h-5 sm:w-6 sm:h-6 text-[#256ab1]" />
               </div>
             </div>
-            <p className="text-sm text-gray-500 font-medium uppercase tracking-wider mb-1">Assets Owned</p>
-            <h2 className="text-3xl font-display font-bold text-[#0b1b34]">{totalAssets}</h2>
+            <p className="text-[10px] sm:text-sm text-gray-500 font-medium uppercase tracking-wider mb-1">Assets Owned</p>
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-[#0b1b34]">{totalAssets}</h2>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"
+            className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100 sm:col-span-2 lg:col-span-1"
           >
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-[#0b1b34]/5 rounded-2xl flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-[#256ab1]" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#0b1b34]/5 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-[#256ab1]" />
               </div>
-              <span className="text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded-full">Est. Annual</span>
+              <span className="text-[10px] sm:text-xs font-medium text-gray-500 bg-gray-50 px-2 py-1 rounded-full">Est. Annual</span>
             </div>
-            <p className="text-sm text-gray-500 font-medium uppercase tracking-wider mb-1">Projected Yield</p>
-            <h2 className="text-3xl font-display font-bold text-[#0b1b34]">AED {(totalValue * 0.08).toLocaleString()}</h2>
+            <p className="text-[10px] sm:text-sm text-gray-500 font-medium uppercase tracking-wider mb-1">Projected Yield</p>
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-[#0b1b34]">AED {(totalValue * 0.08).toLocaleString()}</h2>
           </motion.div>
         </div>
 
@@ -196,21 +196,21 @@ export const Dashboard = () => {
                       <p className="text-sm text-gray-500 mb-4">{asset.specs?.location}</p>
                     </div>
                     
-                    <div className="pt-4 border-t border-gray-100">
+                    <div className="pt-4 border-t border-gray-100 mt-auto">
                       <div className="flex justify-between items-end">
                         <div>
-                          <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Equity Value</p>
-                          <p className="text-xl font-bold text-[#0b1b34]">AED {asset.totalValue.toLocaleString()}</p>
+                          <p className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wider mb-1">Equity Value</p>
+                          <p className="text-lg sm:text-xl font-bold text-[#0b1b34]">AED {asset.totalValue.toLocaleString()}</p>
                         </div>
                         <button 
                           onClick={(e) => {
                             e.stopPropagation();
                             window.location.href = `/booking?assetId=${asset.id}`;
                           }} 
-                          className="text-sm font-bold text-primary hover:text-accent transition-colors flex items-center group/btn"
+                          className="px-4 py-2 bg-[#0b1b34]/5 hover:bg-[#0b1b34] text-[#0b1b34] hover:text-white rounded-full text-xs font-bold transition-all flex items-center group/btn active:scale-95"
                         >
-                          Book Days
-                          <ChevronRight className="w-4 h-4 ml-1 transition-transform group-hover/btn:translate-x-1" />
+                          Book
+                          <ChevronRight className="w-3 h-3 ml-1 transition-transform group-hover/btn:translate-x-1" />
                         </button>
                       </div>
                     </div>

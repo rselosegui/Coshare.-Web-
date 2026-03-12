@@ -147,7 +147,7 @@ export const Layout = () => {
 
       <div className="flex-1 flex flex-col">
         {/* Main Content */}
-        <main className="flex-1 pb-32">
+        <main className="flex-1 pb-40 lg:pb-32">
           <Outlet />
         </main>
       </div>
@@ -157,20 +157,20 @@ export const Layout = () => {
 
       {/* Minimal Footer */}
       {!user && (
-        <footer className="bg-surface border-t border-white/10 py-8 mt-auto">
+        <footer className="bg-surface border-t border-white/10 py-6 lg:py-8 mt-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
               <div className="mb-4 md:mb-0">
-                <h3 className="font-display font-bold text-xl text-primary"><span dir="ltr">coshare.</span></h3>
-                <p className="text-sm text-gray-500 mt-1">{t('footer.tagline')}</p>
+                <h3 className="font-display font-bold text-lg lg:text-xl text-primary"><span dir="ltr">coshare.</span></h3>
+                <p className="text-xs lg:text-sm text-gray-500 mt-1">{t('footer.tagline')}</p>
               </div>
-              <div className="flex space-x-6 text-xs font-bold uppercase tracking-widest text-gray-400">
+              <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-[10px] lg:text-xs font-bold uppercase tracking-widest text-gray-400">
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.terms')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.privacy')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.contact')}</a>
               </div>
             </div>
-            <div className="mt-8 text-[10px] font-bold uppercase tracking-widest text-gray-300 text-center md:text-left">
+            <div className="mt-6 lg:mt-8 text-[10px] font-bold uppercase tracking-widest text-gray-300 text-center md:text-left">
               &copy; {new Date().getFullYear()} Coshare. All rights reserved.
             </div>
           </div>

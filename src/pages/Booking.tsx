@@ -183,7 +183,7 @@ export const Booking = () => {
   return (
     <div className="min-h-screen bg-surface flex flex-col lg:flex-row overflow-hidden">
       {/* Left Pane: Asset Focus */}
-      <div className="w-full lg:w-[40%] h-[50vh] lg:h-screen sticky top-0 bg-primary relative overflow-hidden">
+      <div className="w-full lg:w-[40%] h-[35vh] lg:h-screen sticky top-0 bg-primary relative overflow-hidden z-20">
         <AnimatePresence mode="wait">
           {selectedAsset ? (
             <motion.div
@@ -209,55 +209,42 @@ export const Booking = () => {
           )}
         </AnimatePresence>
 
-        <div className="relative h-full flex flex-col justify-end p-8 lg:p-12">
+        <div className="relative h-full flex flex-col justify-end p-6 lg:p-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
           >
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
-                <CalendarIcon className="w-4 h-4 text-accent" />
+            <div className="flex items-center space-x-3 mb-2 lg:mb-4">
+              <div className="w-6 h-6 lg:w-8 lg:h-8 bg-accent/20 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-3 h-3 lg:w-4 lg:h-4 text-accent" />
               </div>
-              <span className="text-accent text-xs font-bold uppercase tracking-[0.3em] block">Booking Portal</span>
+              <span className="text-accent text-[10px] lg:text-xs font-bold uppercase tracking-[0.3em] block">Booking Portal</span>
             </div>
-            <h1 className="text-4xl lg:text-6xl font-display font-bold text-white mb-8 leading-tight">
+            <h1 className="text-2xl lg:text-6xl font-display font-bold text-white mb-4 lg:mb-8 leading-tight">
               {selectedAsset?.name || 'Select an Asset'}
             </h1>
 
             {selectedAsset && (
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
-                    <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Your Shares</p>
-                    <p className="text-xl font-bold text-white">{selectedAsset.shares} / {selectedAsset.totalShares}</p>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
-                    <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Max Stay</p>
-                    <p className="text-xl font-bold text-white">{maxDays} Days</p>
-                  </div>
+              <div className="hidden lg:grid grid-cols-2 gap-4 mb-8">
+                <div className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
+                  <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Your Shares</p>
+                  <p className="text-xl font-bold text-white">{selectedAsset.shares} / {selectedAsset.totalShares}</p>
                 </div>
-
-                <div className="p-4 bg-accent/10 border border-accent/20 rounded-2xl">
-                  <div className="flex items-center space-x-3 mb-2">
-                    <Info className="w-4 h-4 text-accent" />
-                    <p className="text-[10px] font-bold text-accent uppercase tracking-widest">Asset Details</p>
-                  </div>
-                  <p className="text-xs text-white/80 leading-relaxed">
-                    {selectedAsset.subcategory} • {selectedAsset.specs?.location}
-                  </p>
+                <div className="bg-white/10 backdrop-blur-md border border-white/10 p-4 rounded-2xl">
+                  <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Max Stay</p>
+                  <p className="text-xl font-bold text-white">{maxDays} Days</p>
                 </div>
               </div>
             )}
 
-            <div className="mt-12">
-              <p className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-4">Switch Asset</p>
-              <div className="flex flex-wrap gap-2">
+            <div className="mt-4 lg:mt-12 overflow-x-auto no-scrollbar">
+              <div className="flex flex-nowrap lg:flex-wrap gap-2 pb-2">
                 {portfolioAssets.map(asset => (
                   <button
                     key={asset.id}
                     onClick={() => setSelectedAssetId(asset.id)}
-                    className={`px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${
+                    className={`flex-shrink-0 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all ${
                       selectedAssetId === asset.id 
                         ? 'bg-accent text-primary' 
                         : 'bg-white/10 text-white/70 hover:bg-white/20'
@@ -273,12 +260,29 @@ export const Booking = () => {
       </div>
 
       {/* Right Pane: Booking Experience */}
-      <div className="flex-1 h-screen overflow-y-auto custom-scrollbar">
-        <div className="max-w-3xl mx-auto p-8 lg:p-16">
+      <div className="flex-1 h-screen overflow-y-auto custom-scrollbar bg-surface">
+        <div className="max-w-3xl mx-auto p-4 sm:p-8 lg:p-16">
           {/* Asset Context Header (Mobile/Small screens) */}
-          <div className="lg:hidden mb-8 p-6 bg-primary rounded-[2rem] text-white">
-            <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-2">Currently Booking</p>
-            <h2 className="text-2xl font-display font-bold">{selectedAsset?.name}</h2>
+          <div className="lg:hidden mb-8 p-6 bg-primary rounded-[2rem] text-white shadow-xl">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-1">Currently Booking</p>
+                <h2 className="text-2xl font-display font-bold">{selectedAsset?.name}</h2>
+              </div>
+              <div className="bg-white/10 p-2 rounded-xl">
+                <Info className="w-4 h-4 text-accent" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                <p className="text-[8px] text-white/40 uppercase tracking-widest mb-1">Shares</p>
+                <p className="text-sm font-bold">{selectedAsset?.shares} / {selectedAsset?.totalShares}</p>
+              </div>
+              <div className="bg-white/5 p-3 rounded-xl border border-white/10">
+                <p className="text-[8px] text-white/40 uppercase tracking-widest mb-1">Max Stay</p>
+                <p className="text-sm font-bold">{maxDays} Days</p>
+              </div>
+            </div>
           </div>
 
           {/* Upcoming Timeline */}
@@ -318,14 +322,14 @@ export const Booking = () => {
 
           {/* Oversized Calendar */}
           <div className="relative">
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-8 lg:mb-12">
               <div className="relative">
-                <span className="absolute -top-12 -left-4 text-[120px] font-display font-black text-primary/5 select-none pointer-events-none">
+                <span className="absolute -top-8 lg:-top-12 -left-2 lg:-left-4 text-[60px] lg:text-[120px] font-display font-black text-primary/5 select-none pointer-events-none">
                   {format(currentMonth, 'MM')}
                 </span>
-                <h2 className="text-4xl font-display font-bold text-primary relative z-10">
+                <h2 className="text-2xl lg:text-4xl font-display font-bold text-primary relative z-10">
                   {format(currentMonth, 'MMMM')}
-                  <span className="text-accent ml-2">.</span>
+                  <span className="text-accent ml-1">.</span>
                 </h2>
               </div>
               <div className="flex space-x-2">
@@ -344,7 +348,7 @@ export const Booking = () => {
               ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-2">
+            <div className="grid grid-cols-7 gap-1 lg:gap-2">
               {(() => {
                 const monthStart = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1);
                 const monthEnd = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0);
@@ -369,17 +373,17 @@ export const Booking = () => {
                       key={day.toString()}
                       onClick={() => !booked && onDateClick(cloneDay)}
                       className={`
-                        aspect-square flex flex-col items-center justify-center rounded-2xl transition-all relative group
+                        aspect-square flex flex-col items-center justify-center rounded-xl lg:rounded-2xl transition-all relative group
                         ${!isCurrentMonth ? 'opacity-20' : ''}
-                        ${booked ? 'cursor-not-allowed' : 'cursor-pointer'}
+                        ${booked ? 'cursor-not-allowed' : 'cursor-pointer active:scale-95'}
                         ${isSelected ? 'bg-primary text-on-primary shadow-xl scale-105 z-10' : 'hover:bg-gray-50 dark:hover:bg-white/5'}
                       `}
                     >
-                      {isToday && !isSelected && <div className="absolute top-2 w-1 h-1 bg-accent rounded-full" />}
-                      <span className={`text-sm font-bold ${booked ? 'text-gray-300 line-through' : ''}`}>
+                      {isToday && !isSelected && <div className="absolute top-1 lg:top-2 w-1 h-1 bg-accent rounded-full" />}
+                      <span className={`text-xs lg:text-sm font-bold ${booked ? 'text-gray-300 line-through' : ''}`}>
                         {format(day, 'd')}
                       </span>
-                      {booked && <div className="absolute inset-0 bg-red-500/5 rounded-2xl" />}
+                      {booked && <div className="absolute inset-0 bg-red-500/5 rounded-xl lg:rounded-2xl" />}
                     </div>
                   );
                   day = addDays(day, 1);
