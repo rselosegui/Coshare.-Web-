@@ -16,12 +16,14 @@ import { ListOnboarding } from './pages/ListOnboarding';
 import { Booking } from './pages/Booking';
 import { Login } from './pages/Login';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { SEO } from './components/SEO';
 
 export default function App() {
   return (
     <ErrorBoundary>
       <LanguageProvider>
         <AuthProvider>
+          <SEO />
           <BrowserRouter>
             <Routes>
               <Route path="/login" element={<Login />} />

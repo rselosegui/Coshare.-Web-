@@ -246,7 +246,7 @@ export const Booking = () => {
                     <img src={asset.imageUrl} alt={asset.name} className="w-10 h-10 rounded-lg object-cover mr-3" referrerPolicy="no-referrer" />
                     <div>
                       <p className="text-sm font-bold text-[#0b1b34] truncate">{asset.name}</p>
-                      <p className="text-xs text-gray-500">{asset.sharesOwned}/{asset.totalShares} Shares</p>
+                      <p className="text-xs text-gray-500">{asset.shares}/{asset.totalShares} Shares</p>
                     </div>
                   </button>
                 ))}

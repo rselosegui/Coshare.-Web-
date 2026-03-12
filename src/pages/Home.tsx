@@ -3,7 +3,31 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ASSETS } from '../data/assets';
 import { useLanguage } from '../store/language';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles } from 'lucide-react';
+import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus } from 'lucide-react';
+
+const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  return (
+    <div className="border-b border-gray-200 py-4">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex justify-between items-center w-full text-left group"
+      >
+        <h4 className="text-lg font-bold text-[#0b1b34] group-hover:text-[#256ab1] transition-colors">{question}</h4>
+        {isOpen ? <Minus className="w-5 h-5 text-[#256ab1]" /> : <Plus className="w-5 h-5 text-gray-400" />}
+      </button>
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          className="mt-2 text-gray-600 leading-relaxed"
+        >
+          {answer}
+        </motion.div>
+      )}
+    </div>
+  );
+};
 
 export const Home = () => {
   const { t } = useLanguage();
@@ -337,6 +361,34 @@ export const Home = () => {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section for SEO/GEO */}
+      <section className="py-20 bg-white">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">Frequently Asked Questions</h2>
+            <p className="text-gray-600">Everything you need to know about fractional ownership in the UAE.</p>
+          </div>
+          <div className="space-y-2">
+            <FAQItem 
+              question="What is fractional ownership?" 
+              answer="Fractional ownership is a method in which several unrelated parties can share in, and mitigate the risk of, ownership of a high-value tangible asset. In Coshare's case, this includes supercars, yachts, and luxury real estate."
+            />
+            <FAQItem 
+              question="Is it legal in the UAE?" 
+              answer="Yes. Coshare utilizes Special Purpose Vehicles (SPVs) registered in the Abu Dhabi Global Market (ADGM). This provides a robust legal framework where each owner holds a direct share in the company that owns the asset."
+            />
+            <FAQItem 
+              question="How are maintenance and insurance handled?" 
+              answer="Coshare provides a fully managed service. We handle all maintenance, comprehensive insurance, secure storage, and cleaning. Owners simply pay a proportional monthly management fee."
+            />
+            <FAQItem 
+              question="Can I sell my fraction later?" 
+              answer="Yes. Coshare provides a secondary marketplace where you can list your shares for sale to other verified users, providing liquidity to your luxury investments."
+            />
           </div>
         </div>
       </section>
