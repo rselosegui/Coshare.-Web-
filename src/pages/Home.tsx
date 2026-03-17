@@ -198,7 +198,7 @@ export const Home = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 gap-6 sm:gap-8">
             {featuredAssets.map((asset, index) => (
               <motion.div
                 key={asset.id}
@@ -207,9 +207,9 @@ export const Home = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => navigate(`/assets/${asset.id}`)}
-                className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group cursor-pointer"
+                className="flex-shrink-0 w-[300px] sm:w-auto bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group cursor-pointer"
               >
-                <div className="relative h-72 overflow-hidden">
+                <div className="relative h-64 sm:h-72 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent z-10" />
                   <img
                     src={asset.imageUrl}

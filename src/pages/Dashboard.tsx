@@ -105,11 +105,11 @@ export const Dashboard = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+        <div className="flex overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100"
+            className="flex-shrink-0 w-[280px] sm:w-auto bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#0b1b34]/5 rounded-xl sm:rounded-2xl flex items-center justify-center">
@@ -125,7 +125,7 @@ export const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100"
+            className="flex-shrink-0 w-[280px] sm:w-auto bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#0b1b34]/5 rounded-xl sm:rounded-2xl flex items-center justify-center">
@@ -140,7 +140,7 @@ export const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100 sm:col-span-2 lg:col-span-1"
+            className="flex-shrink-0 w-[280px] sm:w-auto bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100"
           >
             <div className="flex items-center justify-between mb-4">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#0b1b34]/5 rounded-xl sm:rounded-2xl flex items-center justify-center">

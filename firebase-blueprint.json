@@ -200,6 +200,71 @@
         }
       },
       "required": ["assetId", "reporterId", "reporterName", "reason", "description", "status", "createdAt"]
+    },
+    "Lead": {
+      "title": "Lead",
+      "description": "Represents a waitlist signup for a coming soon category.",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the interested user."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category they are interested in."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When they signed up."
+        }
+      },
+      "required": ["email", "category", "createdAt"]
+    },
+    "Listing": {
+      "title": "Listing",
+      "description": "Represents an asset listing application submitted by a user.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who submitted the listing."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the asset."
+        },
+        "subcategory": {
+          "type": "string",
+          "description": "The subcategory of the asset."
+        },
+        "location": {
+          "type": "string",
+          "description": "The primary location of the asset."
+        },
+        "idleWeeks": {
+          "type": "number",
+          "description": "Estimated idle weeks per year."
+        },
+        "visibility": {
+          "type": "string",
+          "enum": ["public", "private"],
+          "description": "Whether the listing should be public or private."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending_review", "approved", "rejected"],
+          "description": "The current status of the listing application."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the listing was submitted."
+        }
+      },
+      "required": ["userId", "category", "subcategory", "location", "idleWeeks", "visibility", "status", "createdAt"]
     }
   },
   "firestore": {
@@ -226,6 +291,14 @@
     "disputes/{disputeId}": {
       "schema": { "$ref": "#/entities/Dispute" },
       "description": "Stores reported co-owner violations."
+    },
+    "leads/{leadId}": {
+      "schema": { "$ref": "#/entities/Lead" },
+      "description": "Stores waitlist signups for coming soon categories."
+    },
+    "listings/{listingId}": {
+      "schema": { "$ref": "#/entities/Listing" },
+      "description": "Stores asset listing applications."
     }
   }
 }

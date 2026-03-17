@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle, ChevronRight, MapPin, Calendar, Loader2 } from 'lucide-react';
+import { CheckCircle, ChevronRight, MapPin, Calendar, Loader2, Globe, Lock } from 'lucide-react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../store/auth';
@@ -15,6 +15,7 @@ export const ListOnboarding = () => {
     subcategory: '',
     location: '',
     idleWeeks: 12,
+    visibility: 'public' as 'public' | 'private',
   });
 
   const categories = ['Cars', 'Others'];
@@ -44,6 +45,7 @@ export const ListOnboarding = () => {
           subcategory: formData.subcategory,
           location: formData.location,
           idleWeeks: formData.idleWeeks,
+          visibility: formData.visibility,
           status: 'pending_review',
           createdAt: new Date().toISOString()
         });
@@ -196,12 +198,42 @@ export const ListOnboarding = () => {
                       <span>1 week</span>
                       <span>52 weeks</span>
                     </div>
-                    
-                    <div className="mt-6 bg-[#f8f9fa] p-4 rounded-2xl border border-gray-100">
-                      <p className="text-sm text-gray-600 text-center">
-                        Based on <strong className="text-[#0b1b34]">{formData.idleWeeks} idle weeks</strong>, our AI estimates a potential yield of <strong className="text-[#256ab1]">AED {(formData.idleWeeks * 2500).toLocaleString()}</strong> annually. Final valuation requires physical inspection.
-                      </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">Listing Visibility</label>
+                    <div className="grid grid-cols-2 gap-4">
+                      <button
+                        onClick={() => setFormData({ ...formData, visibility: 'public' })}
+                        className={`p-4 rounded-2xl border-2 text-left transition-all flex items-start space-x-3 ${
+                          formData.visibility === 'public' ? 'border-[#0b1b34] bg-[#0b1b34]/5' : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <Globe className={`w-5 h-5 mt-0.5 ${formData.visibility === 'public' ? 'text-[#0b1b34]' : 'text-gray-400'}`} />
+                        <div>
+                          <span className="block font-bold text-[#0b1b34]">Public</span>
+                          <span className="text-xs text-gray-500">Visible to all Coshare users</span>
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => setFormData({ ...formData, visibility: 'private' })}
+                        className={`p-4 rounded-2xl border-2 text-left transition-all flex items-start space-x-3 ${
+                          formData.visibility === 'private' ? 'border-[#0b1b34] bg-[#0b1b34]/5' : 'border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        <Lock className={`w-5 h-5 mt-0.5 ${formData.visibility === 'private' ? 'text-[#0b1b34]' : 'text-gray-400'}`} />
+                        <div>
+                          <span className="block font-bold text-[#0b1b34]">Private</span>
+                          <span className="text-xs text-gray-500">Only visible via direct link</span>
+                        </div>
+                      </button>
                     </div>
+                  </div>
+                  
+                  <div className="bg-[#f8f9fa] p-4 rounded-2xl border border-gray-100">
+                    <p className="text-sm text-gray-600 text-center">
+                      Based on <strong className="text-[#0b1b34]">{formData.idleWeeks} idle weeks</strong>, our AI estimates a potential yield of <strong className="text-[#256ab1]">AED {(formData.idleWeeks * 2500).toLocaleString()}</strong> annually. Final valuation requires physical inspection.
+                    </p>
                   </div>
                 </div>
 

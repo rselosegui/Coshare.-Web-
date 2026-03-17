@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { ASSETS, AssetCategory, AssetSubcategory } from '../data/assets';
 import { useLanguage } from '../store/language';
-import { motion } from 'motion/react';
-import { Filter, Search, Home, Ship, Car, Watch, LayoutGrid, Bike, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Filter, Search, Home, Ship, Car, Watch, LayoutGrid, Bike, Sparkles, X, Mail, CheckCircle2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { db } from '../firebase';
+import { collection, addDoc } from 'firebase/firestore';
 
 export const Assets = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState<AssetCategory | 'All'>('All');
   const [activeSubcategory, setActiveSubcategory] = useState<AssetSubcategory | 'All'>('All');
+  const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const [notifyEmail, setNotifyEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const filteredAssets = ASSETS.filter(asset => {
     if (activeCategory !== 'All' && asset.category !== activeCategory) return false;
@@ -19,41 +25,65 @@ export const Assets = () => {
 
   const subcategories = Array.from(new Set(ASSETS.map(a => a.subcategory)));
 
+  const handleNotifySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!notifyEmail) return;
+
+    setIsSubmitting(true);
+    try {
+      await addDoc(collection(db, 'leads'), {
+        email: notifyEmail,
+        category: activeCategory,
+        createdAt: new Date().toISOString()
+      });
+      setSubmitSuccess(true);
+      setNotifyEmail('');
+      setTimeout(() => {
+        setIsNotifyModalOpen(false);
+        setSubmitSuccess(false);
+      }, 3000);
+    } catch (error) {
+      console.error('Error submitting lead:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#f8f9fa] py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12">
-          <div>
-            <h1 className="text-4xl font-display font-bold text-[#0b1b34] mb-2">{t('nav.assets')}</h1>
-            <p className="text-gray-600">Discover premium fractional ownership opportunities in the UAE.</p>
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-12">
+          <div className="mb-6 md:mb-0">
+            <h1 className="text-3xl sm:text-4xl font-display font-bold text-[#0b1b34] mb-2">{t('nav.assets')}</h1>
+            <p className="text-sm sm:text-base text-gray-600">Discover premium fractional ownership opportunities in the UAE.</p>
           </div>
           
-          <div className="mt-6 md:mt-0 flex items-center space-x-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <div className="w-full md:w-auto flex items-center space-x-3">
+            <div className="relative flex-1 md:flex-none">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search assets..."
-                className="pl-10 pr-4 py-2 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#256ab1] bg-white"
+                className="w-full md:w-64 pl-11 pr-4 py-3 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#256ab1] bg-white shadow-sm"
               />
             </div>
-            <button className="p-2 border border-gray-200 rounded-full bg-white hover:bg-gray-50 transition-colors">
-              <Filter className="w-4 h-4 text-gray-600" />
+            <button className="p-3 border border-gray-200 rounded-2xl bg-white hover:bg-gray-50 transition-colors shadow-sm">
+              <Filter className="w-5 h-5 text-gray-600" />
             </button>
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="relative mb-12">
-          <div className="flex overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap gap-4">
+        {/* Categories Bar */}
+        <div className="relative mb-8 sm:mb-12">
+          <div className="flex overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap gap-3 sm:gap-4">
             <button
               onClick={() => { setActiveCategory('All'); setActiveSubcategory('All'); }}
-              className={`flex-shrink-0 flex items-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${
-                activeCategory === 'All' ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+              className={`flex-shrink-0 flex items-center px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-widest transition-all shadow-sm ${
+                activeCategory === 'All' ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50'
               }`}
             >
               <LayoutGrid className="w-4 h-4 mr-2" />
-              All Assets
+              All
             </button>
             {[
               { id: 'Real Estate', icon: Home, label: 'Real Estate' },
@@ -66,8 +96,8 @@ export const Assets = () => {
               <button
                 key={cat.id}
                 onClick={() => { setActiveCategory(cat.id as AssetCategory); setActiveSubcategory('All'); }}
-                className={`flex-shrink-0 flex items-center px-6 py-2.5 rounded-full text-sm font-medium transition-all shadow-sm ${
-                  activeCategory === cat.id ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                className={`flex-shrink-0 flex items-center px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-widest transition-all shadow-sm ${
+                  activeCategory === cat.id ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50'
                 }`}
               >
                 <cat.icon className="w-4 h-4 mr-2" />
@@ -116,15 +146,24 @@ export const Assets = () => {
               <Sparkles className="w-10 h-10 text-[#256ab1]" />
             </div>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">Coming Soon</h2>
-            <p className="text-gray-600 max-w-md mx-auto text-lg">
+            <p className="text-gray-600 max-w-md mx-auto text-lg mb-10">
               We are currently curating the most exclusive {activeCategory} opportunities in the UAE. Stay tuned for our upcoming launch.
             </p>
-            <button 
-              onClick={() => setActiveCategory('All')}
-              className="mt-10 px-8 py-3 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors"
-            >
-              Browse Available Assets
-            </button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button 
+                onClick={() => setIsNotifyModalOpen(true)}
+                className="w-full sm:w-auto px-8 py-3 bg-[#256ab1] text-white font-bold rounded-full hover:bg-[#256ab1]/90 transition-all hover:scale-105 shadow-lg shadow-[#256ab1]/20 flex items-center justify-center"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Notify Me
+              </button>
+              <button 
+                onClick={() => setActiveCategory('All')}
+                className="w-full sm:w-auto px-8 py-3 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors"
+              >
+                Browse Available Assets
+              </button>
+            </div>
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -194,6 +233,81 @@ export const Assets = () => {
           </div>
         )}
       </div>
+
+      {/* Notify Me Modal */}
+      <AnimatePresence>
+        {isNotifyModalOpen && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsNotifyModalOpen(false)}
+              className="absolute inset-0 bg-[#0b1b34]/60 backdrop-blur-sm"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl overflow-hidden"
+            >
+              <button 
+                onClick={() => setIsNotifyModalOpen(false)}
+                className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-400" />
+              </button>
+
+              {submitSuccess ? (
+                <div className="text-center py-8">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle2 className="w-8 h-8 text-green-600" />
+                  </div>
+                  <h3 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">You're on the list!</h3>
+                  <p className="text-gray-600">
+                    We'll notify you as soon as new {activeCategory} opportunities become available.
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div className="mb-8">
+                    <h3 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">Get Early Access</h3>
+                    <p className="text-gray-600">
+                      Be the first to know when we launch our {activeCategory} collection.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleNotifySubmit} className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={notifyEmail}
+                        onChange={(e) => setNotifyEmail(e.target.value)}
+                        placeholder="your@email.com"
+                        className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#256ab1] transition-all"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-2xl hover:bg-[#0b1b34]/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+                    </button>
+                  </form>
+                  <p className="mt-6 text-[10px] text-gray-400 text-center uppercase tracking-widest">
+                    No spam. Just exclusive opportunities.
+                  </p>
+                </>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

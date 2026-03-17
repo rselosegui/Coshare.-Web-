@@ -122,18 +122,24 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
     >
       <div className="absolute inset-0 bg-primary/40 backdrop-blur-md" onClick={onClose} />
       
       <motion.div
-        initial={{ scale: 0.9, y: 20 }}
-        animate={{ scale: 1, y: 0 }}
-        exit={{ scale: 0.9, y: 20 }}
-        className="relative w-full max-w-4xl bg-white dark:bg-gray-900 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+        initial={{ y: "100%" }}
+        animate={{ y: 0 }}
+        exit={{ y: "100%" }}
+        transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+        className="relative w-full max-w-4xl bg-white dark:bg-gray-900 rounded-t-[2.5rem] sm:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col h-[92vh] sm:h-auto sm:max-h-[90vh]"
       >
+        {/* Mobile Drag Handle */}
+        <div className="sm:hidden w-full flex justify-center pt-4 pb-2 absolute top-0 z-20 pointer-events-none">
+          <div className="w-12 h-1.5 bg-white/30 rounded-full" />
+        </div>
+
         {/* Header */}
-        <div className="relative h-48 sm:h-64 flex-shrink-0">
+        <div className="relative h-56 sm:h-64 flex-shrink-0">
           <img 
             src={asset.imageUrl} 
             alt={asset.name} 
@@ -150,25 +156,25 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
             </button>
           </div>
           
-          <div className="absolute bottom-6 left-8 right-8 flex items-end justify-between">
+          <div className="absolute bottom-6 left-6 right-6 sm:left-8 sm:right-8 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
             <div>
-              <h2 className="text-3xl font-display font-bold text-white mb-2">{asset.name}</h2>
+              <h2 className="text-2xl sm:text-3xl font-display font-bold text-white mb-2 leading-tight">{asset.name}</h2>
               <div className="flex items-center space-x-4">
                 <span className="px-3 py-1 bg-accent text-primary text-[10px] font-bold uppercase tracking-wider rounded-full">
                   {asset.subcategory}
                 </span>
-                <span className="text-white/70 text-sm font-medium">
-                  {asset.sharesOwned} / {asset.totalShares} Shares Owned
+                <span className="text-white/70 text-xs sm:text-sm font-medium">
+                  {asset.sharesOwned} / {asset.totalShares} Shares
                 </span>
               </div>
             </div>
 
             <button 
               onClick={() => setShowDisputeForm(true)}
-              className="flex items-center space-x-2 px-6 py-3 bg-red-600 rounded-2xl text-white shadow-lg hover:bg-red-700 hover:scale-105 transition-all group"
+              className="flex items-center space-x-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-red-600 rounded-xl sm:rounded-2xl text-white shadow-lg hover:bg-red-700 hover:scale-105 transition-all group"
             >
-              <AlertTriangle className="w-4 h-4 group-hover:animate-pulse" />
-              <span className="text-xs font-bold uppercase tracking-widest">File Dispute</span>
+              <AlertTriangle className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest whitespace-nowrap">File Dispute</span>
             </button>
           </div>
         </div>

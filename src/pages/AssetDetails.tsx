@@ -457,6 +457,27 @@ export const AssetDetails = () => {
           </motion.div>
         </div>
       )}
+
+      {/* Sticky Bottom Bar for Mobile */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-gray-100 p-4 z-40 pb-safe">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+          <div className="flex flex-col">
+            <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Total Price</span>
+            <span className="text-lg font-bold text-[#0b1b34]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
+          </div>
+          <button 
+            disabled={asset.availableShares === 0 || isPurchasing || purchaseSuccess}
+            onClick={handleStartPurchase}
+            className="flex-1 py-3.5 bg-[#0b1b34] text-white font-bold rounded-2xl hover:bg-[#0b1b34]/90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0b1b34]/20 flex justify-center items-center text-sm"
+          >
+            {asset.availableShares === 0 ? (
+              t('asset.soldOut')
+            ) : (
+              `${t('asset.acquire')} (${selectedShares})`
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

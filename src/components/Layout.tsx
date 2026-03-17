@@ -18,7 +18,16 @@ export const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -56,18 +65,26 @@ export const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-surface font-sans">
       {/* Contextual Header */}
-      <header className="sticky top-0 z-50 bg-surface/40 backdrop-blur-xl border-b border-white/10">
+      <header className={cn(
+        "sticky top-0 z-50 transition-all duration-500",
+        isScrolled 
+          ? "bg-surface/80 backdrop-blur-2xl border-b border-white/10 py-2" 
+          : "bg-transparent py-4"
+      )}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-8">
-              <Link to={user ? "/assets" : "/"} className="font-display font-bold text-2xl tracking-tight text-primary">
+          <div className="flex justify-between items-center h-12">
+            <div className="flex items-center space-x-6">
+              <Link to={user ? "/assets" : "/"} className="font-display font-bold text-2xl tracking-tighter text-primary">
                 <span dir="ltr">coshare.</span>
               </Link>
               {user && (
                 <div className="hidden sm:block h-6 w-px bg-gray-200/50" />
               )}
               {user && (
-                <h2 className="hidden sm:block text-sm font-bold text-primary uppercase tracking-widest opacity-50">
+                <h2 className={cn(
+                  "hidden sm:block text-xs font-bold text-primary uppercase tracking-[0.2em] transition-opacity duration-500",
+                  isScrolled ? "opacity-100" : "opacity-50"
+                )}>
                   {getPageTitle()}
                 </h2>
               )}
@@ -148,7 +165,17 @@ export const Layout = () => {
       <div className="flex-1 flex flex-col">
         {/* Main Content */}
         <main className="flex-1 pb-40 lg:pb-32">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
 
@@ -157,20 +184,20 @@ export const Layout = () => {
 
       {/* Minimal Footer */}
       {!user && (
-        <footer className="bg-surface border-t border-white/10 py-6 lg:py-8 mt-auto">
+        <footer className="bg-surface border-t border-white/10 py-8 mt-auto">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+            <div className="flex flex-col md:flex-row justify-between items-center">
               <div className="mb-4 md:mb-0">
-                <h3 className="font-display font-bold text-lg lg:text-xl text-primary"><span dir="ltr">coshare.</span></h3>
-                <p className="text-xs lg:text-sm text-gray-500 mt-1">{t('footer.tagline')}</p>
+                <h3 className="font-display font-bold text-xl text-primary"><span dir="ltr">coshare.</span></h3>
+                <p className="text-sm text-gray-500 mt-1">{t('footer.tagline')}</p>
               </div>
-              <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-[10px] lg:text-xs font-bold uppercase tracking-widest text-gray-400">
+              <div className="flex space-x-6 text-xs font-bold uppercase tracking-widest text-gray-400">
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.terms')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.privacy')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.contact')}</a>
               </div>
             </div>
-            <div className="mt-6 lg:mt-8 text-[10px] font-bold uppercase tracking-widest text-gray-300 text-center md:text-left">
+            <div className="mt-8 text-[10px] font-bold uppercase tracking-widest text-gray-300 text-center md:text-left">
               &copy; {new Date().getFullYear()} Coshare. All rights reserved.
             </div>
           </div>

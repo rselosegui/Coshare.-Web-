@@ -52,6 +52,7 @@ service cloud.firestore {
     //   - subcategory: string (required)
     //   - location: string (required)
     //   - idleWeeks: number (required)
+    //   - visibility: string (required, 'public' or 'private')
     //   - status: string (required, 'pending_review', 'approved', 'rejected')
     //   - createdAt: string (required)
     //
@@ -167,12 +168,13 @@ service cloud.firestore {
     }
 
     function isValidListing() {
-      return hasOnlyAllowedFields(['userId', 'category', 'subcategory', 'location', 'idleWeeks', 'status', 'createdAt']) &&
+      return hasOnlyAllowedFields(['userId', 'category', 'subcategory', 'location', 'idleWeeks', 'visibility', 'status', 'createdAt']) &&
              request.resource.data.userId is string && request.resource.data.userId.size() > 0 && request.resource.data.userId.size() < 100 &&
              request.resource.data.category is string && request.resource.data.category.size() > 0 && request.resource.data.category.size() < 100 &&
              request.resource.data.subcategory is string && request.resource.data.subcategory.size() > 0 && request.resource.data.subcategory.size() < 100 &&
              request.resource.data.location is string && request.resource.data.location.size() > 0 && request.resource.data.location.size() < 100 &&
              request.resource.data.idleWeeks is number && request.resource.data.idleWeeks > 0 && request.resource.data.idleWeeks <= 52 &&
+             request.resource.data.visibility in ['public', 'private'] &&
              request.resource.data.status in ['pending_review', 'approved', 'rejected'] &&
              isValidDateString(request.resource.data.createdAt);
     }
@@ -195,6 +197,13 @@ service cloud.firestore {
              request.resource.data.description is string && request.resource.data.description.size() > 0 &&
              request.resource.data.status == 'pending' &&
              request.resource.data.createdAt == request.time;
+    }
+
+    function isValidLead() {
+      return hasOnlyAllowedFields(['email', 'category', 'createdAt']) &&
+             request.resource.data.email is string && isValidEmail(request.resource.data.email) &&
+             request.resource.data.category is string && request.resource.data.category.size() > 0 &&
+             isValidDateString(request.resource.data.createdAt);
     }
 
     // ===============================================================
@@ -249,6 +258,11 @@ service cloud.firestore {
       allow read: if isAdmin() || (isAuthenticated() && request.auth.uid == resource.data.reporterId);
       allow create: if isAuthenticated() && isValidDispute();
       allow update, delete: if isAdmin();
+    }
+
+    match /leads/{leadId} {
+      allow read: if isAdmin();
+      allow create: if isValidLead();
     }
 
     // Connection test collection
