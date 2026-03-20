@@ -31,7 +31,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
 };
 
 export const Home = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const navigate = useNavigate();
   const featuredAssets = ASSETS.slice(0, 3);
   
@@ -122,7 +122,15 @@ export const Home = () => {
               rel="noopener noreferrer"
               className="text-xs font-bold text-white/60 hover:text-white transition-colors uppercase tracking-[0.2em] flex items-center group"
             >
-              Try new <span className="text-[#05A7E8] ml-1">App</span>
+              {lang === 'EN' ? (
+                <>
+                  {t('home.hero.tryApp').split('App')[0]}
+                  <span className="text-[#05A7E8] mx-1">App</span>
+                  {t('home.hero.tryApp').split('App')[1]}
+                </>
+              ) : (
+                t('home.hero.tryApp')
+              )}
               <ChevronRight className="ml-1 w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
             </a>
           </motion.div>
@@ -133,7 +141,17 @@ export const Home = () => {
       <section ref={whyRef} className="py-16 bg-[#f8f9fa] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">Why <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span></h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">
+              {lang === 'EN' ? (
+                <>
+                  {t('home.why.title').split('coshare.')[0]}
+                  <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
+                  {t('home.why.title').split('coshare.')[1]}
+                </>
+              ) : (
+                t('home.why.title')
+              )}
+            </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {t('home.why.subtitle')}
             </p>
@@ -147,7 +165,7 @@ export const Home = () => {
                 description: t('home.why.1.desc'),
                 className: "md:col-span-8 md:row-span-2 min-h-[350px] md:min-h-[500px]",
                 image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1000",
-                badge: "85% Cost Saving"
+                badge: t('home.why.1.badge')
               },
               {
                 icon: ShieldCheck,
@@ -155,7 +173,7 @@ export const Home = () => {
                 description: t('home.why.2.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
                 image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=1000",
-                badge: "RTA Compliant"
+                badge: t('home.why.2.badge')
               },
               {
                 icon: Coffee,
@@ -163,7 +181,7 @@ export const Home = () => {
                 description: t('home.why.3.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
                 image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000",
-                badge: "Fully Managed"
+                badge: t('home.why.3.badge')
               },
               {
                 icon: Zap,
@@ -171,7 +189,7 @@ export const Home = () => {
                 description: t('home.why.4.desc'),
                 className: "md:col-span-6 min-h-[200px] md:min-h-[250px]",
                 image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=1000",
-                badge: "Instant Liquidity"
+                badge: t('home.why.4.badge')
               },
               {
                 icon: Users,
@@ -179,7 +197,7 @@ export const Home = () => {
                 description: t('home.why.5.desc'),
                 className: "md:col-span-6 min-h-[200px] md:min-h-[250px]",
                 image: "https://images.unsplash.com/photo-1522158634235-47a056cc0662?auto=format&fit=crop&q=80&w=1000",
-                badge: "Verified Elite"
+                badge: t('home.why.5.badge')
               }
             ].map((feature, index) => (
               <motion.div
@@ -235,7 +253,7 @@ export const Home = () => {
           <div className="flex justify-between items-end mb-10">
             <div>
               <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-2">{t('home.featured.title')}</h2>
-              <p className="text-gray-600">Discover exclusive opportunities.</p>
+              <p className="text-gray-600">{t('home.featured.subtitle')}</p>
             </div>
             <Link
               to="/assets"

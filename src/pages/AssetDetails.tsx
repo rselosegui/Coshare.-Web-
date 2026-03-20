@@ -25,9 +25,9 @@ export const AssetDetails = () => {
   if (!asset) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f9fa]">
-        <h2 className="text-2xl font-bold text-[#0b1b34] mb-4">Asset not found</h2>
+        <h2 className="text-2xl font-bold text-[#0b1b34] mb-4">{t('asset.notFound.title')}</h2>
         <button onClick={() => navigate('/assets')} className="text-[#256ab1] hover:underline">
-          Return to Assets
+          {t('asset.notFound.return')}
         </button>
       </div>
     );
@@ -174,12 +174,12 @@ export const AssetDetails = () => {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-8">
             <section className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100">
-              <h2 className="text-2xl font-bold text-[#0b1b34] mb-4">About this Asset</h2>
+              <h2 className="text-2xl font-bold text-[#0b1b34] mb-4">{t('asset.details.about')}</h2>
               <p className="text-gray-600 leading-relaxed mb-6">
                 {asset.description}
               </p>
               
-              <h3 className="text-lg font-bold text-[#0b1b34] mb-4">Specifications</h3>
+              <h3 className="text-lg font-bold text-[#0b1b34] mb-4">{t('asset.details.specs')}</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {asset.specs && Object.entries(asset.specs).map(([key, value]) => (
                   <div key={key} className="bg-[#f8f9fa] p-4 rounded-2xl">
@@ -193,54 +193,54 @@ export const AssetDetails = () => {
             <section className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100">
               <div className="flex items-center mb-6">
                 <Shield className="w-6 h-6 text-[#256ab1] mr-3" />
-                <h2 className="text-2xl font-bold text-[#0b1b34]">Legal & Ownership Structure</h2>
+                <h2 className="text-2xl font-bold text-[#0b1b34]">{t('asset.legal.title')}</h2>
               </div>
               <div className="bg-[#f8f9fa] p-6 rounded-2xl border border-gray-100 mb-6">
                 <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                  This asset is held in a dedicated, bankruptcy-remote Special Purpose Vehicle (SPV) registered in the Abu Dhabi Global Market (ADGM). By purchasing shares, you are acquiring direct membership interests in this specific LLC.
+                  {t('asset.legal.spv.desc')}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex items-center p-3 bg-white rounded-xl border border-gray-100">
                     <FileText className="w-5 h-5 text-[#256ab1] mr-3" />
                     <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider">Entity Type</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wider">{t('asset.legal.spv')}</p>
                       <p className="text-sm font-bold text-[#0b1b34]">ADGM SPV (LLC)</p>
                     </div>
                   </div>
                   <div className="flex items-center p-3 bg-white rounded-xl border border-gray-100">
                     <Lock className="w-5 h-5 text-[#256ab1] mr-3" />
                     <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider">Asset Status</p>
-                      <p className="text-sm font-bold text-[#0b1b34]">Fully Insured & Secured</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wider">{t('asset.legal.smart')}</p>
+                      <p className="text-sm font-bold text-[#0b1b34]">{t('asset.legal.smart.desc')}</p>
                     </div>
                   </div>
                 </div>
               </div>
               
-              <h3 className="text-sm font-bold text-[#0b1b34] uppercase tracking-wider mb-4">Due Diligence Documents</h3>
+              <h3 className="text-sm font-bold text-[#0b1b34] uppercase tracking-wider mb-4">{t('asset.checkout.legal')}</h3>
               <div className="space-y-3">
-                {['Operating Agreement (Draft)', 'Independent Valuation Report', 'Physical Inspection Certificate'].map((doc, i) => (
+                {[t('asset.checkout.agreement'), 'Independent Valuation Report', 'Physical Inspection Certificate'].map((doc, i) => (
                   <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-[#49bee4]/50 transition-colors cursor-pointer group">
                     <div className="flex items-center">
                       <FileText className="w-5 h-5 text-gray-400 group-hover:text-[#256ab1] mr-3 transition-colors" />
                       <span className="text-sm font-medium text-gray-700 group-hover:text-[#0b1b34]">{doc}</span>
                     </div>
-                    <span className="text-xs font-bold text-[#256ab1] opacity-0 group-hover:opacity-100 transition-opacity">View</span>
+                    <span className="text-xs font-bold text-[#256ab1] opacity-0 group-hover:opacity-100 transition-opacity">{t('asset.checkout.continue')}</span>
                   </div>
                 ))}
               </div>
             </section>
 
             <section className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100">
-              <h2 className="text-2xl font-bold text-[#0b1b34] mb-6">Ownership Benefits</h2>
+              <h2 className="text-2xl font-bold text-[#0b1b34] mb-6">{t('asset.benefits.title')}</h2>
               <div className="space-y-4">
                 <div className="flex items-start">
                   <div className="w-10 h-10 rounded-full bg-[#49bee4]/10 flex items-center justify-center mr-4 shrink-0">
                     <Calendar className="w-5 h-5 text-[#256ab1]" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-[#0b1b34]">Guaranteed Usage Days</h4>
-                    <p className="text-sm text-gray-600 mt-1">Enjoy proportional access to the asset throughout the year based on your share ownership.</p>
+                    <h4 className="font-bold text-[#0b1b34]">{t('asset.benefits.usage')}</h4>
+                    <p className="text-sm text-gray-600 mt-1">{t('asset.benefits.usage.desc')}</p>
                   </div>
                 </div>
                 <div className="flex items-start">
@@ -248,8 +248,8 @@ export const AssetDetails = () => {
                     <Shield className="w-5 h-5 text-[#256ab1]" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-[#0b1b34]">Fully Managed</h4>
-                    <p className="text-sm text-gray-600 mt-1">Maintenance, insurance, and storage are completely handled by the <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span> team.</p>
+                    <h4 className="font-bold text-[#0b1b34]">{t('asset.benefits.concierge')}</h4>
+                    <p className="text-sm text-gray-600 mt-1">{t('asset.benefits.concierge.desc')}</p>
                   </div>
                 </div>
               </div>
@@ -301,7 +301,7 @@ export const AssetDetails = () => {
                   <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
                     <div className="flex items-center text-gray-400 mb-1">
                       <Calendar className="w-3 h-3 mr-1" />
-                      <span className="text-[9px] font-bold uppercase tracking-widest">Usage</span>
+                      <span className="text-[9px] font-bold uppercase tracking-widest">{t('asset.benefits.usage')}</span>
                     </div>
                     <p className="text-lg font-bold text-[#0b1b34]">{Math.round((365 / asset.totalShares) * selectedShares)} <span className="text-xs font-medium text-gray-400">days</span></p>
                   </div>
@@ -322,7 +322,7 @@ export const AssetDetails = () => {
                   <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
                     <div className="flex items-center text-gray-400 mb-1">
                       <Shield className="w-3 h-3 mr-1" />
-                      <span className="text-[9px] font-bold uppercase tracking-widest">Equity</span>
+                      <span className="text-[9px] font-bold uppercase tracking-widest">{t('asset.share')}</span>
                     </div>
                     <p className="text-lg font-bold text-[#256ab1]">{((selectedShares / asset.totalShares) * 100).toFixed(1)}%</p>
                   </div>
@@ -369,7 +369,7 @@ export const AssetDetails = () => {
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
-              <h3 className="text-xl font-display font-bold text-[#0b1b34]">Secure Checkout</h3>
+              <h3 className="text-xl font-display font-bold text-[#0b1b34]">{t('asset.checkout.title')}</h3>
               {!isPurchasing && !purchaseSuccess && (
                 <button onClick={() => setShowCheckoutModal(false)} className="p-2 text-gray-400 hover:text-[#0b1b34] rounded-full hover:bg-gray-100 transition-colors">
                   <X className="w-5 h-5" />
@@ -385,9 +385,9 @@ export const AssetDetails = () => {
                 <div className="absolute left-0 top-1/2 h-0.5 bg-[#256ab1] -z-10 transition-all duration-500" style={{ width: `${((checkoutStep - 1) / 2) * 100}%` }} />
                 
                 {[
-                  { step: 1, icon: UserCheck, label: 'Identity' },
-                  { step: 2, icon: FileText, label: 'Legal' },
-                  { step: 3, icon: CreditCard, label: 'Payment' }
+                  { step: 1, icon: UserCheck, label: t('asset.checkout.identity') },
+                  { step: 2, icon: FileText, label: t('asset.checkout.legal') },
+                  { step: 3, icon: CreditCard, label: t('asset.checkout.payment') }
                 ].map((s) => (
                   <div key={s.step} className="flex flex-col items-center bg-white px-2">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors ${checkoutStep >= s.step ? 'bg-[#256ab1] border-[#256ab1] text-white' : 'bg-white border-gray-200 text-gray-400'}`}>
@@ -402,26 +402,26 @@ export const AssetDetails = () => {
               {checkoutStep === 1 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div className="text-center mb-8">
-                    <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">Verify your Identity</h4>
-                    <p className="text-gray-600 text-sm">To comply with ADGM financial regulations, we need to verify your identity before you can purchase fractional shares.</p>
+                    <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">{t('asset.checkout.verify')}</h4>
+                    <p className="text-gray-600 text-sm">{t('asset.checkout.verify.desc')}</p>
                   </div>
                   
                   <div className="bg-[#f8f9fa] border border-gray-200 rounded-2xl p-6 text-center border-dashed">
                     <UserCheck className="w-12 h-12 text-[#256ab1] mx-auto mb-4 opacity-50" />
-                    <p className="text-sm font-medium text-[#0b1b34] mb-1">Upload Government ID</p>
-                    <p className="text-xs text-gray-500 mb-4">Passport, Emirates ID, or Driver's License</p>
+                    <p className="text-sm font-medium text-[#0b1b34] mb-1">{t('asset.checkout.verify')}</p>
+                    <p className="text-xs text-gray-500 mb-4">{t('asset.checkout.passport.desc')}</p>
                     <button className="px-6 py-2 bg-white border border-gray-200 rounded-full text-sm font-bold text-[#0b1b34] hover:bg-gray-50 transition-colors">
-                      Select File
+                      {t('asset.checkout.continue')}
                     </button>
                   </div>
                   
                   <div className="flex items-center p-4 bg-blue-50 text-blue-800 rounded-xl text-xs font-medium">
                     <Shield className="w-4 h-4 mr-2 shrink-0" />
-                    Your data is securely encrypted and processed by our regulated KYC partner.
+                    {t('asset.checkout.verify.desc')}
                   </div>
 
                   <button onClick={() => setCheckoutStep(2)} className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors">
-                    Continue to Legal
+                    {t('asset.checkout.continue')}
                   </button>
                 </motion.div>
               )}
@@ -430,7 +430,7 @@ export const AssetDetails = () => {
               {checkoutStep === 2 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div className="text-center mb-8">
-                    <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">Operating Agreement</h4>
+                    <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">{t('asset.checkout.agreement')}</h4>
                     <p className="text-gray-600 text-sm">Review and sign the LLC membership agreement for {asset.name}.</p>
                   </div>
                   
@@ -445,15 +445,15 @@ export const AssetDetails = () => {
                   
                   <label className="flex items-start space-x-3 cursor-pointer p-4 border border-gray-100 rounded-xl hover:bg-gray-50 transition-colors">
                     <input type="checkbox" className="mt-1 w-4 h-4 text-[#256ab1] rounded border-gray-300 focus:ring-[#256ab1]" />
-                    <span className="text-sm text-gray-700 font-medium">I have read and agree to the Operating Agreement, and I electronically sign this document.</span>
+                    <span className="text-sm text-gray-700 font-medium">{t('asset.checkout.agree')}</span>
                   </label>
 
                   <div className="flex space-x-4">
                     <button onClick={() => setCheckoutStep(1)} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors">
-                      Back
+                      {t('asset.checkout.back')}
                     </button>
                     <button onClick={() => setCheckoutStep(3)} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors">
-                      Sign & Continue
+                      {t('asset.checkout.continue')}
                     </button>
                   </div>
                 </motion.div>
@@ -463,13 +463,13 @@ export const AssetDetails = () => {
               {checkoutStep === 3 && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div className="text-center mb-8">
-                    <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">Complete Purchase</h4>
+                    <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">{t('asset.checkout.pay')}</h4>
                     <p className="text-gray-600 text-sm">You are acquiring {selectedShares} shares of {asset.name}.</p>
                   </div>
                   
                   <div className="bg-[#f8f9fa] rounded-2xl p-6 mb-6">
                     <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
-                      <span className="text-gray-600 font-medium">Total Amount Due</span>
+                      <span className="text-gray-600 font-medium">{t('asset.checkout.total')}</span>
                       <span className="text-2xl font-bold text-[#0b1b34]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
                     </div>
                     
@@ -477,14 +477,14 @@ export const AssetDetails = () => {
                       <label className="flex items-center justify-between p-4 border-2 border-[#256ab1] bg-white rounded-xl cursor-pointer">
                         <div className="flex items-center">
                           <input type="radio" name="payment" defaultChecked className="w-4 h-4 text-[#256ab1] border-gray-300 focus:ring-[#256ab1]" />
-                          <span className="ml-3 font-bold text-[#0b1b34]">Credit Card</span>
+                          <span className="ml-3 font-bold text-[#0b1b34]">{t('asset.checkout.card')}</span>
                         </div>
                         <CreditCard className="w-5 h-5 text-[#256ab1]" />
                       </label>
                       <label className="flex items-center justify-between p-4 border-2 border-transparent bg-white rounded-xl cursor-pointer hover:border-gray-200 transition-colors">
                         <div className="flex items-center">
                           <input type="radio" name="payment" className="w-4 h-4 text-[#256ab1] border-gray-300 focus:ring-[#256ab1]" />
-                          <span className="ml-3 font-bold text-gray-600">Bank Wire Transfer</span>
+                          <span className="ml-3 font-bold text-gray-600">{t('asset.checkout.bank')}</span>
                         </div>
                       </label>
                     </div>
@@ -495,8 +495,8 @@ export const AssetDetails = () => {
                       <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                         <CheckCircle className="w-8 h-8 text-green-600" />
                       </div>
-                      <h4 className="text-xl font-bold text-[#0b1b34] mb-2">Purchase Successful!</h4>
-                      <p className="text-sm text-gray-500 text-center">Your shares have been added to your Vault. Redirecting...</p>
+                      <h4 className="text-xl font-bold text-[#0b1b34] mb-2">{t('asset.checkout.success')}</h4>
+                      <p className="text-sm text-gray-500 text-center">{t('asset.checkout.success.desc')}</p>
                     </motion.div>
                   ) : (
                     <div className="space-y-3">
@@ -533,13 +533,13 @@ export const AssetDetails = () => {
 
                       <div className="flex space-x-4">
                         <button onClick={() => setCheckoutStep(2)} disabled={isPurchasing} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50">
-                          Back
+                          {t('asset.checkout.back')}
                         </button>
                         <button onClick={handlePurchase} disabled={isPurchasing} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors flex justify-center items-center disabled:opacity-50">
                           {isPurchasing ? (
                             <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                           ) : (
-                            `Pay AED ${(asset.pricePerShare * selectedShares).toLocaleString()}`
+                            `${t('asset.checkout.pay')} AED ${(asset.pricePerShare * selectedShares).toLocaleString()}`
                           )}
                         </button>
                       </div>
@@ -556,7 +556,7 @@ export const AssetDetails = () => {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-xl border-t border-gray-100 p-4 z-40 pb-safe">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex flex-col">
-            <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Total Price</span>
+            <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{t('asset.checkout.total')}</span>
             <span className="text-lg font-bold text-[#0b1b34]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
           </div>
           <button 

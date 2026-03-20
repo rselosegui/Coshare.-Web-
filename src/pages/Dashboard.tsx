@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../store/auth';
 import { ASSETS } from '../data/assets';
+import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, AnimatePresence } from 'motion/react';
 import { PieChart, Wallet, Car, TrendingUp, ChevronRight, ShoppingBag, Tag, ArrowUpRight, BarChart3, Info, X } from 'lucide-react';
@@ -39,21 +40,22 @@ interface MarketplaceListing {
 }
 
 const PERFORMANCE_DATA = [
-  { month: 'Oct', value: 1200000 },
-  { month: 'Nov', value: 1250000 },
-  { month: 'Dec', value: 1220000 },
-  { month: 'Jan', value: 1350000 },
-  { month: 'Feb', value: 1420000 },
-  { month: 'Mar', value: 1580000 },
+  { month: 'month.oct', value: 1200000 },
+  { month: 'month.nov', value: 1250000 },
+  { month: 'month.dec', value: 1220000 },
+  { month: 'month.jan', value: 1350000 },
+  { month: 'month.feb', value: 1420000 },
+  { month: 'month.mar', value: 1580000 },
 ];
 
 const YIELD_DATA = [
-  { name: 'Supercars', value: 65, color: '#0b1b34' },
-  { name: 'Yachts', value: 35, color: '#256ab1' },
+  { name: 'dashboard.categories.supercars', value: 65, color: '#0b1b34' },
+  { name: 'dashboard.categories.yachts', value: 35, color: '#256ab1' },
 ];
 
 export const Dashboard = () => {
   const { user, isAuthReady } = useAuth();
+  const { t } = useLanguage();
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [listings, setListings] = useState<MarketplaceListing[]>([]);
   const [loading, setLoading] = useState(true);
@@ -179,8 +181,8 @@ export const Dashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
         <div className="text-center">
-          <h2 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">Access Denied</h2>
-          <p className="text-gray-600">Please sign in to view your Vault.</p>
+          <h2 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">{t('dashboard.accessDenied')}</h2>
+          <p className="text-gray-600">{t('dashboard.signInToView')}</p>
         </div>
       </div>
     );
@@ -209,22 +211,22 @@ export const Dashboard = () => {
   return (
     <div className="min-h-screen bg-[#f8f9fa] py-8 px-4 sm:px-6 lg:px-8">
       <SEO 
-        title="Dashboard | Coshare Portfolio"
-        description="Manage your fractional ownership portfolio, track asset performance, and trade shares on the Coshare marketplace."
+        title={t('seo.dashboard.title')}
+        description={t('seo.dashboard.desc')}
         canonical="https://coshare.ae/dashboard"
       />
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
-            <h1 className="text-3xl font-display font-bold text-[#0b1b34]">The Vault</h1>
-            <p className="text-gray-600 mt-1 text-lg">Your exclusive co-owner portfolio and asset management dashboard.</p>
+            <h1 className="text-3xl font-display font-bold text-[#0b1b34]">{t('dashboard.title')}</h1>
+            <p className="text-gray-600 mt-1 text-lg">{t('dashboard.subtitle')}</p>
           </div>
           
           <div className="flex bg-white/50 backdrop-blur-md p-1 rounded-2xl border border-white/20 shadow-sm">
             {[
-              { id: 'holdings', label: 'Holdings', icon: Wallet },
-              { id: 'analytics', label: 'Analytics', icon: BarChart3 },
-              { id: 'marketplace', label: 'Marketplace', icon: ShoppingBag },
+              { id: 'holdings', label: t('dashboard.tabs.holdings'), icon: Wallet },
+              { id: 'analytics', label: t('dashboard.tabs.analytics'), icon: BarChart3 },
+              { id: 'marketplace', label: t('dashboard.tabs.marketplace'), icon: ShoppingBag },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -259,7 +261,7 @@ export const Dashboard = () => {
                 +12.5%
               </span>
             </div>
-            <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Total Equity Value</p>
+            <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('dashboard.stats.equity')}</p>
             <h2 className="text-3xl font-display font-bold text-[#0b1b34]">AED {totalValue.toLocaleString()}</h2>
           </motion.div>
 
@@ -275,7 +277,7 @@ export const Dashboard = () => {
                 <Car className="w-6 h-6 text-white" />
               </div>
             </div>
-            <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Assets Owned</p>
+            <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('dashboard.stats.assets')}</p>
             <h2 className="text-3xl font-display font-bold text-[#0b1b34]">{totalAssets}</h2>
           </motion.div>
 
@@ -290,9 +292,9 @@ export const Dashboard = () => {
               <div className="w-12 h-12 bg-[#49bee4] rounded-2xl flex items-center justify-center shadow-lg shadow-blue-900/20">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
-              <span className="text-xs font-bold text-gray-500 bg-gray-500/10 px-3 py-1 rounded-full">Est. Annual</span>
+              <span className="text-xs font-bold text-gray-500 bg-gray-500/10 px-3 py-1 rounded-full">{t('dashboard.stats.estAnnual')}</span>
             </div>
-            <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Projected Yield</p>
+            <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('dashboard.stats.yield')}</p>
             <h2 className="text-3xl font-display font-bold text-[#0b1b34]">AED {(totalValue * 0.08).toLocaleString()}</h2>
           </motion.div>
         </div>
@@ -306,15 +308,15 @@ export const Dashboard = () => {
               exit={{ opacity: 0, x: 20 }}
               className="space-y-6"
             >
-              <h2 className="text-2xl font-display font-bold text-[#0b1b34] mb-6">Your Holdings</h2>
+              <h2 className="text-2xl font-display font-bold text-[#0b1b34] mb-6">{t('dashboard.holdings.title')}</h2>
               {portfolioAssets.length === 0 ? (
                 <div className="bg-white rounded-[2rem] p-12 text-center border border-gray-100 shadow-sm">
                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Wallet className="w-10 h-10 text-gray-300" />
                   </div>
-                  <p className="text-gray-500 mb-6 text-lg">You don't own any assets yet.</p>
+                  <p className="text-gray-500 mb-6 text-lg">{t('dashboard.holdings.empty')}</p>
                   <button onClick={() => window.location.href = '/assets'} className="px-8 py-3 bg-[#0b1b34] text-white rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95">
-                    Explore Assets
+                    {t('dashboard.holdings.explore')}
                   </button>
                 </div>
               ) : (
@@ -336,7 +338,7 @@ export const Dashboard = () => {
                           referrerPolicy="no-referrer"
                         />
                         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-xl text-[10px] font-bold text-[#0b1b34] uppercase tracking-widest shadow-sm">
-                          {asset.sharesOwned}/{asset.totalShares} Shares
+                          {asset.sharesOwned}/{asset.totalShares} {t('dashboard.resale.sharesOwned')}
                         </div>
                       </div>
                       <div className="p-6 sm:w-3/5 flex flex-col justify-between">
@@ -353,7 +355,7 @@ export const Dashboard = () => {
                         <div className="pt-4 border-t border-gray-50 mt-auto">
                           <div className="flex justify-between items-end">
                             <div>
-                              <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Equity Value</p>
+                              <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t('dashboard.holdings.equityValue')}</p>
                               <p className="text-xl font-bold text-[#0b1b34]">AED {asset.totalValue.toLocaleString()}</p>
                             </div>
                             <div className="flex space-x-2">
@@ -363,7 +365,7 @@ export const Dashboard = () => {
                                   setListingAsset(asset);
                                 }} 
                                 className="p-2.5 bg-accent/10 hover:bg-accent text-primary rounded-xl transition-all active:scale-90 shadow-sm"
-                                title="List for Resale"
+                                title={t('dashboard.holdings.listResale')}
                               >
                                 <Tag className="w-4 h-4" />
                               </button>
@@ -374,7 +376,7 @@ export const Dashboard = () => {
                                 }} 
                                 className="px-5 py-2.5 bg-[#0b1b34] text-white rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-[#0b1b34]/90 active:scale-95 shadow-lg shadow-blue-900/10 flex items-center"
                               >
-                                Book
+                                {t('dashboard.holdings.book')}
                                 <ChevronRight className="w-3.5 h-3.5 ml-1.5" />
                               </button>
                             </div>
@@ -401,12 +403,12 @@ export const Dashboard = () => {
                 <div className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 shadow-xl shadow-blue-500/5">
                   <div className="flex items-center justify-between mb-8">
                     <div>
-                      <h3 className="text-xl font-display font-bold text-[#0b1b34]">Portfolio Growth</h3>
-                      <p className="text-xs text-gray-500 font-medium">Historical equity value performance</p>
+                      <h3 className="text-xl font-display font-bold text-[#0b1b34]">{t('dashboard.analytics.growth')}</h3>
+                      <p className="text-xs text-gray-500 font-medium">{t('dashboard.analytics.growthDesc')}</p>
                     </div>
                     <div className="flex space-x-2">
                       <span className="w-3 h-3 bg-primary rounded-full" />
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Equity</span>
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t('dashboard.analytics.equity')}</span>
                     </div>
                   </div>
                   <div className="h-[300px] w-full">
@@ -424,6 +426,7 @@ export const Dashboard = () => {
                           axisLine={false} 
                           tickLine={false} 
                           tick={{ fontSize: 10, fontWeight: 600, fill: '#9ca3af' }} 
+                          tickFormatter={(val) => t(val)}
                         />
                         <YAxis 
                           axisLine={false} 
@@ -458,8 +461,8 @@ export const Dashboard = () => {
                 <div className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 shadow-xl shadow-blue-500/5">
                   <div className="flex items-center justify-between mb-8">
                     <div>
-                      <h3 className="text-xl font-display font-bold text-[#0b1b34]">Asset Allocation</h3>
-                      <p className="text-xs text-gray-500 font-medium">Distribution by category</p>
+                      <h3 className="text-xl font-display font-bold text-[#0b1b34]">{t('dashboard.analytics.allocation')}</h3>
+                      <p className="text-xs text-gray-500 font-medium">{t('dashboard.analytics.allocationDesc')}</p>
                     </div>
                   </div>
                   <div className="h-[300px] w-full flex items-center">
@@ -471,7 +474,14 @@ export const Dashboard = () => {
                           type="category" 
                           axisLine={false} 
                           tickLine={false} 
-                          tick={{ fontSize: 12, fontWeight: 700, fill: '#0b1b34' }}
+                          tick={(props) => {
+                            const { x, y, payload } = props;
+                            return (
+                              <text x={x} y={y} dy={4} textAnchor="end" fill="#0b1b34" fontSize={12} fontWeight={700}>
+                                {t(payload.value)}
+                              </text>
+                            );
+                          }}
                           width={100}
                         />
                         <Tooltip 
@@ -495,7 +505,7 @@ export const Dashboard = () => {
                   <div className="grid grid-cols-3 gap-4 mt-4">
                     {YIELD_DATA.map((item) => (
                       <div key={item.name} className="text-center">
-                        <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{item.name}</p>
+                        <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t(item.name)}</p>
                         <p className="text-lg font-bold text-[#0b1b34]">{item.value}%</p>
                       </div>
                     ))}
@@ -511,14 +521,13 @@ export const Dashboard = () => {
                     <TrendingUp className="w-8 h-8 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-display font-bold mb-2">Vault Insight: High Yield Opportunity</h3>
+                    <h3 className="text-xl font-display font-bold mb-2">{t('dashboard.insight.title')}</h3>
                     <p className="text-white/70 text-sm max-w-2xl">
-                      Your current portfolio is heavily weighted in Supercars. Based on market trends in Dubai, 
-                      diversifying into Yachts could increase your overall projected yield by 2.4% annually.
+                      {t('dashboard.insight.desc')}
                     </p>
                   </div>
                   <button className="ml-auto px-6 py-3 bg-white text-primary rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-accent transition-colors whitespace-nowrap">
-                    View Recommendations
+                    {t('dashboard.insight.cta')}
                   </button>
                 </div>
               </div>
@@ -535,12 +544,12 @@ export const Dashboard = () => {
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-display font-bold text-[#0b1b34]">Secondary Marketplace</h2>
-                  <p className="text-sm text-gray-500">Trade shares directly with other co-owners.</p>
+                  <h2 className="text-2xl font-display font-bold text-[#0b1b34]">{t('dashboard.marketplace.title')}</h2>
+                  <p className="text-sm text-gray-500">{t('dashboard.marketplace.subtitle')}</p>
                 </div>
                 <div className="flex items-center space-x-2 text-xs font-bold text-[#256ab1] bg-[#256ab1]/5 px-4 py-2 rounded-full border border-[#256ab1]/10">
                   <Info className="w-3.5 h-3.5" />
-                  <span>2.5% Transaction Fee applies</span>
+                  <span>{t('dashboard.marketplace.fee')}</span>
                 </div>
               </div>
 
@@ -549,10 +558,10 @@ export const Dashboard = () => {
                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <ShoppingBag className="w-10 h-10 text-gray-300" />
                   </div>
-                  <p className="text-gray-500 mb-2 text-lg">No active listings in the marketplace.</p>
-                  <p className="text-sm text-gray-400 mb-6">Be the first to list a share for resale!</p>
+                  <p className="text-gray-500 mb-2 text-lg">{t('dashboard.marketplace.empty')}</p>
+                  <p className="text-sm text-gray-400 mb-6">{t('dashboard.marketplace.firstListing')}</p>
                   <button onClick={() => setActiveTab('holdings')} className="px-8 py-3 bg-[#0b1b34] text-white rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[#0b1b34]/90 transition-all">
-                    View My Holdings
+                    {t('dashboard.tabs.holdings')}
                   </button>
                 </div>
               ) : (
@@ -583,18 +592,18 @@ export const Dashboard = () => {
                           </div>
                           {isOwnListing && (
                             <div className="absolute top-4 right-4 bg-accent text-primary px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest shadow-lg">
-                              Your Listing
+                              {t('dashboard.marketplace.yourListing')}
                             </div>
                           )}
                         </div>
                         <div className="p-6 flex-1 flex flex-col">
                           <div className="flex justify-between items-center mb-6">
                             <div>
-                              <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Price per Share</p>
+                              <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t('dashboard.resale.pricePerShare')}</p>
                               <p className="text-xl font-bold text-[#0b1b34]">AED {listing.pricePerShare.toLocaleString()}</p>
                             </div>
                             <div className="text-right">
-                              <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">Shares</p>
+                              <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t('dashboard.resale.sharesOwned')}</p>
                               <p className="text-xl font-bold text-[#0b1b34]">{listing.shares}</p>
                             </div>
                           </div>
@@ -615,14 +624,14 @@ export const Dashboard = () => {
                                 onClick={() => handleCancelListing(listing.id)}
                                 className="w-full py-3 bg-red-50 text-red-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all active:scale-95"
                               >
-                                Cancel Listing
+                                {t('dashboard.marketplace.cancel')}
                               </button>
                             ) : (
                               <button 
                                 onClick={() => handleBuyFromMarketplace(listing)}
                                 className="w-full py-3 bg-[#0b1b34] text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0b1b34]/90 transition-all active:scale-95 shadow-lg shadow-blue-900/10"
                               >
-                                Buy Shares
+                                {t('dashboard.marketplace.buy')}
                               </button>
                             )}
                           </div>
@@ -660,8 +669,8 @@ export const Dashboard = () => {
                     <Tag className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-display font-bold text-[#0b1b34]">List for Resale</h3>
-                    <p className="text-xs text-gray-500 font-medium">Secondary Marketplace</p>
+                    <h3 className="text-xl font-display font-bold text-[#0b1b34]">{t('dashboard.resale.title')}</h3>
+                    <p className="text-xs text-gray-500 font-medium">{t('dashboard.resale.subtitle')}</p>
                   </div>
                 </div>
                 <button onClick={() => setListingAsset(null)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -673,13 +682,13 @@ export const Dashboard = () => {
                 <img src={listingAsset.imageUrl} alt="" className="w-16 h-16 rounded-xl object-cover" />
                 <div>
                   <p className="text-sm font-bold text-[#0b1b34]">{listingAsset.name}</p>
-                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">{listingAsset.sharesOwned} Shares Owned</p>
+                  <p className="text-[10px] text-gray-500 uppercase tracking-widest">{listingAsset.sharesOwned} {t('dashboard.resale.sharesOwned')}</p>
                 </div>
               </div>
 
               <form onSubmit={handleListForResale} className="space-y-6 relative z-10">
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Number of Shares to Sell</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">{t('dashboard.resale.numToSell')}</label>
                   <div className="flex items-center space-x-4">
                     <button 
                       type="button"
@@ -702,7 +711,7 @@ export const Dashboard = () => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Price per Share (AED)</label>
+                  <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">{t('dashboard.resale.pricePerShare')}</label>
                   <div className="relative">
                     <input
                       type="number"
@@ -714,16 +723,16 @@ export const Dashboard = () => {
                     />
                     <div className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">AED</div>
                   </div>
-                  <p className="text-[10px] text-gray-400 mt-2 italic">Recommended price: AED {(listingAsset.totalValue / listingAsset.sharesOwned).toLocaleString()}</p>
+                  <p className="text-[10px] text-gray-400 mt-2 italic">{t('dashboard.resale.recommended')}: AED {(listingAsset.totalValue / listingAsset.sharesOwned).toLocaleString()}</p>
                 </div>
 
                 <div className="p-4 bg-blue-50 rounded-2xl border border-blue-100">
                   <div className="flex justify-between text-xs font-bold mb-2">
-                    <span className="text-gray-500">Total Listing Value</span>
+                    <span className="text-gray-500">{t('dashboard.resale.totalValue')}</span>
                     <span className="text-[#0b1b34]">AED {(parseFloat(listingPrice || '0') * listingShares).toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between text-xs font-bold">
-                    <span className="text-gray-500">Est. Service Fee (2.5%)</span>
+                    <span className="text-gray-500">{t('dashboard.resale.serviceFee')}</span>
                     <span className="text-red-500">- AED {(parseFloat(listingPrice || '0') * listingShares * 0.025).toLocaleString()}</span>
                   </div>
                 </div>
@@ -736,7 +745,7 @@ export const Dashboard = () => {
                   {isListing ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
-                    'Confirm Listing'
+                    t('dashboard.resale.confirm')
                   )}
                 </button>
               </form>

@@ -40,20 +40,20 @@ export const Layout = () => {
   }, []);
 
   const getPageTitle = () => {
-    if (location.pathname.startsWith('/dashboard')) return 'The Vault';
-    if (location.pathname.startsWith('/assets')) return 'Assets';
-    if (location.pathname.startsWith('/booking')) return 'Booking';
-    if (location.pathname.startsWith('/list-onboarding')) return 'List Asset';
-    if (location.pathname.startsWith('/profile')) return 'Profile';
-    if (location.pathname.startsWith('/settings')) return 'Settings';
+    if (location.pathname.startsWith('/dashboard')) return t('nav.vault');
+    if (location.pathname.startsWith('/assets')) return t('nav.assets');
+    if (location.pathname.startsWith('/booking')) return t('nav.booking');
+    if (location.pathname.startsWith('/list-onboarding')) return t('nav.listAsset');
+    if (location.pathname.startsWith('/profile')) return t('nav.profile');
+    if (location.pathname.startsWith('/settings')) return t('nav.settings');
     return '';
   };
 
   const userMenuItems = [
-    { name: 'Profile', path: '/profile', icon: User },
+    { name: t('nav.profile'), path: '/profile', icon: User },
     { name: t('nav.vault'), path: '/dashboard', icon: LayoutDashboard },
     { name: t('nav.booking'), path: '/booking', icon: Calendar },
-    { name: 'Settings', path: '/settings', icon: Settings },
+    { name: t('nav.settings'), path: '/settings', icon: Settings },
   ];
 
   const handleLogout = () => {
@@ -149,7 +149,7 @@ export const Layout = () => {
                             className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
                             <LogOut className="w-4 h-4" />
-                            <span>Sign Out</span>
+                            <span>{t('nav.signout')}</span>
                           </button>
                         </div>
                       </motion.div>
@@ -196,7 +196,7 @@ export const Layout = () => {
 
             {/* Social Links */}
             <div className="flex flex-col items-center">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">Follow Us</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">{t('footer.follow')}</h4>
               <div className="flex space-x-6">
                 <a 
                   href="https://www.instagram.com/coshare.ai/" 
@@ -235,8 +235,8 @@ export const Layout = () => {
               >
                 <Apple className="w-7 h-7 mr-3 group-hover:scale-110 transition-transform" />
                 <div className="text-left">
-                  <p className="text-[9px] font-bold uppercase leading-none tracking-wider opacity-60">Download on the</p>
-                  <p className="text-base font-bold leading-tight">App Store</p>
+                  <p className="text-[9px] font-bold uppercase leading-none tracking-wider opacity-60">{t('footer.download')}</p>
+                  <p className="text-base font-bold leading-tight">{t('footer.appStore')}</p>
                 </div>
               </a>
               <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
@@ -248,7 +248,7 @@ export const Layout = () => {
           </div>
           
           <div className="mt-12 pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 text-center">
-            &copy; {new Date().getFullYear()} Coshare. All rights reserved.
+            &copy; {new Date().getFullYear()} Coshare. {t('footer.rights')}
           </div>
         </div>
       </footer>

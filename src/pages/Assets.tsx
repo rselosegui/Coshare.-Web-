@@ -53,15 +53,15 @@ export const Assets = () => {
   return (
     <div className="min-h-screen bg-[#f8f9fa] py-12">
       <SEO 
-        title="Browse Assets | Coshare Fractional Ownership"
-        description="Explore our curated collection of luxury supercars, yachts, and desert 4x4s available for fractional ownership in the UAE."
+        title={t('seo.assets.title')}
+        description={t('seo.assets.desc')}
         canonical="https://coshare.ae/assets"
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-12">
           <div className="mb-6 md:mb-0">
             <h1 className="text-3xl sm:text-4xl font-display font-bold text-[#0b1b34] mb-2">{t('nav.assets')}</h1>
-            <p className="text-sm sm:text-base text-gray-600">Discover premium fractional ownership opportunities in the UAE.</p>
+            <p className="text-sm sm:text-base text-gray-600">{t('assets.subtitle')}</p>
           </div>
           
           <div className="w-full md:w-auto flex items-center space-x-3">
@@ -69,7 +69,7 @@ export const Assets = () => {
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
                 type="text"
-                placeholder="Search assets..."
+                placeholder={t('assets.search')}
                 className="w-full md:w-64 pl-11 pr-4 py-3 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#256ab1] bg-white shadow-sm"
               />
             </div>
@@ -89,13 +89,13 @@ export const Assets = () => {
               }`}
             >
               <LayoutGrid className="w-4 h-4 mr-2" />
-              All
+              {t('assets.filter.all')}
             </button>
             {[
-              { id: 'Cars', icon: Car, label: 'Cars' },
-              { id: 'Motorbikes', icon: Bike, label: 'Motorbikes' },
-              { id: 'Yachts', icon: Ship, label: 'Yachts' },
-              { id: 'Others', icon: Filter, label: 'Others' }
+              { id: 'Cars', icon: Car, label: t('assets.filter.cars') },
+              { id: 'Motorbikes', icon: Bike, label: t('assets.filter.motorbikes') },
+              { id: 'Yachts', icon: Ship, label: t('assets.filter.yachts') },
+              { id: 'Others', icon: Filter, label: t('assets.filter.others') }
             ].map(cat => (
               <button
                 key={cat.id}
@@ -218,8 +218,8 @@ export const Assets = () => {
 
         {filteredAssets.length === 0 && (
           <div className="text-center py-24">
-            <h3 className="text-xl font-medium text-gray-900 mb-2">No assets found</h3>
-            <p className="text-gray-500">Try adjusting your filters to see more results.</p>
+            <h3 className="text-xl font-medium text-gray-900 mb-2">{t('assets.empty')}</h3>
+            <p className="text-gray-500">{t('assets.empty.desc')}</p>
           </div>
         )}
       </div>
@@ -253,7 +253,7 @@ export const Assets = () => {
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle2 className="w-8 h-8 text-green-600" />
                   </div>
-                  <h3 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">You're on the list!</h3>
+                  <h3 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">{t('assets.notify.success')}</h3>
                   <p className="text-gray-600">
                     We'll notify you as soon as new {activeCategory} opportunities become available.
                   </p>
@@ -261,16 +261,16 @@ export const Assets = () => {
               ) : (
                 <>
                   <div className="mb-8">
-                    <h3 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">Get Early Access</h3>
+                    <h3 className="text-2xl font-display font-bold text-[#0b1b34] mb-2">{t('assets.notify.title')}</h3>
                     <p className="text-gray-600">
-                      Be the first to know when we launch our {activeCategory} collection.
+                      {t('assets.notify.desc')}
                     </p>
                   </div>
 
                   <form onSubmit={handleNotifySubmit} className="space-y-4">
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2 ml-1">
-                        Email Address
+                        {t('assets.notify.email')}
                       </label>
                       <input
                         type="email"
@@ -286,11 +286,11 @@ export const Assets = () => {
                       disabled={isSubmitting}
                       className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-2xl hover:bg-[#0b1b34]/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+                      {isSubmitting ? t('assets.notify.joining') : t('assets.notify.join')}
                     </button>
                   </form>
                   <p className="mt-6 text-[10px] text-gray-400 text-center uppercase tracking-widest">
-                    No spam. Just exclusive opportunities.
+                    {t('assets.notify.spam')}
                   </p>
                 </>
               )}
