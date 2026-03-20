@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ASSETS } from '../data/assets';
 import { useLanguage } from '../store/language';
 import { useAuth } from '../store/auth';
+import { SEO } from '../components/SEO';
 import { motion } from 'motion/react';
-import { ArrowLeft, Share, Heart, MapPin, Calendar, Shield, Info, Calculator, CheckCircle, FileText, Lock, UserCheck, CreditCard, X } from 'lucide-react';
+import { ArrowLeft, Share, Heart, MapPin, Calendar, Shield, Info, Calculator, CheckCircle, FileText, Lock, UserCheck, CreditCard, X, Apple, TrendingUp, Wrench, Play, ChevronLeft, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
@@ -20,6 +21,36 @@ export const AssetDetails = () => {
   const [purchaseSuccess, setPurchaseSuccess] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(1); // 1: KYC, 2: Legal, 3: Payment
+
+  if (!asset) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f9fa]">
+        <h2 className="text-2xl font-bold text-[#0b1b34] mb-4">Asset not found</h2>
+        <button onClick={() => navigate('/assets')} className="text-[#256ab1] hover:underline">
+          Return to Assets
+        </button>
+      </div>
+    );
+  }
+
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": asset.name,
+    "image": asset.imageUrl,
+    "description": asset.description,
+    "brand": {
+      "@type": "Brand",
+      "name": "Coshare"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": `https://coshare.ae/assets/${asset.id}`,
+      "priceCurrency": "AED",
+      "price": asset.pricePerShare,
+      "availability": "https://schema.org/InStock"
+    }
+  };
 
   const handleStartPurchase = () => {
     if (!user) {
@@ -84,19 +115,18 @@ export const AssetDetails = () => {
     }
   };
 
-  if (!asset) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f9fa]">
-        <h2 className="text-2xl font-bold text-[#0b1b34] mb-4">Asset not found</h2>
-        <button onClick={() => navigate('/assets')} className="text-[#256ab1] hover:underline">
-          Return to Assets
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-[#f8f9fa] pb-20">
+      <SEO 
+        title={`${asset.name} | Coshare Fractional Ownership`}
+        description={asset.description}
+        image={asset.imageUrl}
+        type="product"
+        canonical={`https://coshare.ae/assets/${asset.id}`}
+      />
+      <script type="application/ld+json">
+        {JSON.stringify(productSchema)}
+      </script>
       {/* Hero Image */}
       <div className="relative h-[50vh] md:h-[60vh] w-full">
         <img
@@ -219,7 +249,7 @@ export const AssetDetails = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-[#0b1b34]">Fully Managed</h4>
-                    <p className="text-sm text-gray-600 mt-1">Maintenance, insurance, and storage are completely handled by the <span dir="ltr">coshare.</span> team.</p>
+                    <p className="text-sm text-gray-600 mt-1">Maintenance, insurance, and storage are completely handled by the <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span> team.</p>
                   </div>
                 </div>
               </div>
@@ -236,41 +266,72 @@ export const AssetDetails = () => {
                 </div>
               </div>
 
-              {/* Dynamic Calculator */}
-              <div className="bg-[#f8f9fa] rounded-2xl p-5 mb-8 border border-gray-100">
-                <div className="flex items-center mb-4 text-[#0b1b34]">
-                  <Calculator className="w-5 h-5 mr-2" />
-                  <h3 className="font-bold">{t('asset.calculator.title')}</h3>
+              {/* Dynamic Calculator / Usage Simulator */}
+              <div className="bg-[#f8f9fa] rounded-[2rem] p-6 mb-8 border border-gray-100 shadow-inner">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center text-[#0b1b34]">
+                    <Calculator className="w-5 h-5 mr-2 text-[#256ab1]" />
+                    <h3 className="font-bold text-lg">{t('asset.calculator.title')}</h3>
+                  </div>
+                  <div className="bg-white px-3 py-1 rounded-full border border-gray-100 shadow-sm">
+                    <span className="text-[10px] font-bold text-[#256ab1] uppercase tracking-widest">Live Simulator</span>
+                  </div>
                 </div>
                 
-                <div className="mb-4">
-                  <div className="flex justify-between text-sm mb-2">
-                    <span className="text-gray-600">{t('asset.calculator.shares')}</span>
-                    <span className="font-bold text-[#256ab1]">{selectedShares} / {asset.availableShares}</span>
+                <div className="mb-8">
+                  <div className="flex justify-between text-sm mb-3">
+                    <span className="text-gray-500 font-medium uppercase tracking-wider text-[10px]">{t('asset.calculator.shares')}</span>
+                    <span className="font-bold text-[#0b1b34] bg-white px-3 py-1 rounded-lg shadow-sm border border-gray-100">{selectedShares} / {asset.availableShares}</span>
                   </div>
-                  <input 
-                    type="range" 
-                    min="1" 
-                    max={asset.availableShares || 1} 
-                    value={selectedShares}
-                    onChange={(e) => setSelectedShares(parseInt(e.target.value))}
-                    disabled={asset.availableShares === 0}
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#256ab1]"
-                  />
+                  <div className="relative h-6 flex items-center">
+                    <input 
+                      type="range" 
+                      min="1" 
+                      max={asset.availableShares || 1} 
+                      value={selectedShares}
+                      onChange={(e) => setSelectedShares(parseInt(e.target.value))}
+                      disabled={asset.availableShares === 0}
+                      className="w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#256ab1] relative z-10"
+                    />
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 h-1.5 bg-[#256ab1]/20 rounded-lg" style={{ width: '100%' }} />
+                  </div>
                 </div>
 
-                <div className="space-y-3 pt-3 border-t border-gray-200">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-600">{t('asset.calculator.days')}</span>
-                    <span className="font-bold text-[#0b1b34]">{Math.round((365 / asset.totalShares) * selectedShares)} days</span>
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="flex items-center text-gray-400 mb-1">
+                      <Calendar className="w-3 h-3 mr-1" />
+                      <span className="text-[9px] font-bold uppercase tracking-widest">Usage</span>
+                    </div>
+                    <p className="text-lg font-bold text-[#0b1b34]">{Math.round((365 / asset.totalShares) * selectedShares)} <span className="text-xs font-medium text-gray-400">days</span></p>
                   </div>
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-600">Est. Annual Yield</span>
-                    <span className="font-bold text-green-600">~8.5%</span>
+                  <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="flex items-center text-gray-400 mb-1">
+                      <TrendingUp className="w-3 h-3 mr-1" />
+                      <span className="text-[9px] font-bold uppercase tracking-widest">Yield</span>
+                    </div>
+                    <p className="text-lg font-bold text-emerald-600">~8.5% <span className="text-xs font-medium text-gray-400">p.a.</span></p>
                   </div>
-                  <div className="flex justify-between items-center pt-2 mt-2 border-t border-gray-200">
-                    <span className="font-medium text-[#0b1b34]">{t('asset.calculator.total')}</span>
-                    <span className="text-xl font-bold text-[#256ab1]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
+                  <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="flex items-center text-gray-400 mb-1">
+                      <Wrench className="w-3 h-3 mr-1" />
+                      <span className="text-[9px] font-bold uppercase tracking-widest">Maint.</span>
+                    </div>
+                    <p className="text-lg font-bold text-[#0b1b34]">AED {Math.round((asset.pricePerShare * 0.02) * selectedShares).toLocaleString()}</p>
+                  </div>
+                  <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="flex items-center text-gray-400 mb-1">
+                      <Shield className="w-3 h-3 mr-1" />
+                      <span className="text-[9px] font-bold uppercase tracking-widest">Equity</span>
+                    </div>
+                    <p className="text-lg font-bold text-[#256ab1]">{((selectedShares / asset.totalShares) * 100).toFixed(1)}%</p>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex justify-between items-center">
+                    <span className="font-bold text-[#0b1b34] uppercase tracking-widest text-[10px]">{t('asset.calculator.total')}</span>
+                    <span className="text-2xl font-bold text-[#256ab1]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -438,17 +499,50 @@ export const AssetDetails = () => {
                       <p className="text-sm text-gray-500 text-center">Your shares have been added to your Vault. Redirecting...</p>
                     </motion.div>
                   ) : (
-                    <div className="flex space-x-4">
-                      <button onClick={() => setCheckoutStep(2)} disabled={isPurchasing} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50">
-                        Back
+                    <div className="space-y-3">
+                      <button 
+                        onClick={handlePurchase} 
+                        disabled={isPurchasing} 
+                        className="w-full py-4 bg-black text-white font-bold rounded-2xl hover:bg-black/90 transition-all flex justify-center items-center group relative overflow-hidden"
+                      >
+                        <Apple className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                        Pay with Apple Pay
                       </button>
-                      <button onClick={handlePurchase} disabled={isPurchasing} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors flex justify-center items-center disabled:opacity-50">
-                        {isPurchasing ? (
-                          <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                        ) : (
-                          `Pay AED ${(asset.pricePerShare * selectedShares).toLocaleString()}`
-                        )}
+                      
+                      <button 
+                        onClick={handlePurchase} 
+                        disabled={isPurchasing} 
+                        className="w-full py-4 bg-white border-2 border-gray-200 text-[#0b1b34] font-bold rounded-2xl hover:bg-gray-50 transition-all flex justify-center items-center"
+                      >
+                        <div className="flex items-center">
+                          <span className="text-blue-600">G</span>
+                          <span className="text-red-500">o</span>
+                          <span className="text-yellow-500">o</span>
+                          <span className="text-blue-600">g</span>
+                          <span className="text-green-500">l</span>
+                          <span className="text-red-500">e</span>
+                          <span className="ml-1">Pay</span>
+                        </div>
                       </button>
+
+                      <div className="flex items-center py-4">
+                        <div className="flex-1 h-px bg-gray-100" />
+                        <span className="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Or pay with card</span>
+                        <div className="flex-1 h-px bg-gray-100" />
+                      </div>
+
+                      <div className="flex space-x-4">
+                        <button onClick={() => setCheckoutStep(2)} disabled={isPurchasing} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50">
+                          Back
+                        </button>
+                        <button onClick={handlePurchase} disabled={isPurchasing} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors flex justify-center items-center disabled:opacity-50">
+                          {isPurchasing ? (
+                            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          ) : (
+                            `Pay AED ${(asset.pricePerShare * selectedShares).toLocaleString()}`
+                          )}
+                        </button>
+                      </div>
                     </div>
                   )}
                 </motion.div>

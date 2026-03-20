@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import { useLanguage } from '../store/language';
-import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown } from 'lucide-react';
+import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { Dock } from './Dock';
@@ -75,7 +75,7 @@ export const Layout = () => {
           <div className="flex justify-between items-center h-12">
             <div className="flex items-center space-x-6">
               <Link to={user ? "/assets" : "/"} className="font-display font-bold text-2xl tracking-tighter text-primary">
-                <span dir="ltr">coshare.</span>
+                <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
               </Link>
               {user && (
                 <div className="hidden sm:block h-6 w-px bg-gray-200/50" />
@@ -182,27 +182,76 @@ export const Layout = () => {
       {/* Floating Dock (Post-login) */}
       {user && <Dock />}
 
-      {/* Minimal Footer */}
-      {!user && (
-        <footer className="bg-surface border-t border-white/10 py-8 mt-auto">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="mb-4 md:mb-0">
-                <h3 className="font-display font-bold text-xl text-primary"><span dir="ltr">coshare.</span></h3>
-                <p className="text-sm text-gray-500 mt-1">{t('footer.tagline')}</p>
+      {/* Footer */}
+      <footer className="bg-surface border-t border-white/10 py-12 mt-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+            {/* Brand & Tagline */}
+            <div className="flex flex-col items-center md:items-start">
+              <h3 className="font-display font-bold text-2xl text-primary mb-2">
+                <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
+              </h3>
+              <p className="text-sm text-gray-500 text-center md:text-left max-w-xs">{t('footer.tagline')}</p>
+            </div>
+
+            {/* Social Links */}
+            <div className="flex flex-col items-center">
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">Follow Us</h4>
+              <div className="flex space-x-6">
+                <a 
+                  href="https://www.instagram.com/coshare.ai/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-primary transition-colors"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a 
+                  href="https://x.com/CoshareAI" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-primary transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a 
+                  href="https://www.linkedin.com/company/coshareai/" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-gray-400 hover:text-primary transition-colors"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
               </div>
-              <div className="flex space-x-6 text-xs font-bold uppercase tracking-widest text-gray-400">
+            </div>
+
+            {/* App Store & Links */}
+            <div className="flex flex-col items-center md:items-end">
+              <a 
+                href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center bg-black text-white px-5 py-2.5 rounded-xl border border-white/10 hover:bg-gray-900 transition-all mb-8 group"
+              >
+                <Apple className="w-7 h-7 mr-3 group-hover:scale-110 transition-transform" />
+                <div className="text-left">
+                  <p className="text-[9px] font-bold uppercase leading-none tracking-wider opacity-60">Download on the</p>
+                  <p className="text-base font-bold leading-tight">App Store</p>
+                </div>
+              </a>
+              <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.terms')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.privacy')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.contact')}</a>
               </div>
             </div>
-            <div className="mt-8 text-[10px] font-bold uppercase tracking-widest text-gray-300 text-center md:text-left">
-              &copy; {new Date().getFullYear()} Coshare. All rights reserved.
-            </div>
           </div>
-        </footer>
-      )}
+          
+          <div className="mt-12 pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 text-center">
+            &copy; {new Date().getFullYear()} Coshare. All rights reserved.
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

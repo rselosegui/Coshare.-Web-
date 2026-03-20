@@ -1,4 +1,4 @@
-export type AssetCategory = 'Cars' | 'Superbikes' | 'Yachts' | 'Real Estate' | 'Watches' | 'Others';
+export type AssetCategory = 'Cars' | 'Motorbikes' | 'Yachts' | 'Others';
 export type AssetSubcategory = 'Supercars' | 'Desert 4x4' | 'Classics' | 'Sailing' | 'Superbikes' | 'Villas' | 'Apartments' | 'Luxury';
 
 export interface Asset {
@@ -119,7 +119,7 @@ export const ASSETS: Asset[] = [
   {
     id: 'other-bike-1',
     name: 'Ducati Superleggera V4',
-    category: 'Superbikes',
+    category: 'Motorbikes',
     subcategory: 'Superbikes',
     imageUrl: 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=1000',
     pricePerShare: 25000,
@@ -131,9 +131,9 @@ export const ASSETS: Asset[] = [
   {
     id: 'other-bike-2',
     name: 'BMW M 1000 RR',
-    category: 'Superbikes',
+    category: 'Motorbikes',
     subcategory: 'Superbikes',
-    imageUrl: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000', // Reusing image for now
+    imageUrl: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000',
     pricePerShare: 15000,
     totalShares: 4,
     availableShares: 2,

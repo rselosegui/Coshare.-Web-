@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ASSETS, AssetCategory, AssetSubcategory } from '../data/assets';
 import { useLanguage } from '../store/language';
+import { SEO } from '../components/SEO';
 import { motion, AnimatePresence } from 'motion/react';
 import { Filter, Search, Home, Ship, Car, Watch, LayoutGrid, Bike, Sparkles, X, Mail, CheckCircle2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -51,6 +52,11 @@ export const Assets = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] py-12">
+      <SEO 
+        title="Browse Assets | Coshare Fractional Ownership"
+        description="Explore our curated collection of luxury supercars, yachts, and desert 4x4s available for fractional ownership in the UAE."
+        canonical="https://coshare.ae/assets"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-12">
           <div className="mb-6 md:mb-0">
@@ -86,11 +92,9 @@ export const Assets = () => {
               All
             </button>
             {[
-              { id: 'Real Estate', icon: Home, label: 'Real Estate' },
+              { id: 'Cars', icon: Car, label: 'Cars' },
+              { id: 'Motorbikes', icon: Bike, label: 'Motorbikes' },
               { id: 'Yachts', icon: Ship, label: 'Yachts' },
-              { id: 'Cars', icon: Car, label: 'Supercars' },
-              { id: 'Superbikes', icon: Bike, label: 'Superbikes' },
-              { id: 'Watches', icon: Watch, label: 'Watches' },
               { id: 'Others', icon: Filter, label: 'Others' }
             ].map(cat => (
               <button
@@ -135,98 +139,84 @@ export const Assets = () => {
           </div>
         )}
 
-        {/* Asset Grid or Coming Soon */}
-        {['Real Estate', 'Yachts', 'Watches'].includes(activeCategory) ? (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-[2.5rem] p-12 md:p-24 text-center border border-gray-100 shadow-sm"
-          >
-            <div className="w-20 h-20 bg-[#49bee4]/10 rounded-3xl flex items-center justify-center mx-auto mb-8">
-              <Sparkles className="w-10 h-10 text-[#256ab1]" />
-            </div>
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">Coming Soon</h2>
-            <p className="text-gray-600 max-w-md mx-auto text-lg mb-10">
-              We are currently curating the most exclusive {activeCategory} opportunities in the UAE. Stay tuned for our upcoming launch.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button 
-                onClick={() => setIsNotifyModalOpen(true)}
-                className="w-full sm:w-auto px-8 py-3 bg-[#256ab1] text-white font-bold rounded-full hover:bg-[#256ab1]/90 transition-all hover:scale-105 shadow-lg shadow-[#256ab1]/20 flex items-center justify-center"
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Notify Me
-              </button>
-              <button 
-                onClick={() => setActiveCategory('All')}
-                className="w-full sm:w-auto px-8 py-3 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors"
-              >
-                Browse Available Assets
-              </button>
-            </div>
-          </motion.div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredAssets.map((asset, index) => (
-              <motion.div
-                key={asset.id}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-                onClick={() => navigate(`/assets/${asset.id}`)}
-                className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group cursor-pointer flex flex-col"
-              >
-                <div className="relative h-72 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent z-10" />
-                  <img
-                    src={asset.imageUrl}
-                    alt={asset.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute top-5 left-5 z-20 bg-white/20 backdrop-blur-md border border-white/30 px-4 py-1.5 rounded-full text-xs font-bold text-white uppercase tracking-wider shadow-sm">
-                    {asset.subcategory}
+        {/* Asset Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredAssets.map((asset, index) => (
+            <motion.div
+              key={asset.id}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4, delay: index * 0.05 }}
+              onClick={() => navigate(`/assets/${asset.id}`)}
+              className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group cursor-pointer flex flex-col"
+            >
+              <div className="relative h-72 overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent z-10" />
+                <img
+                  src={asset.imageUrl}
+                  alt={asset.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute top-5 left-5 z-20 bg-white/20 backdrop-blur-md border border-white/30 px-4 py-1.5 rounded-full text-xs font-bold text-white uppercase tracking-wider shadow-sm">
+                  {asset.subcategory}
+                </div>
+                {asset.availableShares === 0 && (
+                  <div className="absolute top-5 right-5 z-20 bg-red-500/80 backdrop-blur-md border border-red-400/50 px-4 py-1.5 rounded-full text-xs font-bold text-white uppercase tracking-wider shadow-sm">
+                    {t('asset.soldOut')}
                   </div>
-                  {asset.availableShares === 0 && (
-                    <div className="absolute top-5 right-5 z-20 bg-red-500/80 backdrop-blur-md border border-red-400/50 px-4 py-1.5 rounded-full text-xs font-bold text-white uppercase tracking-wider shadow-sm">
-                      {t('asset.soldOut')}
-                    </div>
+                )}
+              </div>
+              <div className="p-6 flex-1 flex flex-col">
+                <h3 className="text-xl font-bold text-[#0b1b34] mb-2">{asset.name}</h3>
+                <p className="text-sm text-gray-500 mb-6 line-clamp-2">{asset.description}</p>
+                
+                <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
+                  <div>
+                    <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.pricePerShare')}</p>
+                    <p className="text-lg font-bold text-[#256ab1]">AED {asset.pricePerShare.toLocaleString()}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.available')}</p>
+                    <p className="text-sm font-medium text-[#0b1b34]">{asset.availableShares} / {asset.totalShares}</p>
+                  </div>
+                </div>
+                
+                {/* Scarcity Progress Bar */}
+                <div className="mt-4">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Availability</span>
+                    <span className="text-[10px] font-bold text-[#256ab1] uppercase tracking-wider">
+                      {Math.round(((asset.totalShares - asset.availableShares) / asset.totalShares) * 100)}% Sold
+                    </span>
+                  </div>
+                  <div className="w-full bg-gray-100 rounded-full h-1.5 relative overflow-hidden">
+                    <motion.div 
+                      className="bg-[#256ab1] h-1.5 rounded-full relative z-10" 
+                      initial={{ width: 0 }}
+                      animate={{ width: `${((asset.totalShares - asset.availableShares) / asset.totalShares) * 100}%` }}
+                      transition={{ duration: 1, ease: "easeOut" }}
+                    />
+                    {asset.availableShares <= 2 && asset.availableShares > 0 && (
+                      <motion.div 
+                        className="absolute inset-0 bg-red-400/30 z-0"
+                        animate={{ opacity: [0, 1, 0] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                    )}
+                  </div>
+                  {asset.availableShares <= 2 && asset.availableShares > 0 && (
+                    <p className="text-[9px] font-bold text-red-500 mt-1 uppercase tracking-widest animate-pulse">
+                      Only {asset.availableShares} shares left
+                    </p>
                   )}
                 </div>
-                <div className="p-6 flex-1 flex flex-col">
-                  <h3 className="text-xl font-bold text-[#0b1b34] mb-2">{asset.name}</h3>
-                  <p className="text-sm text-gray-500 mb-6 line-clamp-2">{asset.description}</p>
-                  
-                  <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
-                    <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.pricePerShare')}</p>
-                      <p className="text-lg font-bold text-[#256ab1]">AED {asset.pricePerShare.toLocaleString()}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.available')}</p>
-                      <p className="text-sm font-medium text-[#0b1b34]">{asset.availableShares} / {asset.totalShares}</p>
-                    </div>
-                  </div>
-                  
-                  {/* Scarcity Progress Bar */}
-                  <div className="mt-4">
-                    <div className="w-full bg-gray-100 rounded-full h-1.5 mb-1 overflow-hidden">
-                      <div 
-                        className="bg-[#256ab1] h-1.5 rounded-full" 
-                        style={{ width: `${((asset.totalShares - asset.availableShares) / asset.totalShares) * 100}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-[10px] text-gray-400 text-right uppercase tracking-wider">
-                      {Math.round(((asset.totalShares - asset.availableShares) / asset.totalShares) * 100)}% Sold
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-        {!['Real Estate', 'Yachts', 'Watches'].includes(activeCategory) && filteredAssets.length === 0 && (
+        {filteredAssets.length === 0 && (
           <div className="text-center py-24">
             <h3 className="text-xl font-medium text-gray-900 mb-2">No assets found</h3>
             <p className="text-gray-500">Try adjusting your filters to see more results.</p>

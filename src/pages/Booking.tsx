@@ -3,7 +3,7 @@ import { useAuth } from '../store/auth';
 import { ASSETS } from '../data/assets';
 import { motion, AnimatePresence } from 'motion/react';
 import { format, addDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isWithinInterval, isBefore } from 'date-fns';
-import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Info, CheckCircle } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Info, CheckCircle, MessageSquare, ArrowLeftRight, X } from 'lucide-react';
 import { collection, query, where, onSnapshot, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
@@ -31,6 +31,9 @@ export const Booking = () => {
   const [selectedRange, setSelectedRange] = useState<{ start: Date | null, end: Date | null }>({ start: null, end: null });
   const [isBooking, setIsBooking] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(false);
+  const [showSwapModal, setShowSwapModal] = useState(false);
+  const [swapTargetDate, setSwapTargetDate] = useState<Date | null>(null);
+  const [swapSuccess, setSwapSuccess] = useState(false);
 
   useEffect(() => {
     if (!isAuthReady || !user) return;
@@ -150,7 +153,20 @@ export const Booking = () => {
   const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
 
   const onDateClick = (day: Date) => {
-    if (isDayBooked(day)) return;
+    const booked = isDayBooked(day);
+    if (booked) {
+      // Check if it's NOT the user's booking (simplified for MVP: all booked dates are "others" unless in upcoming)
+      const isMyBooking = bookings.some(b => 
+        b.assetId === selectedAssetId && 
+        isWithinInterval(day, { start: new Date(b.startDate), end: new Date(b.endDate) })
+      );
+      
+      if (!isMyBooking) {
+        setSwapTargetDate(day);
+        setShowSwapModal(true);
+      }
+      return;
+    }
 
     if (!selectedRange.start || (selectedRange.start && selectedRange.end)) {
       setSelectedRange({ start: day, end: null });
@@ -181,7 +197,8 @@ export const Booking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface flex flex-col lg:flex-row overflow-hidden">
+    <>
+      <div className="min-h-screen bg-surface flex flex-col lg:flex-row overflow-hidden">
       {/* Left Pane: Asset Focus */}
       <div className="w-full lg:w-[40%] h-[35vh] lg:h-screen sticky top-0 bg-primary relative overflow-hidden z-20">
         <AnimatePresence mode="wait">
@@ -446,6 +463,78 @@ export const Booking = () => {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Swap Request Modal */}
+      <AnimatePresence>
+        {showSwapModal && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowSwapModal(false)}
+              className="absolute inset-0 bg-primary/60 backdrop-blur-md"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl overflow-hidden"
+            >
+              <button 
+                onClick={() => setShowSwapModal(false)}
+                className="absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-gray-400" />
+              </button>
+
+              <div className="text-center mb-8">
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <ArrowLeftRight className="w-8 h-8 text-accent" />
+                </div>
+                <h3 className="text-2xl font-display font-bold text-primary mb-2">Request a Swap</h3>
+                <p className="text-gray-500 text-sm">
+                  This date is currently reserved by another owner. Would you like to propose a date swap?
+                </p>
+              </div>
+
+              <div className="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Target Date</span>
+                  <span className="text-sm font-bold text-primary">{swapTargetDate && format(swapTargetDate, 'MMMM d, yyyy')}</span>
+                </div>
+                <div className="flex items-center text-xs text-accent font-medium">
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  Anonymous request will be sent to the owner.
+                </div>
+              </div>
+
+              {swapSuccess ? (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center py-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-6 h-6 text-green-600" />
+                  </div>
+                  <p className="text-sm font-bold text-green-600">Swap Request Sent!</p>
+                </motion.div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setSwapSuccess(true);
+                    setTimeout(() => {
+                      setShowSwapModal(false);
+                      setSwapSuccess(false);
+                    }, 2000);
+                  }}
+                  className="w-full py-4 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-[0.98] shadow-lg shadow-primary/20"
+                >
+                  Propose Swap
+                </button>
+              )}
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
-  );
+  </>
+);
 };
