@@ -61,8 +61,8 @@ export const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <SEO 
-        title="Coshare | Fractional Ownership of Luxury Assets in UAE"
-        description="Join the future of ownership. Co-own luxury supercars and yachts in the UAE with Coshare's AI-powered fractional ownership marketplace."
+        title="Coshare | Fractional Ownership of Assets in UAE"
+        description="Join the future of ownership. Co-own cars, yachts, real estate and more in the UAE with Coshare's AI-powered fractional ownership marketplace."
         canonical="https://coshare.ae"
       />
       {/* Hero Section */}

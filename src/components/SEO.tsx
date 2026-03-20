@@ -10,8 +10,8 @@ interface SEOProps {
 }
 
 export const SEO: React.FC<SEOProps> = ({ 
-  title = "Coshare | Luxury Fractional Ownership in UAE", 
-  description = "Experience premium fractional ownership of supercars, yachts, and desert 4x4s in Dubai. Smart, secure, and fully managed co-ownership for the modern lifestyle.",
+  title = "Coshare | Fractional Ownership of Assets in UAE", 
+  description = "Join the future of ownership. Co-own cars, yachts, real estate and more in the UAE with Coshare's AI-powered fractional ownership marketplace.",
   canonical = "https://coshare.ae",
   image = "https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1741689564993_image.png",
   type = 'website'
