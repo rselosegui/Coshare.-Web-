@@ -216,7 +216,7 @@ export const ListOnboarding = () => {
                   <span className="text-[10px] font-bold text-[#256ab1] uppercase tracking-widest">Vetting Details</span>
                 </div>
                 <h2 className="text-2xl md:text-3xl font-display font-bold text-[#0b1b34] mb-2">Initial Valuation</h2>
-                <p className="text-sm text-gray-600 mb-8 max-w-md">Provide details for our initial yield estimate. A physical inspection will follow.</p>
+                <p className="text-sm text-gray-600 mb-8 max-w-md">Provide details for our initial appreciation estimate. A physical inspection will follow.</p>
 
                 <div className="space-y-6 md:space-y-8 flex-1">
                   <div>
@@ -296,7 +296,7 @@ export const ListOnboarding = () => {
                       <Info className="w-4 h-4 md:w-5 md:h-5 text-[#256ab1]" />
                     </div>
                     <p className="text-[10px] md:text-xs text-gray-500 leading-relaxed">
-                      AI Estimate: <strong className="text-[#0b1b34]">AED {(formData.idleWeeks * 2500).toLocaleString()}</strong> potential annual yield. Final valuation requires physical inspection.
+                      AI Estimate: <strong className="text-[#0b1b34]">AED {(formData.idleWeeks * 2500).toLocaleString()}</strong> potential annual appreciation. Final valuation requires physical inspection.
                     </p>
                   </div>
 

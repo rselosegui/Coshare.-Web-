@@ -48,7 +48,7 @@ const PERFORMANCE_DATA = [
   { month: 'month.mar', value: 1580000 },
 ];
 
-const YIELD_DATA = [
+const ALLOCATION_DATA = [
   { name: 'dashboard.categories.supercars', value: 65, color: '#0b1b34' },
   { name: 'dashboard.categories.yachts', value: 35, color: '#256ab1' },
 ];
@@ -120,8 +120,8 @@ export const Dashboard = () => {
       setLoading(false);
     });
 
-    // Marketplace Subscription
-    const qMarketplace = query(collection(db, 'marketplace'));
+    // Sell Requests Subscription
+    const qMarketplace = query(collection(db, 'sell_requests'), where('sellerId', '==', user.uid));
     const unsubscribeMarketplace = onSnapshot(qMarketplace, (snapshot) => {
       const items: MarketplaceListing[] = [];
       snapshot.forEach((doc) => {
@@ -129,7 +129,7 @@ export const Dashboard = () => {
       });
       setListings(items);
     }, (error) => {
-      handleFirestoreError(error, OperationType.LIST, 'marketplace');
+      handleFirestoreError(error, OperationType.LIST, 'sell_requests');
     });
 
     return () => {
@@ -144,12 +144,13 @@ export const Dashboard = () => {
 
     setIsListing(true);
     try {
-      await addDoc(collection(db, 'marketplace'), {
+      await addDoc(collection(db, 'sell_requests'), {
         assetId: listingAsset.id,
         sellerId: user.uid,
         sellerName: user.displayName || user.email?.split('@')[0] || 'Co-owner',
         shares: listingShares,
         pricePerShare: parseFloat(listingPrice),
+        status: 'pending',
         createdAt: serverTimestamp()
       });
       setListingAsset(null);
@@ -157,7 +158,7 @@ export const Dashboard = () => {
       setListingShares(1);
       setActiveTab('marketplace');
     } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, 'marketplace');
+      handleFirestoreError(error, OperationType.CREATE, 'sell_requests');
     } finally {
       setIsListing(false);
     }
@@ -171,9 +172,9 @@ export const Dashboard = () => {
 
   const handleCancelListing = async (listingId: string) => {
     try {
-      await deleteDoc(doc(db, 'marketplace', listingId));
+      await deleteDoc(doc(db, 'sell_requests', listingId));
     } catch (error) {
-      handleFirestoreError(error, OperationType.DELETE, 'marketplace');
+      handleFirestoreError(error, OperationType.DELETE, 'sell_requests');
     }
   };
 
@@ -457,7 +458,7 @@ export const Dashboard = () => {
                   </div>
                 </div>
 
-                {/* Yield Distribution */}
+                {/* Asset Allocation */}
                 <div className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 shadow-xl shadow-blue-500/5">
                   <div className="flex items-center justify-between mb-8">
                     <div>
@@ -467,7 +468,7 @@ export const Dashboard = () => {
                   </div>
                   <div className="h-[300px] w-full flex items-center">
                     <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={YIELD_DATA} layout="vertical" margin={{ left: 20, right: 20 }}>
+                      <BarChart data={ALLOCATION_DATA} layout="vertical" margin={{ left: 20, right: 20 }}>
                         <XAxis type="number" hide />
                         <YAxis 
                           dataKey="name" 
@@ -495,7 +496,7 @@ export const Dashboard = () => {
                           }}
                         />
                         <Bar dataKey="value" radius={[0, 10, 10, 0]} barSize={32}>
-                          {YIELD_DATA.map((entry, index) => (
+                          {ALLOCATION_DATA.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={entry.color} />
                           ))}
                         </Bar>
@@ -503,7 +504,7 @@ export const Dashboard = () => {
                     </ResponsiveContainer>
                   </div>
                   <div className="grid grid-cols-3 gap-4 mt-4">
-                    {YIELD_DATA.map((item) => (
+                    {ALLOCATION_DATA.map((item) => (
                       <div key={item.name} className="text-center">
                         <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t(item.name)}</p>
                         <p className="text-lg font-bold text-[#0b1b34]">{item.value}%</p>
@@ -569,7 +570,6 @@ export const Dashboard = () => {
                   {listings.map((listing) => {
                     const asset = ASSETS.find(a => a.id === listing.assetId);
                     if (!asset) return null;
-                    const isOwnListing = listing.sellerId === user.uid;
 
                     return (
                       <motion.div
@@ -590,11 +590,9 @@ export const Dashboard = () => {
                             <p className="text-white font-bold text-sm leading-tight">{asset.name}</p>
                             <p className="text-white/70 text-[10px] uppercase tracking-widest font-bold">{asset.subcategory}</p>
                           </div>
-                          {isOwnListing && (
-                            <div className="absolute top-4 right-4 bg-accent text-primary px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest shadow-lg">
-                              {t('dashboard.marketplace.yourListing')}
-                            </div>
-                          )}
+                          <div className="absolute top-4 right-4 bg-accent text-primary px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest shadow-lg">
+                            {t('dashboard.marketplace.yourListing')}
+                          </div>
                         </div>
                         <div className="p-6 flex-1 flex flex-col">
                           <div className="flex justify-between items-center mb-6">
@@ -619,21 +617,12 @@ export const Dashboard = () => {
                           </div>
 
                           <div className="mt-auto">
-                            {isOwnListing ? (
-                              <button 
-                                onClick={() => handleCancelListing(listing.id)}
-                                className="w-full py-3 bg-red-50 text-red-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all active:scale-95"
-                              >
-                                {t('dashboard.marketplace.cancel')}
-                              </button>
-                            ) : (
-                              <button 
-                                onClick={() => handleBuyFromMarketplace(listing)}
-                                className="w-full py-3 bg-[#0b1b34] text-white rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#0b1b34]/90 transition-all active:scale-95 shadow-lg shadow-blue-900/10"
-                              >
-                                {t('dashboard.marketplace.buy')}
-                              </button>
-                            )}
+                            <button 
+                              onClick={() => handleCancelListing(listing.id)}
+                              className="w-full py-3 bg-red-50 text-red-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all active:scale-95"
+                            >
+                              {t('dashboard.marketplace.cancel')}
+                            </button>
                           </div>
                         </div>
                       </motion.div>

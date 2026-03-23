@@ -308,7 +308,7 @@ export const AssetDetails = () => {
                   <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
                     <div className="flex items-center text-gray-400 mb-1">
                       <TrendingUp className="w-3 h-3 mr-1" />
-                      <span className="text-[9px] font-bold uppercase tracking-widest">Yield</span>
+                      <span className="text-[9px] font-bold uppercase tracking-widest">Appreciation</span>
                     </div>
                     <p className="text-lg font-bold text-emerald-600">~8.5% <span className="text-xs font-medium text-gray-400">p.a.</span></p>
                   </div>

@@ -120,18 +120,54 @@ export const Home = () => {
               href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-xs font-bold text-white/60 hover:text-white transition-colors uppercase tracking-[0.2em] flex items-center group"
+              className="mt-4 text-xs font-bold text-white/80 hover:text-white transition-all duration-500 uppercase tracking-[0.2em] flex items-center group"
             >
               {lang === 'EN' ? (
                 <>
                   {t('home.hero.tryApp').split('App')[0]}
-                  <span className="text-[#05A7E8] mx-1">App</span>
+                  <motion.span 
+                    animate={{ 
+                      boxShadow: ['0px 0px 10px rgba(5,167,232,0.4)', '0px 0px 25px rgba(5,167,232,0.9)', '0px 0px 10px rgba(5,167,232,0.4)'],
+                      scale: [1, 1.05, 1]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative inline-flex items-center justify-center px-4 py-2 mx-3 rounded-full bg-gradient-to-r from-[#05A7E8]/20 to-[#49bee4]/20 border border-[#05A7E8]/50 backdrop-blur-md overflow-hidden"
+                  >
+                    <span className="bg-gradient-to-r from-white to-[#e0f7ff] bg-clip-text text-transparent font-black tracking-[0.2em] text-sm drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                      APP
+                    </span>
+                    <motion.span 
+                      animate={{ x: ['-200%', '300%'] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                      className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg]"
+                    />
+                  </motion.span>
                   {t('home.hero.tryApp').split('App')[1]}
                 </>
               ) : (
-                t('home.hero.tryApp')
+                <>
+                  {t('home.hero.tryApp').split('التطبيق')[0]}
+                  <motion.span 
+                    animate={{ 
+                      boxShadow: ['0px 0px 10px rgba(5,167,232,0.4)', '0px 0px 25px rgba(5,167,232,0.9)', '0px 0px 10px rgba(5,167,232,0.4)'],
+                      scale: [1, 1.05, 1]
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative inline-flex items-center justify-center px-4 py-2 mx-3 rounded-full bg-gradient-to-r from-[#05A7E8]/20 to-[#49bee4]/20 border border-[#05A7E8]/50 backdrop-blur-md overflow-hidden"
+                  >
+                    <span className="bg-gradient-to-r from-white to-[#e0f7ff] bg-clip-text text-transparent font-black tracking-[0.2em] text-sm drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">
+                      التطبيق
+                    </span>
+                    <motion.span 
+                      animate={{ x: ['-200%', '300%'] }}
+                      transition={{ duration: 2.5, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                      className="absolute inset-0 w-1/2 h-full bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg]"
+                    />
+                  </motion.span>
+                  {t('home.hero.tryApp').split('التطبيق')[1]}
+                </>
               )}
-              <ChevronRight className="ml-1 w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform text-[#05A7E8] group-hover:text-[#49bee4]" />
             </a>
           </motion.div>
         </div>
@@ -142,15 +178,9 @@ export const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">
-              {lang === 'EN' ? (
-                <>
-                  {t('home.why.title').split('coshare.')[0]}
-                  <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
-                  {t('home.why.title').split('coshare.')[1]}
-                </>
-              ) : (
-                t('home.why.title')
-              )}
+              {t('home.why.title').split('coshare.')[0]}
+              <span dir="ltr" className="inline-block">coshare<span className="text-[#05A7E8]">.</span></span>
+              {t('home.why.title').split('coshare.')[1]}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               {t('home.why.subtitle')}

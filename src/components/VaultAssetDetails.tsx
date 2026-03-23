@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Calendar, Wrench, Shield, MessageSquare, Send, User, AlertTriangle, Gavel } from 'lucide-react';
+import { X, Calendar, Wrench, Shield, MessageSquare, Send, User, AlertTriangle, Gavel, FileText, Vote, Download, CheckCircle2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { useAuth } from '../store/auth';
 import { useLanguage } from '../store/language';
@@ -24,7 +24,7 @@ interface VaultAssetDetailsProps {
 export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) => {
   const { user } = useAuth();
   const { t, lang } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'overview' | 'maintenance' | 'inspections' | 'chat'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'maintenance' | 'inspections' | 'chat' | 'documents' | 'voting'>('overview');
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [showDisputeForm, setShowDisputeForm] = useState(false);
@@ -186,8 +186,10 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
         <div className={`flex border-b border-gray-100 dark:border-white/10 px-8 overflow-x-auto no-scrollbar ${lang === 'AR' ? 'flex-row-reverse' : ''}`}>
           {[
             { id: 'overview', label: t('vault.tabs.overview'), icon: Calendar },
+            { id: 'documents', label: t('vault.tabs.documents'), icon: FileText },
             { id: 'maintenance', label: t('vault.tabs.maintenance'), icon: Wrench },
             { id: 'inspections', label: t('vault.tabs.inspections'), icon: Shield },
+            { id: 'voting', label: t('vault.tabs.voting'), icon: Vote },
             { id: 'chat', label: t('vault.tabs.chat'), icon: MessageSquare },
           ].map((tab) => (
             <button
@@ -292,6 +294,118 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
                     </div>
                     <p className="text-xs text-gray-500 mb-1">{format(new Date(item.date), 'MMMM d, yyyy')}</p>
                     <p className="text-sm text-primary italic">"{item.notes}"</p>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+
+            {activeTab === 'documents' && (
+              <motion.div
+                key="documents"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="space-y-4"
+              >
+                {[
+                  { name: 'SPV Certificate of Incorporation', date: '2023-10-15', size: '1.2 MB' },
+                  { name: 'Ownership Deed', date: '2023-10-15', size: '2.4 MB' },
+                  { name: 'Comprehensive Insurance Policy', date: '2024-01-01', size: '3.1 MB' }
+                ].map((doc, idx) => (
+                  <div key={idx} className={`flex items-center justify-between p-6 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10 ${lang === 'AR' ? 'flex-row-reverse' : ''}`}>
+                    <div className={`flex items-center space-x-4 ${lang === 'AR' ? 'space-x-reverse' : ''}`}>
+                      <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center">
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <div className={lang === 'AR' ? 'text-right' : ''}>
+                        <p className="text-sm font-bold text-primary">{doc.name}</p>
+                        <p className="text-xs text-gray-500">{format(new Date(doc.date), 'MMM d, yyyy')} • {doc.size}</p>
+                      </div>
+                    </div>
+                    <button 
+                      onClick={() => alert('Downloading document...')}
+                      className="p-3 bg-white text-primary rounded-xl shadow-sm hover:bg-gray-50 transition-colors"
+                    >
+                      <Download className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+
+            {activeTab === 'voting' && (
+              <motion.div
+                key="voting"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                className="space-y-6"
+              >
+                {[
+                  { 
+                    id: 1, 
+                    title: 'Sell Asset at 15% Premium', 
+                    desc: 'We received a private offer to buy the asset at a 15% premium over the current market value. Should we proceed?', 
+                    status: 'Active',
+                    yes: 45,
+                    no: 10,
+                    deadline: '2024-05-01'
+                  },
+                  { 
+                    id: 2, 
+                    title: 'Approve AED 15,000 Custom Wrap', 
+                    desc: 'Proposal to apply a custom matte black wrap to protect the original paint and increase resale value.', 
+                    status: 'Passed',
+                    yes: 80,
+                    no: 20,
+                    deadline: '2024-02-15'
+                  }
+                ].map((poll) => (
+                  <div key={poll.id} className="p-6 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
+                    <div className={`flex items-start justify-between mb-4 ${lang === 'AR' ? 'flex-row-reverse' : ''}`}>
+                      <div className={lang === 'AR' ? 'text-right' : ''}>
+                        <div className={`flex items-center space-x-2 mb-2 ${lang === 'AR' ? 'space-x-reverse' : ''}`}>
+                          <span className={`px-2 py-1 text-[10px] font-bold uppercase tracking-widest rounded-md ${poll.status === 'Active' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'}`}>
+                            {poll.status}
+                          </span>
+                          {poll.status === 'Active' && (
+                            <span className="text-xs text-gray-500">Ends {format(new Date(poll.deadline), 'MMM d')}</span>
+                          )}
+                        </div>
+                        <h4 className="text-base font-bold text-primary mb-1">{poll.title}</h4>
+                        <p className="text-sm text-gray-500">{poll.desc}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3 mt-6">
+                      <div className={`flex items-center justify-between text-xs font-bold text-gray-500 ${lang === 'AR' ? 'flex-row-reverse' : ''}`}>
+                        <span>Yes ({poll.yes}%)</span>
+                        <span>No ({poll.no}%)</span>
+                      </div>
+                      <div className={`w-full h-2 bg-gray-200 rounded-full overflow-hidden flex ${lang === 'AR' ? 'flex-row-reverse' : ''}`}>
+                        <div className="h-full bg-green-500" style={{ width: `${poll.yes}%` }} />
+                        <div className="h-full bg-red-500" style={{ width: `${poll.no}%` }} />
+                      </div>
+                      
+                      {poll.status === 'Active' && (
+                        <div className={`flex space-x-3 mt-6 ${lang === 'AR' ? 'space-x-reverse' : ''}`}>
+                          <button 
+                            onClick={() => alert('Vote recorded: YES')}
+                            className="flex-1 py-3 bg-white border border-gray-200 text-green-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-50 hover:border-green-200 transition-all flex items-center justify-center"
+                          >
+                            <CheckCircle2 className="w-4 h-4 mr-2" />
+                            Vote Yes
+                          </button>
+                          <button 
+                            onClick={() => alert('Vote recorded: NO')}
+                            className="flex-1 py-3 bg-white border border-gray-200 text-red-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-50 hover:border-red-200 transition-all flex items-center justify-center"
+                          >
+                            <X className="w-4 h-4 mr-2" />
+                            Vote No
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </motion.div>
