@@ -33,6 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               displayName: currentUser.displayName || '',
               photoURL: currentUser.photoURL || '',
               role: 'user',
+              kycStatus: 'unverified',
               createdAt: new Date().toISOString()
             });
           }

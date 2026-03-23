@@ -13,7 +13,17 @@ service cloud.firestore {
     //   - displayName: string (optional)
     //   - photoURL: string (optional)
     //   - role: string (required, 'admin' or 'user')
+    //   - kycStatus: string (required, 'unverified', 'pending', 'verified', 'rejected')
     //   - createdAt: string (required)
+    //
+    // Collection: agreements
+    // Document ID: {agreementId}
+    // Fields:
+    //   - userId: string (required)
+    //   - assetId: string (required)
+    //   - signatureData: string (required)
+    //   - ipAddress: string (optional)
+    //   - signedAt: string (required)
     //
     // Collection: portfolio
     // Document ID: {portfolioId}
@@ -76,6 +86,19 @@ service cloud.firestore {
     //   - status: string (required, 'pending', 'resolved', 'dismissed')
     //   - createdAt: timestamp (required)
     //
+    // Collection: assets
+    // Document ID: {assetId}
+    // Fields:
+    //   - name: string (required)
+    //   - description: string (required)
+    //   - category: string (required)
+    //   - subcategory: string (required)
+    //   - pricePerShare: number (required)
+    //   - totalShares: number (required)
+    //   - availableShares: number (required)
+    //   - imageUrl: string (required)
+    //   - specs: map (optional)
+    //
     // ===============================================================
 
     // ===============================================================
@@ -129,13 +152,23 @@ service cloud.firestore {
     // Domain Validators
     // ===============================================================
     function isValidUser() {
-      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'role', 'createdAt']) &&
+      return hasOnlyAllowedFields(['uid', 'email', 'displayName', 'photoURL', 'role', 'kycStatus', 'createdAt']) &&
              request.resource.data.uid is string && request.resource.data.uid.size() > 0 && request.resource.data.uid.size() < 100 &&
              request.resource.data.email is string && isValidEmail(request.resource.data.email) &&
              (!('displayName' in request.resource.data) || (request.resource.data.displayName is string && request.resource.data.displayName.size() <= 100)) &&
              (!('photoURL' in request.resource.data) || (request.resource.data.photoURL is string && request.resource.data.photoURL.size() <= 500)) &&
              request.resource.data.role in ['admin', 'user'] &&
+             request.resource.data.kycStatus in ['unverified', 'pending', 'verified', 'rejected'] &&
              isValidDateString(request.resource.data.createdAt);
+    }
+
+    function isValidAgreement() {
+      return hasOnlyAllowedFields(['userId', 'assetId', 'signatureData', 'ipAddress', 'signedAt']) &&
+             request.resource.data.userId is string && request.resource.data.userId == request.auth.uid &&
+             request.resource.data.assetId is string && request.resource.data.assetId.size() > 0 && request.resource.data.assetId.size() < 100 &&
+             request.resource.data.signatureData is string && request.resource.data.signatureData.size() > 0 && request.resource.data.signatureData.size() < 1000000 &&
+             (!('ipAddress' in request.resource.data) || (request.resource.data.ipAddress is string && request.resource.data.ipAddress.size() <= 100)) &&
+             isValidDateString(request.resource.data.signedAt);
     }
 
     function isValidPortfolioItem() {
@@ -210,10 +243,37 @@ service cloud.firestore {
     // Rules
     // ===============================================================
 
+    function isValidAsset() {
+      return hasOnlyAllowedFields(['name', 'description', 'category', 'subcategory', 'pricePerShare', 'totalShares', 'availableShares', 'imageUrl', 'specs']) &&
+             request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() < 200 &&
+             request.resource.data.description is string && request.resource.data.description.size() > 0 && request.resource.data.description.size() < 5000 &&
+             request.resource.data.category is string && request.resource.data.category.size() > 0 && request.resource.data.category.size() < 100 &&
+             request.resource.data.subcategory is string && request.resource.data.subcategory.size() > 0 && request.resource.data.subcategory.size() < 100 &&
+             request.resource.data.pricePerShare is number && request.resource.data.pricePerShare > 0 &&
+             request.resource.data.totalShares is number && request.resource.data.totalShares > 0 &&
+             request.resource.data.availableShares is number && request.resource.data.availableShares >= 0 && request.resource.data.availableShares <= request.resource.data.totalShares &&
+             request.resource.data.imageUrl is string && request.resource.data.imageUrl.size() > 0 && request.resource.data.imageUrl.size() < 1000 &&
+             (!('specs' in request.resource.data) || request.resource.data.specs is map);
+    }
+
     match /users/{userId} {
       allow read: if isOwner(userId) || isAdmin();
-      allow create: if isAuthenticated() && isValidUser() && isOwner(userId) && uidUnchanged() && ((request.resource.data.role == 'user') || isAdmin());
-      allow update: if isAuthenticated() && isValidUser() && isOwner(userId) && uidNotModified() && ((request.resource.data.role == resource.data.role) || isAdmin()) && request.resource.data.createdAt == resource.data.createdAt;
+      allow create: if isAuthenticated() && isValidUser() && isOwner(userId) && uidUnchanged() && ((request.resource.data.role == 'user') || isAdmin()) && request.resource.data.kycStatus == 'unverified';
+      allow update: if isAuthenticated() && isValidUser() && isOwner(userId) && uidNotModified() && ((request.resource.data.role == resource.data.role) || isAdmin()) && ((request.resource.data.kycStatus == resource.data.kycStatus) || isAdmin() || (resource.data.kycStatus == 'unverified' && request.resource.data.kycStatus in ['pending', 'verified'])) && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
+    }
+
+    match /assets/{assetId} {
+      allow read: if true;
+      allow create: if isAdmin() && isValidAsset();
+      allow update: if isAdmin() && isValidAsset() || (isAuthenticated() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['availableShares']) && request.resource.data.availableShares >= 0 && request.resource.data.availableShares <= resource.data.availableShares);
+      allow delete: if isAdmin();
+    }
+
+    match /agreements/{agreementId} {
+      allow read: if isAuthenticated() && request.auth.uid == resource.data.userId || isAdmin();
+      allow create: if isAuthenticated() && isValidAgreement();
+      allow update: if false; // Agreements are immutable
       allow delete: if isAdmin();
     }
 

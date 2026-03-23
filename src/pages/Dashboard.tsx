@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../store/auth';
-import { ASSETS } from '../data/assets';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, AnimatePresence } from 'motion/react';
 import { PieChart, Wallet, Car, TrendingUp, ChevronRight, ShoppingBag, Tag, ArrowUpRight, BarChart3, Info, X } from 'lucide-react';
-import { collection, query, where, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, addDoc, serverTimestamp, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
 import { VaultAssetDetails } from '../components/VaultAssetDetails';
+import { seedAssets } from '../utils/seedAssets';
+import { useAssets } from '../hooks/useAssets';
 import { 
   AreaChart, 
   Area, 
@@ -56,6 +57,7 @@ const ALLOCATION_DATA = [
 export const Dashboard = () => {
   const { user, isAuthReady } = useAuth();
   const { t } = useLanguage();
+  const { assets, loading: assetsLoading } = useAssets();
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [listings, setListings] = useState<MarketplaceListing[]>([]);
   const [loading, setLoading] = useState(true);
@@ -65,6 +67,23 @@ export const Dashboard = () => {
   const [listingAsset, setListingAsset] = useState<any>(null);
   const [listingPrice, setListingPrice] = useState('');
   const [listingShares, setListingShares] = useState(1);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      if (user && user.uid !== 'demo-user-123') {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists() && userDoc.data().role === 'admin') {
+            setIsAdmin(true);
+          }
+        } catch (error) {
+          console.error("Error checking admin status", error);
+        }
+      }
+    };
+    checkAdmin();
+  }, [user]);
 
   useEffect(() => {
     if (!isAuthReady || !user) {
@@ -198,7 +217,7 @@ export const Dashboard = () => {
   }
 
   const portfolioAssets = portfolio.map(p => {
-    const asset = ASSETS.find(a => a.id === p.assetId);
+    const asset = assets.find(a => a.id === p.assetId);
     return {
       ...asset,
       sharesOwned: p.shares,
@@ -214,7 +233,7 @@ export const Dashboard = () => {
       <SEO 
         title={t('seo.dashboard.title')}
         description={t('seo.dashboard.desc')}
-        canonical="https://coshare.ae/dashboard"
+        canonical="https://coshare.ai/dashboard"
       />
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
@@ -224,6 +243,14 @@ export const Dashboard = () => {
           </div>
           
           <div className="flex bg-white/50 backdrop-blur-md p-1 rounded-2xl border border-white/20 shadow-sm">
+            {isAdmin && (
+              <button
+                onClick={seedAssets}
+                className="flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-white bg-red-600 hover:bg-red-700 mr-2"
+              >
+                <span>Seed Assets</span>
+              </button>
+            )}
             {[
               { id: 'holdings', label: t('dashboard.tabs.holdings'), icon: Wallet },
               { id: 'analytics', label: t('dashboard.tabs.analytics'), icon: BarChart3 },
@@ -568,7 +595,7 @@ export const Dashboard = () => {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {listings.map((listing) => {
-                    const asset = ASSETS.find(a => a.id === listing.assetId);
+                    const asset = assets.find(a => a.id === listing.assetId);
                     if (!asset) return null;
 
                     return (

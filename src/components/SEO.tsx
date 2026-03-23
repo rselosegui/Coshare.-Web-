@@ -12,7 +12,7 @@ interface SEOProps {
 export const SEO: React.FC<SEOProps> = ({ 
   title = "Coshare | Fractional Ownership of Assets in UAE", 
   description = "Join the future of ownership. Co-own cars, yachts, real estate and more in the UAE with Coshare's AI-powered fractional ownership marketplace.",
-  canonical = "https://coshare.ae",
+  canonical = "https://coshare.ai",
   image = "https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1741689564993_image.png",
   type = 'website'
 }) => {
@@ -20,8 +20,8 @@ export const SEO: React.FC<SEOProps> = ({
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Coshare",
-    "url": "https://coshare.ae",
-    "logo": "https://coshare.ae/logo.png",
+    "url": "https://coshare.ai",
+    "logo": "https://coshare.ai/logo.png",
     "description": "Premium fractional ownership platform for luxury assets in the UAE.",
     "address": {
       "@type": "PostalAddress",
@@ -29,8 +29,8 @@ export const SEO: React.FC<SEOProps> = ({
       "addressCountry": "AE"
     },
     "sameAs": [
-      "https://instagram.com/coshare.ae",
-      "https://linkedin.com/company/coshare-ae"
+      "https://instagram.com/coshare.ai",
+      "https://linkedin.com/company/coshare-ai"
     ]
   };
 

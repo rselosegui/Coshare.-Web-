@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ASSETS, AssetCategory, AssetSubcategory } from '../data/assets';
+import { AssetCategory, AssetSubcategory } from '../data/assets';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, AnimatePresence } from 'motion/react';
@@ -7,10 +7,12 @@ import { Filter, Search, Home, Ship, Car, Watch, LayoutGrid, Bike, Sparkles, X, 
 import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
+import { useAssets } from '../hooks/useAssets';
 
 export const Assets = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const { assets } = useAssets();
   const [activeCategory, setActiveCategory] = useState<AssetCategory | 'All'>('All');
   const [activeSubcategory, setActiveSubcategory] = useState<AssetSubcategory | 'All'>('All');
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
@@ -18,13 +20,13 @@ export const Assets = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  const filteredAssets = ASSETS.filter(asset => {
+  const filteredAssets = assets.filter(asset => {
     if (activeCategory !== 'All' && asset.category !== activeCategory) return false;
     if (activeSubcategory !== 'All' && asset.subcategory !== activeSubcategory) return false;
     return true;
   });
 
-  const subcategories = Array.from(new Set(ASSETS.map(a => a.subcategory)));
+  const subcategories = Array.from(new Set(assets.map(a => a.subcategory)));
 
   const handleNotifySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +57,7 @@ export const Assets = () => {
       <SEO 
         title={t('seo.assets.title')}
         description={t('seo.assets.desc')}
-        canonical="https://coshare.ae/assets"
+        canonical="https://coshare.ai/assets"
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-12">
@@ -124,7 +126,7 @@ export const Assets = () => {
               All {activeCategory}
             </button>
             {subcategories
-              .filter(sub => ASSETS.find(a => a.subcategory === sub && a.category === activeCategory))
+              .filter(sub => assets.find(a => a.subcategory === sub && a.category === activeCategory))
               .map(sub => (
                 <button
                   key={sub}

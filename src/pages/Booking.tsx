@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../store/auth';
-import { ASSETS } from '../data/assets';
 import { motion, AnimatePresence } from 'motion/react';
 import { format, addDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isWithinInterval, isBefore } from 'date-fns';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Info, CheckCircle, MessageSquare, ArrowLeftRight, X } from 'lucide-react';
 import { collection, query, where, onSnapshot, addDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { useAssets } from '../hooks/useAssets';
 
 interface PortfolioItem {
   id: string;
@@ -24,6 +24,7 @@ interface BookingItem {
 
 export const Booking = () => {
   const { user, isAuthReady } = useAuth();
+  const { assets } = useAssets();
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [bookings, setBookings] = useState<BookingItem[]>([]);
   const [selectedAssetId, setSelectedAssetId] = useState<string>('');
@@ -111,7 +112,7 @@ export const Booking = () => {
   }
 
   const portfolioAssets = portfolio.map(p => {
-    const asset = ASSETS.find(a => a.id === p.assetId);
+    const asset = assets.find(a => a.id === p.assetId);
     return { ...asset, ...p };
   }).filter(a => a.id !== undefined);
 
@@ -308,7 +309,7 @@ export const Booking = () => {
             <div className="flex space-x-4 overflow-x-auto pb-4 no-scrollbar">
               {bookings.length > 0 ? (
                 bookings.map(booking => {
-                  const asset = ASSETS.find(a => a.id === booking.assetId);
+                  const asset = assets.find(a => a.id === booking.assetId);
                   return (
                     <motion.div 
                       key={booking.id}

@@ -70,7 +70,7 @@ export const ListOnboarding = () => {
       <SEO 
         title="List Your Asset | Coshare Onboarding"
         description="List your luxury asset for fractional ownership on Coshare. Invite friends, split expenses, and manage your asset with AI-powered tools."
-        canonical="https://coshare.ae/list"
+        canonical="https://coshare.ai/list"
       />
       <div className="max-w-2xl mx-auto w-full">
         {/* Progress Bar */}

@@ -1,26 +1,90 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ASSETS } from '../data/assets';
 import { useLanguage } from '../store/language';
 import { useAuth } from '../store/auth';
 import { SEO } from '../components/SEO';
 import { motion } from 'motion/react';
 import { ArrowLeft, Share, Heart, MapPin, Calendar, Shield, Info, Calculator, CheckCircle, FileText, Lock, UserCheck, CreditCard, X, Apple, TrendingUp, Wrench, Play, ChevronLeft, ChevronRight as ChevronRightIcon } from 'lucide-react';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { handleFirestoreError, OperationType } from '../utils/firestoreErrorHandler';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { PaymentForm } from '../components/PaymentForm';
+import { useAssets } from '../hooks/useAssets';
+
+// Initialize Stripe outside of component to avoid recreating the object
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_dummy');
 
 export const AssetDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { user } = useAuth();
-  const asset = ASSETS.find(a => a.id === id);
+  const { assets, loading } = useAssets();
+  const asset = assets.find(a => a.id === id);
   const [selectedShares, setSelectedShares] = useState(1);
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [purchaseSuccess, setPurchaseSuccess] = useState(false);
   const [showCheckoutModal, setShowCheckoutModal] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState(1); // 1: KYC, 2: Legal, 3: Payment
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [kycStatus, setKycStatus] = useState<string>('unverified');
+  const [isKycLoading, setIsKycLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchKycStatus = async () => {
+      if (user && user.uid !== 'demo-user-123') {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            setKycStatus(userDoc.data().kycStatus || 'unverified');
+          }
+        } catch (error) {
+          console.error("Error fetching KYC status", error);
+        }
+      }
+    };
+    fetchKycStatus();
+  }, [user]);
+
+  useEffect(() => {
+    if (checkoutStep === 3 && asset && !clientSecret) {
+      // Fetch client secret when entering payment step
+      const fetchPaymentIntent = async () => {
+        try {
+          const response = await fetch('/api/create-payment-intent', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              amount: asset.pricePerShare * selectedShares,
+              assetId: asset.id,
+              shares: selectedShares
+            }),
+          });
+          const data = await response.json();
+          if (data.clientSecret) {
+            setClientSecret(data.clientSecret);
+          }
+        } catch (error) {
+          console.error('Failed to create payment intent:', error);
+        }
+      };
+      
+      // Don't fetch for demo user to avoid errors if backend isn't fully set up
+      if (user?.uid !== 'demo-user-123') {
+        fetchPaymentIntent();
+      }
+    }
+  }, [checkoutStep, asset, selectedShares, clientSecret, user]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f8f9fa]">
+        <div className="w-8 h-8 border-4 border-[#256ab1] border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   if (!asset) {
     return (
@@ -45,7 +109,7 @@ export const AssetDetails = () => {
     },
     "offers": {
       "@type": "Offer",
-      "url": `https://coshare.ae/assets/${asset.id}`,
+      "url": `https://coshare.ai/assets/${asset.id}`,
       "priceCurrency": "AED",
       "price": asset.pricePerShare,
       "availability": "https://schema.org/InStock"
@@ -59,6 +123,51 @@ export const AssetDetails = () => {
     }
     setShowCheckoutModal(true);
     setCheckoutStep(1);
+  };
+
+  const handleKycSubmit = async () => {
+    if (user?.uid === 'demo-user-123') {
+      setCheckoutStep(2);
+      return;
+    }
+
+    setIsKycLoading(true);
+    try {
+      // In a real app, this would integrate with Sumsub/Jumio
+      // For MVP, we simulate verification success
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      await updateDoc(doc(db, 'users', user!.uid), {
+        kycStatus: 'verified'
+      });
+      setKycStatus('verified');
+      setCheckoutStep(2);
+    } catch (error) {
+      handleFirestoreError(error, OperationType.UPDATE, `users/${user?.uid}`);
+    } finally {
+      setIsKycLoading(false);
+    }
+  };
+
+  const handleAgreementSign = async () => {
+    if (user?.uid === 'demo-user-123') {
+      setCheckoutStep(3);
+      return;
+    }
+
+    try {
+      const now = new Date().toISOString();
+      await addDoc(collection(db, 'agreements'), {
+        userId: user!.uid,
+        assetId: asset!.id,
+        signatureData: 'simulated_signature_hash_' + Date.now(),
+        ipAddress: '192.168.1.1', // Simulated
+        signedAt: now
+      });
+      setCheckoutStep(3);
+    } catch (error) {
+      handleFirestoreError(error, OperationType.CREATE, 'agreements');
+    }
   };
 
   const handlePurchase = async () => {
@@ -104,6 +213,12 @@ export const AssetDetails = () => {
         acquiredAt: now
       });
 
+      // Update available shares
+      const assetRef = doc(db, 'assets', asset.id);
+      await updateDoc(assetRef, {
+        availableShares: asset.availableShares - selectedShares
+      });
+
       setPurchaseSuccess(true);
       setTimeout(() => {
         navigate('/dashboard');
@@ -122,7 +237,7 @@ export const AssetDetails = () => {
         description={asset.description}
         image={asset.imageUrl}
         type="product"
-        canonical={`https://coshare.ae/assets/${asset.id}`}
+        canonical={`https://coshare.ai/assets/${asset.id}`}
       />
       <script type="application/ld+json">
         {JSON.stringify(productSchema)}
@@ -407,12 +522,22 @@ export const AssetDetails = () => {
                   </div>
                   
                   <div className="bg-[#f8f9fa] border border-gray-200 rounded-2xl p-6 text-center border-dashed">
-                    <UserCheck className="w-12 h-12 text-[#256ab1] mx-auto mb-4 opacity-50" />
-                    <p className="text-sm font-medium text-[#0b1b34] mb-1">{t('asset.checkout.verify')}</p>
-                    <p className="text-xs text-gray-500 mb-4">{t('asset.checkout.passport.desc')}</p>
-                    <button className="px-6 py-2 bg-white border border-gray-200 rounded-full text-sm font-bold text-[#0b1b34] hover:bg-gray-50 transition-colors">
-                      {t('asset.checkout.continue')}
-                    </button>
+                    <UserCheck className={`w-12 h-12 mx-auto mb-4 ${kycStatus === 'verified' ? 'text-green-500' : 'text-[#256ab1] opacity-50'}`} />
+                    <p className="text-sm font-medium text-[#0b1b34] mb-1">
+                      {kycStatus === 'verified' ? 'Identity Verified' : t('asset.checkout.verify')}
+                    </p>
+                    <p className="text-xs text-gray-500 mb-4">
+                      {kycStatus === 'verified' ? 'Your identity has been successfully verified.' : t('asset.checkout.passport.desc')}
+                    </p>
+                    {kycStatus !== 'verified' && (
+                      <button 
+                        onClick={handleKycSubmit}
+                        disabled={isKycLoading}
+                        className="px-6 py-2 bg-white border border-gray-200 rounded-full text-sm font-bold text-[#0b1b34] hover:bg-gray-50 transition-colors disabled:opacity-50"
+                      >
+                        {isKycLoading ? 'Verifying...' : 'Start Verification'}
+                      </button>
+                    )}
                   </div>
                   
                   <div className="flex items-center p-4 bg-blue-50 text-blue-800 rounded-xl text-xs font-medium">
@@ -420,7 +545,11 @@ export const AssetDetails = () => {
                     {t('asset.checkout.verify.desc')}
                   </div>
 
-                  <button onClick={() => setCheckoutStep(2)} className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors">
+                  <button 
+                    onClick={() => setCheckoutStep(2)} 
+                    disabled={kycStatus !== 'verified' && user?.uid !== 'demo-user-123'}
+                    className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors disabled:opacity-50"
+                  >
                     {t('asset.checkout.continue')}
                   </button>
                 </motion.div>
@@ -452,8 +581,8 @@ export const AssetDetails = () => {
                     <button onClick={() => setCheckoutStep(1)} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors">
                       {t('asset.checkout.back')}
                     </button>
-                    <button onClick={() => setCheckoutStep(3)} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors">
-                      {t('asset.checkout.continue')}
+                    <button onClick={handleAgreementSign} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors">
+                      Sign & Continue
                     </button>
                   </div>
                 </motion.div>
@@ -474,23 +603,69 @@ export const AssetDetails = () => {
                     </div>
                     
                     <div className="space-y-4">
-                      <label className="flex items-center justify-between p-4 border-2 border-[#256ab1] bg-white rounded-xl cursor-pointer">
-                        <div className="flex items-center">
-                          <input type="radio" name="payment" defaultChecked className="w-4 h-4 text-[#256ab1] border-gray-300 focus:ring-[#256ab1]" />
-                          <span className="ml-3 font-bold text-[#0b1b34]">{t('asset.checkout.card')}</span>
+                      {clientSecret ? (
+                        <Elements stripe={stripePromise} options={{ clientSecret }}>
+                          <PaymentForm 
+                            amount={asset.pricePerShare * selectedShares} 
+                            onSuccess={handlePurchase}
+                            onCancel={() => setCheckoutStep(2)}
+                          />
+                        </Elements>
+                      ) : user?.uid === 'demo-user-123' ? (
+                        <div className="space-y-3">
+                          <button 
+                            onClick={handlePurchase} 
+                            disabled={isPurchasing} 
+                            className="w-full py-4 bg-black text-white font-bold rounded-2xl hover:bg-black/90 transition-all flex justify-center items-center group relative overflow-hidden"
+                          >
+                            <Apple className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                            Pay with Apple Pay
+                          </button>
+                          
+                          <button 
+                            onClick={handlePurchase} 
+                            disabled={isPurchasing} 
+                            className="w-full py-4 bg-white border-2 border-gray-200 text-[#0b1b34] font-bold rounded-2xl hover:bg-gray-50 transition-all flex justify-center items-center"
+                          >
+                            <div className="flex items-center">
+                              <span className="text-blue-600">G</span>
+                              <span className="text-red-500">o</span>
+                              <span className="text-yellow-500">o</span>
+                              <span className="text-blue-600">g</span>
+                              <span className="text-green-500">l</span>
+                              <span className="text-red-500">e</span>
+                              <span className="ml-1">Pay</span>
+                            </div>
+                          </button>
+
+                          <div className="flex items-center py-4">
+                            <div className="flex-1 h-px bg-gray-100" />
+                            <span className="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Or pay with card</span>
+                            <div className="flex-1 h-px bg-gray-100" />
+                          </div>
+
+                          <div className="flex space-x-4">
+                            <button onClick={() => setCheckoutStep(2)} disabled={isPurchasing} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50">
+                              {t('asset.checkout.back')}
+                            </button>
+                            <button onClick={handlePurchase} disabled={isPurchasing} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors flex justify-center items-center disabled:opacity-50">
+                              {isPurchasing ? (
+                                <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                              ) : (
+                                `${t('asset.checkout.pay')} AED ${(asset.pricePerShare * selectedShares).toLocaleString()}`
+                              )}
+                            </button>
+                          </div>
                         </div>
-                        <CreditCard className="w-5 h-5 text-[#256ab1]" />
-                      </label>
-                      <label className="flex items-center justify-between p-4 border-2 border-transparent bg-white rounded-xl cursor-pointer hover:border-gray-200 transition-colors">
-                        <div className="flex items-center">
-                          <input type="radio" name="payment" className="w-4 h-4 text-[#256ab1] border-gray-300 focus:ring-[#256ab1]" />
-                          <span className="ml-3 font-bold text-gray-600">{t('asset.checkout.bank')}</span>
+                      ) : (
+                        <div className="flex justify-center items-center py-8">
+                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#256ab1]"></div>
                         </div>
-                      </label>
+                      )}
                     </div>
                   </div>
 
-                  {purchaseSuccess ? (
+                  {purchaseSuccess && (
                     <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center justify-center py-4">
                       <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
                         <CheckCircle className="w-8 h-8 text-green-600" />
@@ -498,52 +673,6 @@ export const AssetDetails = () => {
                       <h4 className="text-xl font-bold text-[#0b1b34] mb-2">{t('asset.checkout.success')}</h4>
                       <p className="text-sm text-gray-500 text-center">{t('asset.checkout.success.desc')}</p>
                     </motion.div>
-                  ) : (
-                    <div className="space-y-3">
-                      <button 
-                        onClick={handlePurchase} 
-                        disabled={isPurchasing} 
-                        className="w-full py-4 bg-black text-white font-bold rounded-2xl hover:bg-black/90 transition-all flex justify-center items-center group relative overflow-hidden"
-                      >
-                        <Apple className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                        Pay with Apple Pay
-                      </button>
-                      
-                      <button 
-                        onClick={handlePurchase} 
-                        disabled={isPurchasing} 
-                        className="w-full py-4 bg-white border-2 border-gray-200 text-[#0b1b34] font-bold rounded-2xl hover:bg-gray-50 transition-all flex justify-center items-center"
-                      >
-                        <div className="flex items-center">
-                          <span className="text-blue-600">G</span>
-                          <span className="text-red-500">o</span>
-                          <span className="text-yellow-500">o</span>
-                          <span className="text-blue-600">g</span>
-                          <span className="text-green-500">l</span>
-                          <span className="text-red-500">e</span>
-                          <span className="ml-1">Pay</span>
-                        </div>
-                      </button>
-
-                      <div className="flex items-center py-4">
-                        <div className="flex-1 h-px bg-gray-100" />
-                        <span className="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Or pay with card</span>
-                        <div className="flex-1 h-px bg-gray-100" />
-                      </div>
-
-                      <div className="flex space-x-4">
-                        <button onClick={() => setCheckoutStep(2)} disabled={isPurchasing} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50">
-                          {t('asset.checkout.back')}
-                        </button>
-                        <button onClick={handlePurchase} disabled={isPurchasing} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors flex justify-center items-center disabled:opacity-50">
-                          {isPurchasing ? (
-                            <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                          ) : (
-                            `${t('asset.checkout.pay')} AED ${(asset.pricePerShare * selectedShares).toLocaleString()}`
-                          )}
-                        </button>
-                      </div>
-                    </div>
                   )}
                 </motion.div>
               )}

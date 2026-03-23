@@ -27,13 +27,47 @@
           "enum": ["admin", "user"],
           "description": "The user's role."
         },
+        "kycStatus": {
+          "type": "string",
+          "enum": ["unverified", "pending", "verified", "rejected"],
+          "description": "The KYC verification status of the user."
+        },
         "createdAt": {
           "type": "string",
           "format": "date-time",
           "description": "When the user was created."
         }
       },
-      "required": ["uid", "email", "role", "createdAt"]
+      "required": ["uid", "email", "role", "kycStatus", "createdAt"]
+    },
+    "Agreement": {
+      "title": "Agreement",
+      "description": "Represents a signed legal agreement for fractional ownership.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who signed."
+        },
+        "assetId": {
+          "type": "string",
+          "description": "The ID of the asset."
+        },
+        "signatureData": {
+          "type": "string",
+          "description": "The base64 signature or reference."
+        },
+        "ipAddress": {
+          "type": "string",
+          "description": "The IP address at the time of signing."
+        },
+        "signedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the agreement was signed."
+        }
+      },
+      "required": ["userId", "assetId", "signatureData", "signedAt"]
     },
     "PortfolioItem": {
       "title": "PortfolioItem",
@@ -271,6 +305,10 @@
     "users/{userId}": {
       "schema": { "$ref": "#/entities/UserProfile" },
       "description": "Stores user profiles."
+    },
+    "agreements/{agreementId}": {
+      "schema": { "$ref": "#/entities/Agreement" },
+      "description": "Stores signed legal agreements."
     },
     "portfolio/{portfolioId}": {
       "schema": { "$ref": "#/entities/PortfolioItem" },
