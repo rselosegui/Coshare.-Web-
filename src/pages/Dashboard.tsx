@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../store/auth';
 import { useLanguage } from '../store/language';
+import { formatCurrency } from '../lib/format';
 import { SEO } from '../components/SEO';
 import { motion, AnimatePresence } from 'motion/react';
 import { PieChart, Wallet, Car, TrendingUp, ChevronRight, ShoppingBag, Tag, ArrowUpRight, BarChart3, Info, X } from 'lucide-react';
@@ -56,7 +57,7 @@ const ALLOCATION_DATA = [
 
 export const Dashboard = () => {
   const { user, isAuthReady } = useAuth();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { assets, loading: assetsLoading } = useAssets();
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [listings, setListings] = useState<MarketplaceListing[]>([]);
@@ -186,7 +187,7 @@ export const Dashboard = () => {
   const handleBuyFromMarketplace = async (listing: MarketplaceListing) => {
     if (!user) return;
     // In a real app, this would trigger a payment flow and transfer shares
-    alert(`Initiating purchase of ${listing.shares} share(s) from ${listing.sellerName} for AED ${listing.pricePerShare.toLocaleString()}`);
+    alert(`Initiating purchase of ${listing.shares} share(s) from ${listing.sellerName} for ${formatCurrency(listing.pricePerShare, lang)}`);
   };
 
   const handleCancelListing = async (listingId: string) => {
@@ -229,7 +230,7 @@ export const Dashboard = () => {
   const totalAssets = portfolioAssets.length;
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f8f9fa] py-16 md:py-24 px-4 sm:px-6 lg:px-8">
       <SEO 
         title={t('seo.dashboard.title')}
         description={t('seo.dashboard.desc')}
@@ -277,7 +278,7 @@ export const Dashboard = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative overflow-hidden bg-white/40 backdrop-blur-xl p-6 rounded-[2rem] border border-white/40 shadow-xl shadow-blue-500/5 group"
+            className="relative overflow-hidden bg-white/40 backdrop-blur-xl p-6 rounded-3xl border border-white/40 shadow-xl shadow-blue-500/5 group"
           >
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/20 transition-all duration-500" />
             <div className="flex items-center justify-between mb-4">
@@ -290,14 +291,14 @@ export const Dashboard = () => {
               </span>
             </div>
             <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('dashboard.stats.equity')}</p>
-            <h2 className="text-3xl font-display font-bold text-[#0b1b34]">AED {totalValue.toLocaleString()}</h2>
+            <h2 className="text-3xl font-display font-bold text-[#0b1b34]">{formatCurrency(totalValue, lang)}</h2>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="relative overflow-hidden bg-white/40 backdrop-blur-xl p-6 rounded-[2rem] border border-white/40 shadow-xl shadow-blue-500/5 group"
+            className="relative overflow-hidden bg-white/40 backdrop-blur-xl p-6 rounded-3xl border border-white/40 shadow-xl shadow-blue-500/5 group"
           >
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-accent/10 rounded-full blur-2xl group-hover:bg-accent/20 transition-all duration-500" />
             <div className="flex items-center justify-between mb-4">
@@ -313,7 +314,7 @@ export const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="relative overflow-hidden bg-white/40 backdrop-blur-xl p-6 rounded-[2rem] border border-white/40 shadow-xl shadow-blue-500/5 group"
+            className="relative overflow-hidden bg-white/40 backdrop-blur-xl p-6 rounded-3xl border border-white/40 shadow-xl shadow-blue-500/5 group"
           >
             <div className="absolute -right-4 -top-4 w-24 h-24 bg-green-500/10 rounded-full blur-2xl group-hover:bg-green-500/20 transition-all duration-500" />
             <div className="flex items-center justify-between mb-4">
@@ -323,7 +324,7 @@ export const Dashboard = () => {
               <span className="text-xs font-bold text-gray-500 bg-gray-500/10 px-3 py-1 rounded-full">{t('dashboard.stats.estAnnual')}</span>
             </div>
             <p className="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">{t('dashboard.stats.yield')}</p>
-            <h2 className="text-3xl font-display font-bold text-[#0b1b34]">AED {(totalValue * 0.08).toLocaleString()}</h2>
+            <h2 className="text-3xl font-display font-bold text-[#0b1b34]">{formatCurrency(totalValue * 0.08, lang)}</h2>
           </motion.div>
         </div>
 
@@ -338,7 +339,7 @@ export const Dashboard = () => {
             >
               <h2 className="text-2xl font-display font-bold text-[#0b1b34] mb-6">{t('dashboard.holdings.title')}</h2>
               {portfolioAssets.length === 0 ? (
-                <div className="bg-white rounded-[2rem] p-12 text-center border border-gray-100 shadow-sm">
+                <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm">
                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <Wallet className="w-10 h-10 text-gray-300" />
                   </div>
@@ -355,7 +356,7 @@ export const Dashboard = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
-                      className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-gray-100 flex flex-col sm:flex-row group cursor-pointer hover:shadow-2xl hover:border-primary/20 transition-all duration-500"
+                      className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 flex flex-col sm:flex-row group cursor-pointer hover:shadow-xl hover:-translate-y-1 hover:border-primary/20 transition-all duration-500"
                       onClick={() => setSelectedAssetForDetails(asset)}
                     >
                       <div className="sm:w-2/5 h-48 sm:h-auto relative overflow-hidden">
@@ -384,7 +385,7 @@ export const Dashboard = () => {
                           <div className="flex justify-between items-end">
                             <div>
                               <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t('dashboard.holdings.equityValue')}</p>
-                              <p className="text-xl font-bold text-[#0b1b34]">AED {asset.totalValue.toLocaleString()}</p>
+                              <p className="text-xl font-bold text-[#0b1b34]">{formatCurrency(asset.totalValue, lang)}</p>
                             </div>
                             <div className="flex space-x-2">
                               <button 
@@ -428,7 +429,7 @@ export const Dashboard = () => {
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Performance Chart */}
-                <div className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 shadow-xl shadow-blue-500/5">
+                <div className="bg-white/60 backdrop-blur-xl p-8 rounded-3xl border border-white/40 shadow-xl shadow-blue-500/5">
                   <div className="flex items-center justify-between mb-8">
                     <div>
                       <h3 className="text-xl font-display font-bold text-[#0b1b34]">{t('dashboard.analytics.growth')}</h3>
@@ -460,7 +461,7 @@ export const Dashboard = () => {
                           axisLine={false} 
                           tickLine={false} 
                           tick={{ fontSize: 10, fontWeight: 600, fill: '#9ca3af' }}
-                          tickFormatter={(value) => `AED ${value / 1000000}M`}
+                          tickFormatter={(value) => `${formatCurrency(value / 1000000, lang).replace('.00', '')}M`}
                         />
                         <Tooltip 
                           contentStyle={{ 
@@ -486,7 +487,7 @@ export const Dashboard = () => {
                 </div>
 
                 {/* Asset Allocation */}
-                <div className="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/40 shadow-xl shadow-blue-500/5">
+                <div className="bg-white/60 backdrop-blur-xl p-8 rounded-3xl border border-white/40 shadow-xl shadow-blue-500/5">
                   <div className="flex items-center justify-between mb-8">
                     <div>
                       <h3 className="text-xl font-display font-bold text-[#0b1b34]">{t('dashboard.analytics.allocation')}</h3>
@@ -542,7 +543,7 @@ export const Dashboard = () => {
               </div>
 
               {/* Insights Section */}
-              <div className="bg-[#0b1b34] rounded-[2.5rem] p-8 text-white relative overflow-hidden">
+              <div className="bg-[#0b1b34] rounded-3xl p-8 text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -mr-32 -mt-32" />
                 <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
                   <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xl shadow-accent/20">
@@ -554,7 +555,7 @@ export const Dashboard = () => {
                       {t('dashboard.insight.desc')}
                     </p>
                   </div>
-                  <button className="ml-auto px-6 py-3 bg-white text-primary rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-accent transition-colors whitespace-nowrap">
+                  <button className="ml-auto px-6 py-3 bg-white text-primary rounded-full font-bold text-xs uppercase tracking-widest hover:bg-accent transition-all hover:scale-105 active:scale-95 shadow-sm whitespace-nowrap">
                     {t('dashboard.insight.cta')}
                   </button>
                 </div>
@@ -582,13 +583,13 @@ export const Dashboard = () => {
               </div>
 
               {listings.length === 0 ? (
-                <div className="bg-white rounded-[2rem] p-12 text-center border border-gray-100 shadow-sm">
+                <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm">
                   <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                     <ShoppingBag className="w-10 h-10 text-gray-300" />
                   </div>
                   <p className="text-gray-500 mb-2 text-lg">{t('dashboard.marketplace.empty')}</p>
                   <p className="text-sm text-gray-400 mb-6">{t('dashboard.marketplace.firstListing')}</p>
-                  <button onClick={() => setActiveTab('holdings')} className="px-8 py-3 bg-[#0b1b34] text-white rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[#0b1b34]/90 transition-all">
+                  <button onClick={() => setActiveTab('holdings')} className="px-8 py-3 bg-[#0b1b34] text-white rounded-full font-bold uppercase tracking-widest text-xs hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#0b1b34]/20">
                     {t('dashboard.tabs.holdings')}
                   </button>
                 </div>
@@ -603,7 +604,7 @@ export const Dashboard = () => {
                         key={listing.id}
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-gray-100 flex flex-col hover:shadow-xl transition-all duration-300"
+                        className="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                       >
                         <div className="h-40 relative">
                           <img 
@@ -625,7 +626,7 @@ export const Dashboard = () => {
                           <div className="flex justify-between items-center mb-6">
                             <div>
                               <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t('dashboard.resale.pricePerShare')}</p>
-                              <p className="text-xl font-bold text-[#0b1b34]">AED {listing.pricePerShare.toLocaleString()}</p>
+                              <p className="text-xl font-bold text-[#0b1b34]">{formatCurrency(listing.pricePerShare, lang)}</p>
                             </div>
                             <div className="text-right">
                               <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t('dashboard.resale.sharesOwned')}</p>
@@ -675,7 +676,7 @@ export const Dashboard = () => {
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden"
+              className="bg-white w-full max-w-md rounded-3xl p-8 shadow-2xl relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl -mr-16 -mt-16" />
               
@@ -739,24 +740,24 @@ export const Dashboard = () => {
                     />
                     <div className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 font-bold">AED</div>
                   </div>
-                  <p className="text-[10px] text-gray-400 mt-2 italic">{t('dashboard.resale.recommended')}: AED {(listingAsset.totalValue / listingAsset.sharesOwned).toLocaleString()}</p>
+                  <p className="text-[10px] text-gray-400 mt-2 italic">{t('dashboard.resale.recommended')}: {formatCurrency(listingAsset.totalValue / listingAsset.sharesOwned, lang)}</p>
                 </div>
 
                 <div className="p-4 bg-blue-50 rounded-2xl border border-blue-100">
                   <div className="flex justify-between text-xs font-bold mb-2">
                     <span className="text-gray-500">{t('dashboard.resale.totalValue')}</span>
-                    <span className="text-[#0b1b34]">AED {(parseFloat(listingPrice || '0') * listingShares).toLocaleString()}</span>
+                    <span className="text-[#0b1b34]">{formatCurrency(parseFloat(listingPrice || '0') * listingShares, lang)}</span>
                   </div>
                   <div className="flex justify-between text-xs font-bold">
                     <span className="text-gray-500">{t('dashboard.resale.serviceFee')}</span>
-                    <span className="text-red-500">- AED {(parseFloat(listingPrice || '0') * listingShares * 0.025).toLocaleString()}</span>
+                    <span className="text-red-500">- {formatCurrency(parseFloat(listingPrice || '0') * listingShares * 0.025, lang)}</span>
                   </div>
                 </div>
 
                 <button
                   type="submit"
                   disabled={isListing}
-                  className="w-full py-4 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-2xl hover:bg-[#0b1b34]/90 transition-all shadow-lg shadow-blue-900/10 flex items-center justify-center active:scale-95"
+                  className="w-full py-4 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#0b1b34]/20 flex items-center justify-center"
                 >
                   {isListing ? (
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

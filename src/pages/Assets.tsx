@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AssetCategory, AssetSubcategory } from '../data/assets';
 import { useLanguage } from '../store/language';
+import { formatCurrency } from '../lib/format';
 import { SEO } from '../components/SEO';
 import { motion, AnimatePresence } from 'motion/react';
 import { Filter, Search, Home, Ship, Car, Watch, LayoutGrid, Bike, Sparkles, X, Mail, CheckCircle2 } from 'lucide-react';
@@ -10,7 +11,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { useAssets } from '../hooks/useAssets';
 
 export const Assets = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const navigate = useNavigate();
   const { assets } = useAssets();
   const [activeCategory, setActiveCategory] = useState<AssetCategory | 'All'>('All');
@@ -53,7 +54,7 @@ export const Assets = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] py-12">
+    <div className="min-h-screen bg-[#f8f9fa] py-16 md:py-24">
       <SEO 
         title={t('seo.assets.title')}
         description={t('seo.assets.desc')}
@@ -72,10 +73,10 @@ export const Assets = () => {
               <input
                 type="text"
                 placeholder={t('assets.search')}
-                className="w-full md:w-64 pl-11 pr-4 py-3 border border-gray-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#256ab1] bg-white shadow-sm"
+                className="w-full md:w-64 pl-11 pr-4 py-3 border border-gray-200 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-[#256ab1] bg-white shadow-sm"
               />
             </div>
-            <button className="p-3 border border-gray-200 rounded-2xl bg-white hover:bg-gray-50 transition-colors shadow-sm">
+            <button className="p-3 border border-gray-200 rounded-full bg-white hover:bg-gray-50 transition-colors shadow-sm">
               <Filter className="w-5 h-5 text-gray-600" />
             </button>
           </div>
@@ -86,7 +87,7 @@ export const Assets = () => {
           <div className="flex overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap gap-3 sm:gap-4">
             <button
               onClick={() => { setActiveCategory('All'); setActiveSubcategory('All'); }}
-              className={`flex-shrink-0 flex items-center px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-widest transition-all shadow-sm ${
+              className={`flex-shrink-0 flex items-center px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-widest transition-all shadow-sm ${
                 activeCategory === 'All' ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50'
               }`}
             >
@@ -102,7 +103,7 @@ export const Assets = () => {
               <button
                 key={cat.id}
                 onClick={() => { setActiveCategory(cat.id as AssetCategory); setActiveSubcategory('All'); }}
-                className={`flex-shrink-0 flex items-center px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-widest transition-all shadow-sm ${
+                className={`flex-shrink-0 flex items-center px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold uppercase tracking-widest transition-all shadow-sm ${
                   activeCategory === cat.id ? 'bg-[#0b1b34] text-white' : 'bg-white text-gray-500 border border-gray-100 hover:bg-gray-50'
                 }`}
               >
@@ -115,7 +116,7 @@ export const Assets = () => {
           <div className="absolute right-0 top-0 bottom-4 w-12 bg-gradient-to-l from-[#f8f9fa] to-transparent pointer-events-none md:hidden" />
         </div>
 
-        {activeCategory !== 'All' && (
+        {activeCategory !== 'All' && activeCategory !== 'Yachts' && (
           <div className="flex overflow-x-auto no-scrollbar pb-4 -mx-4 px-4 md:mx-0 md:px-0 md:flex-wrap gap-3 mb-8 border-b border-gray-200">
             <button
               onClick={() => setActiveSubcategory('All')}
@@ -141,16 +142,53 @@ export const Assets = () => {
           </div>
         )}
 
+        {/* Yachts Coming Soon Banner */}
+        {activeCategory === 'Yachts' && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative w-full h-[500px] rounded-3xl overflow-hidden mb-12 group"
+          >
+            <div className="absolute inset-0 z-0">
+              <img 
+                src="https://images.unsplash.com/photo-1546412414-e1885259563a?auto=format&fit=crop&q=80&w=2000" 
+                alt="Sailing boat with Dubai skyline"
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+              />
+            </div>
+            <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#0b1b34] via-[#0b1b34]/60 to-transparent opacity-90" />
+            
+            <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center p-8">
+              <span className="px-4 py-1.5 bg-white/10 backdrop-blur-md text-white text-xs font-bold uppercase tracking-widest rounded-full border border-white/20 mb-6">
+                Coming Soon
+              </span>
+              <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 max-w-3xl">
+                The Ultimate UAE Experience.
+              </h2>
+              <p className="text-lg md:text-xl text-gray-300 max-w-2xl mb-10">
+                Co-own a boat with your friends, family, or partners and sail into adventure. Coming soon.
+              </p>
+              <button 
+                onClick={() => setIsNotifyModalOpen(true)}
+                className="px-8 py-4 bg-white text-[#0b1b34] rounded-full font-bold text-lg hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/5"
+              >
+                Join Yacht Waitlist
+              </button>
+            </div>
+          </motion.div>
+        )}
+
         {/* Asset Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredAssets.map((asset, index) => (
-            <motion.div
-              key={asset.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
+        {activeCategory !== 'Yachts' && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredAssets.map((asset, index) => (
+              <motion.div
+                key={asset.id}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               onClick={() => navigate(`/assets/${asset.id}`)}
-              className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group cursor-pointer flex flex-col"
+              className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer flex flex-col"
             >
               <div className="relative h-72 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent z-10" />
@@ -176,7 +214,7 @@ export const Assets = () => {
                 <div className="mt-auto pt-4 border-t border-gray-100 flex justify-between items-center">
                   <div>
                     <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.pricePerShare')}</p>
-                    <p className="text-lg font-bold text-[#256ab1]">AED {asset.pricePerShare.toLocaleString()}</p>
+                    <p className="text-lg font-bold text-[#256ab1]">{formatCurrency(asset.pricePerShare, lang)}</p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.available')}</p>
@@ -217,8 +255,9 @@ export const Assets = () => {
             </motion.div>
           ))}
         </div>
+        )}
 
-        {filteredAssets.length === 0 && (
+        {filteredAssets.length === 0 && activeCategory !== 'Yachts' && (
           <div className="text-center py-24">
             <h3 className="text-xl font-medium text-gray-900 mb-2">{t('assets.empty')}</h3>
             <p className="text-gray-500">{t('assets.empty.desc')}</p>
@@ -241,7 +280,7 @@ export const Assets = () => {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl overflow-hidden"
             >
               <button 
                 onClick={() => setIsNotifyModalOpen(false)}
@@ -280,13 +319,13 @@ export const Assets = () => {
                         value={notifyEmail}
                         onChange={(e) => setNotifyEmail(e.target.value)}
                         placeholder="your@email.com"
-                        className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#256ab1] transition-all"
+                        className="w-full px-6 py-4 bg-gray-50 border border-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-[#256ab1] transition-all"
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-2xl hover:bg-[#0b1b34]/90 transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0b1b34]/20"
                     >
                       {isSubmitting ? t('assets.notify.joining') : t('assets.notify.join')}
                     </button>

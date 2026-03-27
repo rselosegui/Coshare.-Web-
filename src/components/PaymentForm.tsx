@@ -65,14 +65,14 @@ export function PaymentForm({ amount, onSuccess, onCancel }: PaymentFormProps) {
           type="button"
           onClick={onCancel}
           disabled={isProcessing}
-          className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors disabled:opacity-50"
+          className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-sm"
         >
           Back
         </button>
         <button 
           type="submit"
           disabled={!stripe || isProcessing}
-          className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors disabled:opacity-50 flex justify-center items-center"
+          className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 flex justify-center items-center shadow-lg shadow-[#0b1b34]/20"
         >
           {isProcessing ? (
             <>

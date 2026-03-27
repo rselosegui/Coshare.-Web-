@@ -66,7 +66,7 @@ export const ListOnboarding = () => {
   const handleBack = () => setStep(s => Math.max(s - 1, 1));
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] py-8 md:py-12 px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
+    <div className="min-h-screen bg-[#f8f9fa] py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
       <SEO 
         title="List Your Asset | Coshare Onboarding"
         description="List your luxury asset for fractional ownership on Coshare. Invite friends, split expenses, and manage your asset with AI-powered tools."
@@ -106,7 +106,7 @@ export const ListOnboarding = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-[2rem] md:rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 p-6 md:p-12 min-h-[400px] relative overflow-hidden">
+        <div className="bg-white rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 p-6 md:p-12 min-h-[400px] relative overflow-hidden">
           {/* Exit Button */}
           {step < 3 && (
             <button 
@@ -193,7 +193,7 @@ export const ListOnboarding = () => {
                   <button
                     onClick={handleNext}
                     disabled={!formData.category || !formData.subcategory}
-                    className="w-full sm:w-auto px-8 py-3.5 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0b1b34]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg shadow-[#0b1b34]/20 active:scale-95"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg shadow-[#0b1b34]/20 active:scale-95"
                   >
                     Continue <ChevronRight className="ml-2 w-4 h-4" />
                   </button>
@@ -318,14 +318,14 @@ export const ListOnboarding = () => {
                 <div className="mt-8 md:mt-12 flex flex-col sm:flex-row justify-between items-center gap-4">
                   <button
                     onClick={handleBack}
-                    className="w-full sm:w-auto px-8 py-3.5 bg-white text-gray-500 font-bold text-xs uppercase tracking-widest rounded-full border border-gray-100 hover:bg-gray-50 transition-all active:scale-95 order-2 sm:order-1"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-white text-gray-500 font-bold text-xs uppercase tracking-widest rounded-full border border-gray-100 hover:scale-105 transition-all active:scale-95 order-2 sm:order-1"
                   >
                     Back
                   </button>
                   <button
                     onClick={handleNext}
                     disabled={!formData.location || !agreedToTerms || isSubmitting}
-                    className="w-full sm:w-auto px-10 py-3.5 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#0b1b34]/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg shadow-[#0b1b34]/20 active:scale-95 order-1 sm:order-2"
+                    className="w-full sm:w-auto px-10 py-3.5 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg shadow-[#0b1b34]/20 active:scale-95 order-1 sm:order-2"
                   >
                     {isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -382,7 +382,7 @@ export const ListOnboarding = () => {
 
                 <button
                   onClick={() => window.location.href = '/'}
-                  className="w-full sm:w-auto px-12 py-4 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-[0.2em] rounded-full hover:bg-[#0b1b34]/90 transition-all shadow-xl shadow-[#0b1b34]/20 active:scale-95"
+                  className="w-full sm:w-auto px-12 py-4 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-[0.2em] rounded-full hover:scale-105 transition-all shadow-xl shadow-[#0b1b34]/20 active:scale-95"
                 >
                   Return to Marketplace
                 </button>

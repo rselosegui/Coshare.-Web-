@@ -19,11 +19,13 @@ export const Layout = () => {
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showNavLinks, setShowNavLinks] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+      setShowNavLinks(window.scrollY > window.innerHeight * 0.35);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -72,7 +74,7 @@ export const Layout = () => {
           : "bg-transparent py-4"
       )}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-12">
+          <div className="flex justify-between items-center h-12 relative">
             <div className="flex items-center space-x-6">
               <Link to={user ? "/assets" : "/"} className="font-display font-bold text-2xl tracking-tighter text-primary">
                 <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
@@ -90,6 +92,19 @@ export const Layout = () => {
               )}
             </div>
 
+            {/* Centered Navigation Links (Desktop) */}
+            {location.pathname === '/' && (
+              <div className={cn(
+                "hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2 transition-all duration-500",
+                showNavLinks ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
+              )}>
+                <Link to="/assets" className="text-sm font-bold text-[#05A7E8] hover:text-[#49bee4] transition-colors">{t('nav.marketplace')}</Link>
+                <a href="#how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</a>
+                <a href="#use-cases" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.useCases')}</a>
+                <a href="#faq" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.faq')}</a>
+              </div>
+            )}
+
             <div className="flex items-center space-x-4">
               <button 
                 onClick={toggleLang}
@@ -103,7 +118,7 @@ export const Layout = () => {
                 <div className="flex items-center space-x-3">
                   <Link
                     to="/login"
-                    className="inline-flex items-center justify-center px-5 py-2 text-xs font-bold uppercase tracking-widest text-on-primary bg-primary rounded-full hover:bg-primary/90 transition-all hover:scale-105"
+                    className="inline-flex items-center justify-center px-5 py-2 text-xs font-bold uppercase tracking-widest text-on-primary bg-primary rounded-full hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/5"
                   >
                     {t('nav.signin')}
                   </Link>
@@ -231,7 +246,7 @@ export const Layout = () => {
                 href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center bg-black text-white px-5 py-2.5 rounded-xl border border-white/10 hover:bg-gray-900 transition-all mb-8 group"
+                className="flex items-center bg-black text-white px-5 py-2.5 rounded-full border border-white/10 hover:bg-gray-900 transition-all hover:scale-105 active:scale-95 mb-8 group"
               >
                 <Apple className="w-7 h-7 mr-3 group-hover:scale-110 transition-transform" />
                 <div className="text-left">

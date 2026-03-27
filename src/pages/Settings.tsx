@@ -234,7 +234,7 @@ export const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-surface py-12">
+    <div className="min-h-screen bg-surface py-16 md:py-24">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -246,7 +246,7 @@ export const Settings = () => {
               <h2 className="text-xs font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 ml-4">
                 {section.title}
               </h2>
-              <div className="bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20">
+              <div className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20">
                 {section.items.map((item, itemIdx) => (
                   <button
                     key={item.id}
@@ -275,7 +275,7 @@ export const Settings = () => {
 
           {/* Danger Zone */}
           <div className="pt-8">
-            <button className="w-full p-6 bg-red-50 rounded-[2rem] border border-red-100 text-center group hover:bg-red-100 transition-colors">
+            <button className="w-full p-6 bg-red-50 rounded-3xl border border-red-100 text-center group hover:bg-red-100 transition-colors">
               <p className="text-sm font-bold text-red-600">Delete Account</p>
               <p className="text-[10px] font-medium text-red-400 uppercase tracking-widest mt-1">
                 This action is permanent and cannot be undone
@@ -300,7 +300,7 @@ export const Settings = () => {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden"
+              className="relative w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden"
             >
               <div className="p-8">
                 <div className="flex justify-between items-center mb-8">
@@ -318,7 +318,7 @@ export const Settings = () => {
                 <div className="mt-8">
                   <button 
                     onClick={() => setActiveModal(null)}
-                    className="w-full py-4 bg-primary text-on-primary text-xs font-bold uppercase tracking-widest rounded-full hover:bg-primary/90 transition-all"
+                    className="w-full py-4 bg-primary text-on-primary text-xs font-bold uppercase tracking-widest rounded-full hover:scale-105 active:scale-95 transition-all shadow-lg"
                   >
                     Done
                   </button>

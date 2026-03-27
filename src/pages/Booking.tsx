@@ -281,7 +281,7 @@ export const Booking = () => {
       <div className="flex-1 h-screen overflow-y-auto custom-scrollbar bg-surface">
         <div className="max-w-3xl mx-auto p-4 sm:p-8 lg:p-16">
           {/* Asset Context Header (Mobile/Small screens) */}
-          <div className="lg:hidden mb-8 p-6 bg-primary rounded-[2rem] text-white shadow-xl">
+          <div className="lg:hidden mb-8 p-6 bg-primary rounded-3xl text-white shadow-xl">
             <div className="flex justify-between items-start mb-4">
               <div>
                 <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-1">Currently Booking</p>
@@ -315,7 +315,7 @@ export const Booking = () => {
                       key={booking.id}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="flex-shrink-0 w-64 bg-white dark:bg-gray-900 p-6 rounded-[2rem] border border-gray-100 dark:border-white/10 shadow-sm"
+                      className="flex-shrink-0 w-64 bg-white dark:bg-gray-900 p-6 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm"
                     >
                       <div className="flex items-center space-x-3 mb-4">
                         <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
@@ -436,7 +436,7 @@ export const Booking = () => {
             exit={{ y: 100, opacity: 0 }}
             className="fixed bottom-12 left-1/2 -translate-x-1/2 w-[90%] max-w-xl z-[100]"
           >
-            <div className="bg-primary/80 backdrop-blur-2xl border border-white/10 p-6 rounded-[2.5rem] shadow-2xl flex items-center justify-between">
+            <div className="bg-primary/80 backdrop-blur-2xl border border-white/10 p-6 rounded-full shadow-2xl flex items-center justify-between">
               <div>
                 <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Confirm Selection</p>
                 <p className="text-sm font-bold text-white">
@@ -480,7 +480,7 @@ export const Booking = () => {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-md bg-white rounded-3xl p-8 shadow-2xl overflow-hidden"
             >
               <button 
                 onClick={() => setShowSwapModal(false)}
@@ -526,7 +526,7 @@ export const Booking = () => {
                       setSwapSuccess(false);
                     }, 2000);
                   }}
-                  className="w-full py-4 bg-primary text-white font-bold rounded-2xl hover:bg-primary/90 transition-all active:scale-[0.98] shadow-lg shadow-primary/20"
+                  className="w-full py-4 bg-primary text-white font-bold rounded-full hover:scale-105 transition-all active:scale-95 shadow-lg shadow-primary/20"
                 >
                   Propose Swap
                 </button>

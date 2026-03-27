@@ -21,7 +21,7 @@ export const Dock = () => {
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="flex items-center justify-around bg-surface/80 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.2)] rounded-[2.5rem] px-2 py-2 pointer-events-auto"
+        className="flex items-center justify-around bg-surface/80 backdrop-blur-2xl border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.2)] rounded-full px-2 py-2 pointer-events-auto"
       >
         <div className="flex items-center justify-between w-full">
           {navItems.map((item) => {
@@ -32,12 +32,12 @@ export const Dock = () => {
                 key={item.name}
                 to={item.path}
                 className={cn(
-                  "relative flex flex-col items-center justify-center flex-1 h-16 rounded-3xl transition-all duration-300 group active:scale-90",
+                  "relative flex flex-col items-center justify-center flex-1 h-16 rounded-full transition-all duration-300 group active:scale-90",
                   isActive ? "text-primary" : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
                 )}
               >
                 <div className={cn(
-                  "p-2.5 rounded-2xl transition-all duration-300",
+                  "p-2.5 rounded-full transition-all duration-300",
                   isActive && "bg-primary/10"
                 )}>
                   <Icon className={cn("w-6 h-6 transition-transform group-hover:scale-110", isActive && "stroke-[2.5px]")} />

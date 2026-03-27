@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
+import { formatCurrency } from '../lib/format';
 import { useAuth } from '../store/auth';
 import { SEO } from '../components/SEO';
 import { motion } from 'motion/react';
@@ -19,7 +20,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 
 export const AssetDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { user } = useAuth();
   const { assets, loading } = useAssets();
   const asset = assets.find(a => a.id === id);
@@ -377,12 +378,12 @@ export const AssetDetails = () => {
               <div className="mb-6">
                 <p className="text-sm text-gray-500 uppercase tracking-wider mb-1">{t('asset.pricePerShare')}</p>
                 <div className="flex items-end">
-                  <h2 className="text-4xl font-display font-bold text-[#0b1b34]">AED {asset.pricePerShare.toLocaleString()}</h2>
+                  <h2 className="text-4xl font-display font-bold text-[#0b1b34]">{formatCurrency(asset.pricePerShare, lang)}</h2>
                 </div>
               </div>
 
               {/* Dynamic Calculator / Usage Simulator */}
-              <div className="bg-[#f8f9fa] rounded-[2rem] p-6 mb-8 border border-gray-100 shadow-inner">
+              <div className="bg-[#f8f9fa] rounded-3xl p-6 mb-8 border border-gray-100 shadow-inner">
                 <div className="flex items-center justify-between mb-6">
                   <div className="flex items-center text-[#0b1b34]">
                     <Calculator className="w-5 h-5 mr-2 text-[#256ab1]" />
@@ -432,7 +433,7 @@ export const AssetDetails = () => {
                       <Wrench className="w-3 h-3 mr-1" />
                       <span className="text-[9px] font-bold uppercase tracking-widest">Maint.</span>
                     </div>
-                    <p className="text-lg font-bold text-[#0b1b34]">AED {Math.round((asset.pricePerShare * 0.02) * selectedShares).toLocaleString()}</p>
+                    <p className="text-lg font-bold text-[#0b1b34]">{formatCurrency(Math.round((asset.pricePerShare * 0.02) * selectedShares), lang)}</p>
                   </div>
                   <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
                     <div className="flex items-center text-gray-400 mb-1">
@@ -446,7 +447,7 @@ export const AssetDetails = () => {
                 <div className="pt-4 border-t border-gray-200">
                   <div className="flex justify-between items-center">
                     <span className="font-bold text-[#0b1b34] uppercase tracking-widest text-[10px]">{t('asset.calculator.total')}</span>
-                    <span className="text-2xl font-bold text-[#256ab1]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
+                    <span className="text-2xl font-bold text-[#256ab1]">{formatCurrency(asset.pricePerShare * selectedShares, lang)}</span>
                   </div>
                 </div>
               </div>
@@ -454,7 +455,7 @@ export const AssetDetails = () => {
               <button 
                 disabled={asset.availableShares === 0 || isPurchasing || purchaseSuccess}
                 onClick={handleStartPurchase}
-                className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-4 shadow-lg shadow-[#0b1b34]/20 flex justify-center items-center"
+                className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed mb-4 shadow-lg shadow-[#0b1b34]/20 flex justify-center items-center"
               >
                 {asset.availableShares === 0 ? (
                   t('asset.soldOut')
@@ -480,7 +481,7 @@ export const AssetDetails = () => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="relative w-full max-w-2xl bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
+            className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b border-gray-100">
@@ -533,7 +534,7 @@ export const AssetDetails = () => {
                       <button 
                         onClick={handleKycSubmit}
                         disabled={isKycLoading}
-                        className="px-6 py-2 bg-white border border-gray-200 rounded-full text-sm font-bold text-[#0b1b34] hover:bg-gray-50 transition-colors disabled:opacity-50"
+                        className="px-6 py-2 bg-white border border-gray-200 rounded-full text-sm font-bold text-[#0b1b34] hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-sm"
                       >
                         {isKycLoading ? 'Verifying...' : 'Start Verification'}
                       </button>
@@ -548,7 +549,7 @@ export const AssetDetails = () => {
                   <button 
                     onClick={() => setCheckoutStep(2)} 
                     disabled={kycStatus !== 'verified' && user?.uid !== 'demo-user-123'}
-                    className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors disabled:opacity-50"
+                    className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-lg shadow-[#0b1b34]/20"
                   >
                     {t('asset.checkout.continue')}
                   </button>
@@ -567,7 +568,7 @@ export const AssetDetails = () => {
                     <p className="font-bold text-[#0b1b34] text-sm mb-2">MEMBERSHIP INTEREST PURCHASE AGREEMENT</p>
                     <p>This Membership Interest Purchase Agreement (this "Agreement") is entered into as of today, by and between Coshare SPV LLC (the "Company") and the undersigned investor (the "Purchaser").</p>
                     <p>WHEREAS, the Company owns the asset described as {asset.name};</p>
-                    <p>WHEREAS, the Purchaser desires to purchase {selectedShares} membership interests (the "Shares") in the Company at a price of AED {asset.pricePerShare.toLocaleString()} per Share, for a total purchase price of AED {(asset.pricePerShare * selectedShares).toLocaleString()};</p>
+                    <p>WHEREAS, the Purchaser desires to purchase {selectedShares} membership interests (the "Shares") in the Company at a price of {formatCurrency(asset.pricePerShare, lang)} per Share, for a total purchase price of {formatCurrency(asset.pricePerShare * selectedShares, lang)};</p>
                     <p>NOW, THEREFORE, in consideration of the mutual covenants contained herein, the parties agree as follows...</p>
                     <p className="italic">[Simulated Document Content]</p>
                   </div>
@@ -578,10 +579,10 @@ export const AssetDetails = () => {
                   </label>
 
                   <div className="flex space-x-4">
-                    <button onClick={() => setCheckoutStep(1)} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-colors">
+                    <button onClick={() => setCheckoutStep(1)} className="w-1/3 py-4 bg-white border border-gray-200 text-gray-600 font-bold rounded-full hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 shadow-sm">
                       {t('asset.checkout.back')}
                     </button>
-                    <button onClick={handleAgreementSign} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-colors">
+                    <button onClick={handleAgreementSign} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#0b1b34]/20">
                       Sign & Continue
                     </button>
                   </div>
@@ -599,7 +600,7 @@ export const AssetDetails = () => {
                   <div className="bg-[#f8f9fa] rounded-2xl p-6 mb-6">
                     <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
                       <span className="text-gray-600 font-medium">{t('asset.checkout.total')}</span>
-                      <span className="text-2xl font-bold text-[#0b1b34]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
+                      <span className="text-2xl font-bold text-[#0b1b34]">{formatCurrency(asset.pricePerShare * selectedShares, lang)}</span>
                     </div>
                     
                     <div className="space-y-4">
@@ -616,7 +617,7 @@ export const AssetDetails = () => {
                           <button 
                             onClick={handlePurchase} 
                             disabled={isPurchasing} 
-                            className="w-full py-4 bg-black text-white font-bold rounded-2xl hover:bg-black/90 transition-all flex justify-center items-center group relative overflow-hidden"
+                            className="w-full py-4 bg-black text-white font-bold rounded-full hover:bg-black/90 transition-all flex justify-center items-center group relative overflow-hidden"
                           >
                             <Apple className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                             Pay with Apple Pay
@@ -625,7 +626,7 @@ export const AssetDetails = () => {
                           <button 
                             onClick={handlePurchase} 
                             disabled={isPurchasing} 
-                            className="w-full py-4 bg-white border-2 border-gray-200 text-[#0b1b34] font-bold rounded-2xl hover:bg-gray-50 transition-all flex justify-center items-center"
+                            className="w-full py-4 bg-white border-2 border-gray-200 text-[#0b1b34] font-bold rounded-full hover:bg-gray-50 transition-all flex justify-center items-center"
                           >
                             <div className="flex items-center">
                               <span className="text-blue-600">G</span>
@@ -652,7 +653,7 @@ export const AssetDetails = () => {
                               {isPurchasing ? (
                                 <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                               ) : (
-                                `${t('asset.checkout.pay')} AED ${(asset.pricePerShare * selectedShares).toLocaleString()}`
+                                `${t('asset.checkout.pay')} ${formatCurrency(asset.pricePerShare * selectedShares, lang)}`
                               )}
                             </button>
                           </div>
@@ -686,12 +687,12 @@ export const AssetDetails = () => {
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           <div className="flex flex-col">
             <span className="text-[10px] text-gray-500 uppercase tracking-widest font-bold">{t('asset.checkout.total')}</span>
-            <span className="text-lg font-bold text-[#0b1b34]">AED {(asset.pricePerShare * selectedShares).toLocaleString()}</span>
+            <span className="text-lg font-bold text-[#0b1b34]">{formatCurrency(asset.pricePerShare * selectedShares, lang)}</span>
           </div>
           <button 
             disabled={asset.availableShares === 0 || isPurchasing || purchaseSuccess}
             onClick={handleStartPurchase}
-            className="flex-1 py-3.5 bg-[#0b1b34] text-white font-bold rounded-2xl hover:bg-[#0b1b34]/90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0b1b34]/20 flex justify-center items-center text-sm"
+            className="flex-1 py-3.5 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-[#0b1b34]/20 flex justify-center items-center text-sm"
           >
             {asset.availableShares === 0 ? (
               t('asset.soldOut')

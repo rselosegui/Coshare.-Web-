@@ -134,7 +134,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
         animate={{ y: 0 }}
         exit={{ y: "100%" }}
         transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-        className="relative w-full max-w-4xl bg-white dark:bg-gray-900 rounded-t-[2.5rem] sm:rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col h-[92vh] sm:h-auto sm:max-h-[90vh]"
+        className="relative w-full max-w-4xl bg-white dark:bg-gray-900 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col h-[92vh] sm:h-auto sm:max-h-[90vh]"
       >
         {/* Mobile Drag Handle */}
         <div className="sm:hidden w-full flex justify-center pt-4 pb-2 absolute top-0 z-20 pointer-events-none">
@@ -174,7 +174,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
 
             <button 
               onClick={() => setShowDisputeForm(true)}
-              className={`flex items-center space-x-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-red-600 rounded-xl sm:rounded-2xl text-white shadow-lg hover:bg-red-700 hover:scale-105 transition-all group ${lang === 'AR' ? 'space-x-reverse' : ''}`}
+              className={`flex items-center space-x-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-red-600 rounded-full text-white shadow-lg hover:bg-red-700 hover:scale-105 active:scale-95 transition-all group ${lang === 'AR' ? 'space-x-reverse' : ''}`}
             >
               <AlertTriangle className="w-3.5 h-3.5 sm:w-4 sm:h-4 group-hover:animate-pulse" />
               <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest whitespace-nowrap">{t('vault.dispute.file')}</span>
@@ -233,7 +233,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
                   <h4 className="text-sm font-bold text-primary uppercase tracking-widest mb-4">{t('vault.overview.specs')}</h4>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {Object.entries(asset.specs || {}).map(([key, value]: [string, any]) => (
-                      <div key={key} className="p-4 bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/10">
+                      <div key={key} className="p-4 bg-gray-50 dark:bg-white/5 rounded-3xl border border-gray-100 dark:border-white/10">
                         <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{t(`vault.specs.${key}`)}</p>
                         <p className="text-xs font-bold text-primary">{value}</p>
                       </div>
@@ -324,7 +324,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
                     </div>
                     <button 
                       onClick={() => alert('Downloading document...')}
-                      className="p-3 bg-white text-primary rounded-xl shadow-sm hover:bg-gray-50 transition-colors"
+                      className="p-3 bg-white text-primary rounded-full shadow-sm hover:bg-gray-50 transition-all hover:scale-105 active:scale-95"
                     >
                       <Download className="w-4 h-4" />
                     </button>
@@ -391,14 +391,14 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
                         <div className={`flex space-x-3 mt-6 ${lang === 'AR' ? 'space-x-reverse' : ''}`}>
                           <button 
                             onClick={() => alert('Vote recorded: YES')}
-                            className="flex-1 py-3 bg-white border border-gray-200 text-green-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-green-50 hover:border-green-200 transition-all flex items-center justify-center"
+                            className="flex-1 py-3 bg-white border border-gray-200 text-green-600 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-green-50 hover:border-green-200 transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
                           >
                             <CheckCircle2 className="w-4 h-4 mr-2" />
                             Vote Yes
                           </button>
                           <button 
                             onClick={() => alert('Vote recorded: NO')}
-                            className="flex-1 py-3 bg-white border border-gray-200 text-red-600 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-red-50 hover:border-red-200 transition-all flex items-center justify-center"
+                            className="flex-1 py-3 bg-white border border-gray-200 text-red-600 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-red-50 hover:border-red-200 transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
                           >
                             <X className="w-4 h-4 mr-2" />
                             Vote No
@@ -475,7 +475,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
                   <button 
                     type="submit"
                     disabled={!newMessage.trim()}
-                    className={`absolute top-1/2 -translate-y-1/2 p-2 bg-primary text-white rounded-xl hover:scale-105 transition-transform disabled:opacity-50 disabled:hover:scale-100 ${lang === 'AR' ? 'left-3' : 'right-3'}`}
+                    className={`absolute top-1/2 -translate-y-1/2 p-2 bg-primary text-white rounded-full hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100 disabled:active:scale-100 ${lang === 'AR' ? 'left-3' : 'right-3'}`}
                   >
                     <Send className={`w-4 h-4 ${lang === 'AR' ? 'rotate-180' : ''}`} />
                   </button>
@@ -499,7 +499,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
-              className="bg-white dark:bg-gray-900 w-full max-w-md rounded-[2rem] p-8 shadow-2xl"
+              className="bg-white dark:bg-gray-900 w-full max-w-md rounded-3xl p-8 shadow-2xl"
               dir={lang === 'AR' ? 'rtl' : 'ltr'}
             >
               <div className={`flex items-center justify-between mb-6 ${lang === 'AR' ? 'flex-row-reverse' : ''}`}>
@@ -557,7 +557,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
                   <button
                     type="submit"
                     disabled={isSubmittingDispute}
-                    className="w-full py-4 bg-red-600 text-white font-bold text-xs uppercase tracking-widest rounded-xl hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center justify-center"
+                    className="w-full py-4 bg-red-600 text-white font-bold text-xs uppercase tracking-widest rounded-full hover:bg-red-700 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 disabled:hover:scale-100 disabled:active:scale-100 flex items-center justify-center"
                   >
                     {isSubmittingDispute ? (
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />

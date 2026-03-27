@@ -21,7 +21,7 @@ export const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#f8f9fa] flex flex-col justify-center py-16 md:py-24 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <button 
           onClick={() => navigate('/')}
@@ -47,14 +47,14 @@ export const Login = () => {
           <div className="space-y-4">
             <button
               onClick={handleLogin}
-              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-colors rtl:space-x-reverse"
+              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-all hover:scale-105 active:scale-95 rtl:space-x-reverse"
             >
               <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
               {t('login.google')}
             </button>
 
             <button
-              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-colors rtl:space-x-reverse"
+              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-all hover:scale-105 active:scale-95 rtl:space-x-reverse"
               onClick={() => alert(`${t('login.apple')} ${t('login.comingSoon')}`)}
             >
               <Apple className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
@@ -62,7 +62,7 @@ export const Login = () => {
             </button>
 
             <button
-              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-colors rtl:space-x-reverse"
+              className="w-full flex justify-center items-center py-3 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0b1b34] transition-all hover:scale-105 active:scale-95 rtl:space-x-reverse"
               onClick={() => alert(`${t('login.phone')} ${t('login.comingSoon')}`)}
             >
               <Smartphone className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2" />
@@ -80,7 +80,7 @@ export const Login = () => {
 
             <button
               onClick={loginDemo}
-              className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-white bg-[#256ab1] hover:bg-[#1a4b7c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#256ab1] transition-colors group rtl:space-x-reverse"
+              className="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-[#256ab1] hover:bg-[#1a4b7c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#256ab1] transition-all hover:scale-105 active:scale-95 group rtl:space-x-reverse"
             >
               <Sparkles className="w-5 h-5 mr-2 rtl:mr-0 rtl:ml-2 group-hover:animate-pulse" />
               {t('login.demo')}

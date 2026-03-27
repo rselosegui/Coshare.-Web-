@@ -265,7 +265,7 @@ service cloud.firestore {
 
     match /assets/{assetId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidAsset();
+      allow create: if isValidAsset();
       allow update: if isAdmin() && isValidAsset() || (isAuthenticated() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['availableShares']) && request.resource.data.availableShares >= 0 && request.resource.data.availableShares <= resource.data.availableShares);
       allow delete: if isAdmin();
     }

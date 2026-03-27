@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './store/auth';
@@ -21,8 +21,13 @@ import { Login } from './pages/Login';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { SEO } from './components/SEO';
 import { ScrollToTop } from './components/ScrollToTop';
+import { seedAssets } from './utils/seedAssets';
 
 export default function App() {
+  useEffect(() => {
+    seedAssets();
+  }, []);
+
   return (
     <ErrorBoundary>
       <HelmetProvider>

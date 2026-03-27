@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight } from 'lucide-react';
+import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet } from 'lucide-react';
 import { useAssets } from '../hooks/useAssets';
+import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -34,7 +35,8 @@ export const Home = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
   const { assets } = useAssets();
-  const featuredAssets = assets.slice(0, 3);
+  const featuredAssets = assets.filter(asset => asset.category === 'Cars').slice(0, 3);
+  const [activeUseCase, setActiveUseCase] = React.useState(0);
   
   const whyRef = useRef<HTMLElement>(null);
   const { scrollYProgress: whyScrollY } = useScroll({
@@ -47,7 +49,8 @@ export const Home = () => {
   const y3 = useTransform(whyScrollY, [0, 1], [120, -120]);
   const y4 = useTransform(whyScrollY, [0, 1], [60, -60]);
   const y5 = useTransform(whyScrollY, [0, 1], [100, -100]);
-  const yTransforms = [y1, y2, y3, y4, y5];
+  const y6 = useTransform(whyScrollY, [0, 1], [70, -70]);
+  const yTransforms = [y1, y2, y3, y4, y5, y6];
 
   const howRef = useRef<HTMLElement>(null);
   const { scrollYProgress: howScrollY } = useScroll({
@@ -105,14 +108,14 @@ export const Home = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
               <Link
                 to="/assets"
-                className="w-full sm:w-auto px-8 py-4 bg-white text-[#0b1b34] font-medium rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center group"
+                className="w-full sm:w-auto px-8 py-4 bg-white text-[#0b1b34] font-bold rounded-full hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/5 flex items-center justify-center group"
               >
                 {t('home.hero.start')}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 to="/list-onboarding"
-                className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white text-white font-medium rounded-full hover:bg-white/10 transition-colors flex items-center justify-center"
+                className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white text-white font-bold rounded-full hover:bg-white/10 transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
               >
                 {t('home.hero.list')}
               </Link>
@@ -179,7 +182,7 @@ export const Home = () => {
       </section>
 
       {/* Editorial Content: Why coshare. - Bento Grid Redesign */}
-      <section ref={whyRef} className="py-16 bg-[#f8f9fa] overflow-hidden">
+      <section id="why-coshare" ref={whyRef} className="py-16 bg-[#f8f9fa] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">
@@ -203,7 +206,7 @@ export const Home = () => {
                 badge: t('home.why.1.badge')
               },
               {
-                icon: ShieldCheck,
+                icon: Scale,
                 title: t('home.why.2.title'),
                 description: t('home.why.2.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
@@ -211,7 +214,7 @@ export const Home = () => {
                 badge: t('home.why.2.badge')
               },
               {
-                icon: Coffee,
+                icon: Sparkles,
                 title: t('home.why.3.title'),
                 description: t('home.why.3.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
@@ -219,20 +222,28 @@ export const Home = () => {
                 badge: t('home.why.3.badge')
               },
               {
-                icon: Zap,
+                icon: Briefcase,
                 title: t('home.why.4.title'),
                 description: t('home.why.4.desc'),
-                className: "md:col-span-6 min-h-[200px] md:min-h-[250px]",
+                className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
                 image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.4.badge')
               },
               {
-                icon: Users,
+                icon: Landmark,
                 title: t('home.why.5.title'),
                 description: t('home.why.5.desc'),
-                className: "md:col-span-6 min-h-[200px] md:min-h-[250px]",
+                className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
                 image: "https://images.unsplash.com/photo-1522158634235-47a056cc0662?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.5.badge')
+              },
+              {
+                icon: Users,
+                title: t('home.why.6.title'),
+                description: t('home.why.6.desc'),
+                className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
+                image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1000",
+                badge: t('home.why.6.badge')
               }
             ].map((feature, index) => (
               <motion.div
@@ -241,7 +252,7 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, delay: index * 0.1, ease: "easeOut" }}
-                className={`relative overflow-hidden rounded-[2.5rem] bg-white p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_50px_rgba(37,106,177,0.15)] transition-all duration-500 group border border-gray-100 hover:border-[#256ab1]/30 flex flex-col justify-between ${feature.className}`}
+                className={`relative overflow-hidden rounded-3xl bg-white p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group border border-gray-100 hover:border-[#256ab1]/30 flex flex-col justify-between ${feature.className}`}
               >
                 {/* Parallax Background Image */}
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 overflow-hidden bg-[#0b1b34]">
@@ -282,6 +293,143 @@ export const Home = () => {
         </div>
       </section>
 
+      {/* Use Cases */}
+      <section id="use-cases" className="py-24 bg-[#0b1b34] text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Who is Coshare For?</h2>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Whether you're looking for lifestyle upgrades or smart diversification, there's a place for you.
+            </p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+            {/* Left: Tabs */}
+            <div className="w-full lg:w-1/3 flex flex-col gap-4">
+              {[
+                {
+                  icon: Car,
+                  title: "The Experience Seeker",
+                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full ownership, depreciation, or maintenance.",
+                  image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000"
+                },
+                {
+                  icon: Wallet,
+                  title: "The Smart Diversifier",
+                  description: "You understand that tying up 100% capital in a single depreciating asset is inefficient. You prefer to spread your investment across multiple premium assets.",
+                  image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1000"
+                },
+                {
+                  icon: Plane,
+                  title: "The Seasonal Resident",
+                  description: "You're only in Dubai for a few months a year. Why pay for a luxury car that sits in a garage for 9 months when you can own just the fraction you use?",
+                  image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
+                },
+                {
+                  icon: HomeIcon,
+                  title: "The Aspirational Buyer",
+                  description: "You want access to the luxury lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
+                  image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
+                }
+              ].map((useCase, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveUseCase(index)}
+                  className={`text-left p-6 rounded-2xl transition-all duration-300 border ${
+                    activeUseCase === index 
+                      ? 'bg-white/10 border-[#49bee4] shadow-[0_0_30px_rgba(73,190,228,0.15)]' 
+                      : 'bg-transparent border-white/5 hover:bg-white/5'
+                  }`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                      activeUseCase === index ? 'bg-[#49bee4] text-[#0b1b34]' : 'bg-[#1a2b4c] text-[#49bee4]'
+                    }`}>
+                      <useCase.icon className="w-6 h-6" />
+                    </div>
+                    <h3 className={`text-xl font-bold transition-colors duration-300 ${
+                      activeUseCase === index ? 'text-white' : 'text-gray-400'
+                    }`}>
+                      {useCase.title}
+                    </h3>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Right: Content */}
+            <div className="w-full lg:w-2/3 relative min-h-[400px] lg:min-h-[500px] rounded-3xl overflow-hidden border border-white/10 bg-[#1a2b4c]">
+              {[
+                {
+                  icon: Car,
+                  title: "The Experience Seeker",
+                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full ownership, depreciation, or maintenance.",
+                  image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000"
+                },
+                {
+                  icon: Wallet,
+                  title: "The Smart Diversifier",
+                  description: "You understand that tying up 100% capital in a single depreciating asset is inefficient. You prefer to spread your investment across multiple premium assets.",
+                  image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1000"
+                },
+                {
+                  icon: Plane,
+                  title: "The Seasonal Resident",
+                  description: "You're only in Dubai for a few months a year. Why pay for a luxury car that sits in a garage for 9 months when you can own just the fraction you use?",
+                  image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
+                },
+                {
+                  icon: HomeIcon,
+                  title: "The Aspirational Buyer",
+                  description: "You want access to the luxury lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
+                  image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
+                }
+              ].map((useCase, index) => (
+                <motion.div
+                  key={index}
+                  initial={false}
+                  animate={{ 
+                    opacity: activeUseCase === index ? 1 : 0,
+                    scale: activeUseCase === index ? 1 : 1.05,
+                    zIndex: activeUseCase === index ? 10 : 0
+                  }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="absolute inset-0 pointer-events-none"
+                >
+                  <img 
+                    src={useCase.image} 
+                    alt={useCase.title}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34] via-[#0b1b34]/40 to-transparent" />
+                  
+                  <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ 
+                        opacity: activeUseCase === index ? 1 : 0,
+                        y: activeUseCase === index ? 0 : 20 
+                      }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                      className="max-w-2xl"
+                    >
+                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#49bee4]/20 border border-[#49bee4]/30 text-[#49bee4] text-sm font-bold mb-4 backdrop-blur-md">
+                        <useCase.icon className="w-4 h-4" />
+                        {useCase.title}
+                      </div>
+                      <p className="text-xl md:text-2xl text-white leading-relaxed font-light">
+                        {useCase.description}
+                      </p>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Assets */}
       <section className="py-16 bg-[#f8f9fa]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -292,7 +440,7 @@ export const Home = () => {
             </div>
             <Link
               to="/assets"
-              className="hidden md:flex items-center text-[#256ab1] font-medium hover:text-[#0b1b34] transition-colors"
+              className="hidden md:flex items-center text-[#256ab1] font-bold hover:text-[#0b1b34] transition-colors"
             >
               {t('home.featured.viewAll')}
               <ArrowRight className="ml-1 w-4 h-4" />
@@ -308,7 +456,7 @@ export const Home = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 onClick={() => navigate(`/assets/${asset.id}`)}
-                className="flex-shrink-0 w-[300px] sm:w-auto bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 group cursor-pointer"
+                className="flex-shrink-0 w-[300px] sm:w-auto bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
               >
                 <div className="relative h-64 sm:h-72 overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent z-10" />
@@ -355,7 +503,7 @@ export const Home = () => {
           <div className="mt-8 text-center md:hidden">
             <Link
               to="/assets"
-              className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-full text-sm font-medium text-[#0b1b34] bg-white hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-full text-sm font-bold text-[#0b1b34] bg-white hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 shadow-sm"
             >
               {t('home.featured.viewAll')}
             </Link>
@@ -364,7 +512,7 @@ export const Home = () => {
       </section>
 
       {/* How it works - Editorial Redesign */}
-      <section ref={howRef} className="bg-[#0b1b34] text-white relative">
+      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-12 md:gap-24">
             
@@ -372,31 +520,19 @@ export const Home = () => {
             <div className="w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex flex-col justify-center pt-24 md:pt-0 z-10">
               <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">{t('home.how.title')}</h2>
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-[#1a2b4c] hidden md:block">
-                <motion.img 
-                  src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=1000" 
-                  alt="List & Invite"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ opacity: img1Opacity }}
-                />
-                <motion.img 
-                  src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000" 
-                  alt="Stake & Settle"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ opacity: img2Opacity }}
-                />
-                <motion.img 
-                  src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=1000" 
-                  alt="Smart Scheduling"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ opacity: img3Opacity }}
-                />
-                <motion.img 
-                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000" 
-                  alt="AI Governance"
-                  className="absolute inset-0 w-full h-full object-cover"
-                  style={{ opacity: img4Opacity }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#0b1b34]/60 to-transparent mix-blend-overlay" />
+                <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>
+                  <Visual1 />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}>
+                  <Visual2 />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}>
+                  <Visual3 />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}>
+                  <Visual4 />
+                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#0b1b34]/60 to-transparent mix-blend-overlay pointer-events-none" />
               </div>
             </div>
 
@@ -417,28 +553,28 @@ export const Home = () => {
                     title: t('home.how.1.title'),
                     description: t('home.how.1.desc'),
                     num: '01',
-                    image: "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=1000"
+                    Visual: Visual1
                   },
                   {
                     icon: PieChart,
                     title: t('home.how.2.title'),
                     description: t('home.how.2.desc'),
                     num: '02',
-                    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1000"
+                    Visual: Visual2
                   },
                   {
                     icon: CalendarCheck,
                     title: t('home.how.3.title'),
                     description: t('home.how.3.desc'),
                     num: '03',
-                    image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=1000"
+                    Visual: Visual3
                   },
                   {
                     icon: ShieldCheck,
                     title: t('home.how.4.title'),
                     description: t('home.how.4.desc'),
                     num: '04',
-                    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1000"
+                    Visual: Visual4
                   }
                 ].map((step, index) => (
                   <motion.div 
@@ -467,12 +603,8 @@ export const Home = () => {
                       
                       <div className="relative z-10">
                         {/* Mobile Image */}
-                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10">
-                          <img 
-                            src={step.image || "https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=1000"} 
-                            alt={step.title}
-                            className="w-full h-full object-cover"
-                          />
+                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative">
+                          <step.Visual />
                         </div>
 
                         <div className="w-16 h-16 bg-[#1a2b4c] rounded-2xl flex items-center justify-center mb-6 border border-white/10 md:hidden">
@@ -492,7 +624,7 @@ export const Home = () => {
       </section>
 
       {/* FAQ Section for SEO/GEO */}
-      <section className="py-20 bg-white">
+      <section id="faq" className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h2>
@@ -515,6 +647,174 @@ export const Home = () => {
               question={t('home.faq.4.q')} 
               answer={t('home.faq.4.a')} 
             />
+          </div>
+        </div>
+      </section>
+
+      {/* App Launch CTA Section */}
+      <section className="py-24 bg-[#0b1b34] relative overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#05A7E8]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#49bee4]/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            {/* Left: Copy & CTA */}
+            <motion.div 
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 leading-tight">
+                Start Co-Owning <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">Today.</span>
+              </h2>
+              <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-lg font-light leading-relaxed">
+                Join early co-owners in Dubai sharing Porsches, Mercedes, Land Rovers, and more. Download the Coshare app to browse assets, purchase shares, and book your time instantly.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <a 
+                  href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white text-[#0b1b34] rounded-full font-bold hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 group shadow-xl shadow-white/10"
+                >
+                  <Apple className="w-6 h-6 mr-3" />
+                  <div className="text-left">
+                    <div className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">Download on the</div>
+                    <div className="text-sm leading-none mt-0.5">App Store</div>
+                  </div>
+                </a>
+                
+                <div className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white/5 border border-white/10 text-white/50 rounded-full font-medium cursor-not-allowed">
+                  <div className="text-left">
+                    <div className="text-[10px] uppercase tracking-wider text-white/40 font-medium">Android</div>
+                    <div className="text-sm leading-none mt-0.5">Coming Soon</div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-12 flex items-center gap-4">
+                <div className="flex -space-x-3">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-[#0b1b34] object-cover" />
+                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-[#0b1b34] object-cover" />
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-[#0b1b34] object-cover" />
+                  <div className="w-10 h-10 rounded-full border-2 border-[#0b1b34] bg-[#256ab1] flex items-center justify-center text-white text-xs font-bold z-10">
+                    +50
+                  </div>
+                </div>
+                <div className="text-sm text-gray-400">
+                  <span className="text-white font-bold">Early Adopters</span><br/>
+                  already co-owning
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Right: Phone Mockup */}
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative flex justify-center lg:justify-end"
+            >
+              {/* Floating Elements behind phone */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-20 -left-4 md:-left-12 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-xl z-0 hidden sm:block"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                    <ShieldCheck className="w-5 h-5 text-green-400" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-300">Asset Insured</div>
+                    <div className="text-sm font-bold text-white">Fully Covered</div>
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div 
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="absolute bottom-32 -right-4 md:-right-8 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-xl z-20 hidden sm:block"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[#05A7E8]/20 rounded-full flex items-center justify-center">
+                    <CalendarCheck className="w-5 h-5 text-[#05A7E8]" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-gray-300">Next Booking</div>
+                    <div className="text-sm font-bold text-white">Tomorrow, 10 AM</div>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Phone Frame */}
+              <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden z-10">
+                {/* Notch */}
+                <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-40 mx-auto z-20" />
+                
+                {/* Screen Content (Simulated App) */}
+                <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
+                  {/* App Header */}
+                  <div className="pt-12 pb-4 px-6 bg-white border-b border-gray-100">
+                    <div className="flex justify-between items-center mb-6">
+                      <div>
+                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Portfolio Value</p>
+                        <h3 className="text-2xl font-display font-bold text-[#0b1b34]">AED 250,000</h3>
+                      </div>
+                      <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Profile" className="w-full h-full object-cover" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* App Body */}
+                  <div className="flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar pb-20">
+                    <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                      <div className="w-full h-32 rounded-xl overflow-hidden mb-3 relative">
+                        <img src="https://images.unsplash.com/photo-1592853625511-85c19280742d?auto=format&fit=crop&q=80&w=600" alt="Ferrari" className="w-full h-full object-cover" />
+                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-[8px] font-bold text-[#0b1b34] uppercase tracking-widest">
+                          2/8 Shares
+                        </div>
+                      </div>
+                      <h4 className="font-bold text-[#0b1b34] text-sm">Ferrari SF90 Stradale</h4>
+                      <p className="text-[10px] text-gray-500 mb-2">Dubai, UAE</p>
+                      <div className="flex justify-between items-center pt-2 border-t border-gray-50">
+                        <span className="text-[10px] font-bold text-[#256ab1]">Book Time</span>
+                        <span className="text-[10px] font-bold text-gray-400">Trade Shares</span>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
+                      <div className="w-full h-32 rounded-xl overflow-hidden mb-3 relative">
+                        <img src="https://images.unsplash.com/photo-1669023030485-573b6a75ab64?auto=format&fit=crop&q=80&w=600" alt="Lambo" className="w-full h-full object-cover" />
+                        <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-[8px] font-bold text-[#0b1b34] uppercase tracking-widest">
+                          1/8 Shares
+                        </div>
+                      </div>
+                      <h4 className="font-bold text-[#0b1b34] text-sm">Lamborghini Revuelto</h4>
+                      <p className="text-[10px] text-gray-500 mb-2">Abu Dhabi, UAE</p>
+                    </div>
+                  </div>
+                  
+                  {/* App Bottom Nav */}
+                  <div className="h-16 bg-white border-t border-gray-100 flex justify-around items-center px-6 absolute bottom-0 w-full z-20">
+                    <div className="flex flex-col items-center gap-1">
+                      <PieChart className="w-5 h-5 text-[#0b1b34]" />
+                      <div className="w-1 h-1 rounded-full bg-[#0b1b34]" />
+                    </div>
+                    <Search className="w-5 h-5 text-gray-300" />
+                    <CalendarCheck className="w-5 h-5 text-gray-300" />
+                    <Users className="w-5 h-5 text-gray-300" />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
