@@ -7,6 +7,7 @@ import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkl
 import { useAssets } from '../hooks/useAssets';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
+
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
@@ -73,8 +74,8 @@ export const Home = () => {
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1742461144186_image.png"
-            alt="Luxury Car"
+            src='/assets/Coshare Hero Banner Homepage1.png' 
+            alt="Hero"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
