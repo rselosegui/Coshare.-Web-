@@ -22,7 +22,7 @@ async function startServer() {
       if (!key) {
         throw new Error('STRIPE_SECRET_KEY environment variable is required');
       }
-      stripeClient = new Stripe(key, { apiVersion: '2025-02-24.acacia' });
+      stripeClient = new Stripe(key, { apiVersion: '2026-02-25.clover' });
     }
     return stripeClient;
   }

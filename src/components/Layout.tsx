@@ -81,32 +81,37 @@ export const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-surface font-sans">
-      {/* Announcement Banner */}
-      <div className="relative overflow-hidden bg-[#0b1b34] text-white py-2 px-4 text-center text-sm font-medium flex items-center justify-center space-x-4 group">
-        {/* Enhanced shimmer effect */}
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-45deg] w-1/2"
-          animate={{ x: ['-200%', '300%'] }}
-          transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
-        />
-        <span className="relative z-10">{t('banner.text')}</span>
-        <a 
-          href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="relative z-10 inline-flex items-center text-[#49bee4] group-hover:text-white transition-colors font-bold"
-        >
-          {t('banner.cta')} <ChevronRight className="w-4 h-4 ml-1" />
-        </a>
-      </div>
+      {/* Sticky Header Container */}
+      <div className="sticky top-0 z-50 flex flex-col">
+        {/* Announcement Banner */}
+        <div className={cn(
+          "relative overflow-hidden bg-[#0b1b34] text-white py-2 px-4 text-center text-sm font-medium flex items-center justify-center space-x-4 group transition-all duration-500",
+          isScrolled ? "shadow-[0_4px_15px_rgba(0,0,0,0.15)] z-20" : "z-20"
+        )}>
+          {/* Enhanced shimmer effect */}
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-45deg] w-1/2"
+            animate={{ x: ['-200%', '300%'] }}
+            transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
+          />
+          <span className="relative z-10">{t('banner.text')}</span>
+          <a 
+            href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="relative z-10 inline-flex items-center text-[#49bee4] group-hover:text-white transition-colors font-bold"
+          >
+            {t('banner.cta')} <ChevronRight className="w-4 h-4 ml-1" />
+          </a>
+        </div>
 
-      {/* Contextual Header */}
-      <header className={cn(
-        "sticky top-0 z-50 transition-all duration-500",
-        isScrolled 
-          ? "bg-surface/80 backdrop-blur-2xl border-b border-white/10 py-2" 
-          : "bg-transparent py-4"
-      )}>
+        {/* Contextual Header */}
+        <header className={cn(
+          "transition-all duration-500 relative z-0",
+          isScrolled 
+            ? "bg-surface/80 backdrop-blur-2xl border-b border-white/10 py-2" 
+            : "bg-surface py-4"
+        )}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-12 relative">
             <div className="flex items-center space-x-6">
@@ -210,6 +215,7 @@ export const Layout = () => {
           </div>
         </div>
       </header>
+      </div>
 
       <div className="flex-1 flex flex-col">
         {/* Main Content */}
