@@ -32,6 +32,10 @@ export const AssetDetails = () => {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [kycStatus, setKycStatus] = useState<string>('unverified');
   const [isKycLoading, setIsKycLoading] = useState(false);
+  const [promoCode, setPromoCode] = useState('');
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [isPromoApplied, setIsPromoApplied] = useState(false);
+  const [promoError, setPromoError] = useState('');
 
   useEffect(() => {
     const fetchKycStatus = async () => {
@@ -54,13 +58,15 @@ export const AssetDetails = () => {
       // Fetch client secret when entering payment step
       const fetchPaymentIntent = async () => {
         try {
+          const finalAmount = Math.max(0, (asset.pricePerShare * selectedShares) - discountAmount);
           const response = await fetch('/api/create-payment-intent', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              amount: asset.pricePerShare * selectedShares,
+              amount: finalAmount,
               assetId: asset.id,
-              shares: selectedShares
+              shares: selectedShares,
+              promoCode: isPromoApplied ? promoCode : undefined
             }),
           });
           const data = await response.json();
@@ -77,7 +83,7 @@ export const AssetDetails = () => {
         fetchPaymentIntent();
       }
     }
-  }, [checkoutStep, asset, selectedShares, clientSecret, user]);
+  }, [checkoutStep, asset, selectedShares, clientSecret, user, discountAmount, isPromoApplied, promoCode]);
 
   if (loading) {
     return (
@@ -169,6 +175,27 @@ export const AssetDetails = () => {
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, 'agreements');
     }
+  };
+
+  const handleApplyPromo = () => {
+    if (!promoCode) return;
+    
+    let discount = 0;
+    if (promoCode.toUpperCase() === 'WELCOME10') {
+      discount = (asset!.pricePerShare * selectedShares) * 0.10;
+    } else if (promoCode.toUpperCase().startsWith('REF-')) {
+      discount = 500;
+    } else {
+      setPromoError(t('asset.checkout.promoInvalid'));
+      setIsPromoApplied(false);
+      setDiscountAmount(0);
+      return;
+    }
+    
+    setDiscountAmount(discount);
+    setIsPromoApplied(true);
+    setPromoError('');
+    setClientSecret(null); // Force re-fetch of payment intent
   };
 
   const handlePurchase = async () => {
@@ -519,7 +546,7 @@ export const AssetDetails = () => {
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div className="text-center mb-8">
                     <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">{t('asset.checkout.verify')}</h4>
-                    <p className="text-gray-600 text-sm">{t('asset.checkout.verify.desc')}</p>
+                    <p className="text-gray-600 text-sm">{t('asset.checkout.verifyDesc')}</p>
                   </div>
                   
                   <div className="bg-[#f8f9fa] border border-gray-200 rounded-2xl p-6 text-center border-dashed">
@@ -528,7 +555,7 @@ export const AssetDetails = () => {
                       {kycStatus === 'verified' ? 'Identity Verified' : t('asset.checkout.verify')}
                     </p>
                     <p className="text-xs text-gray-500 mb-4">
-                      {kycStatus === 'verified' ? 'Your identity has been successfully verified.' : t('asset.checkout.passport.desc')}
+                      {kycStatus === 'verified' ? 'Your identity has been successfully verified.' : t('asset.checkout.uploadDesc')}
                     </p>
                     {kycStatus !== 'verified' && (
                       <button 
@@ -543,7 +570,7 @@ export const AssetDetails = () => {
                   
                   <div className="flex items-center p-4 bg-blue-50 text-blue-800 rounded-xl text-xs font-medium">
                     <Shield className="w-4 h-4 mr-2 shrink-0" />
-                    {t('asset.checkout.verify.desc')}
+                    {t('asset.checkout.secureData')}
                   </div>
 
                   <button 
@@ -551,7 +578,7 @@ export const AssetDetails = () => {
                     disabled={kycStatus !== 'verified' && user?.uid !== 'demo-user-123'}
                     className="w-full py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-lg shadow-[#0b1b34]/20"
                   >
-                    {t('asset.checkout.continue')}
+                    {t('asset.checkout.continueLegal')}
                   </button>
                 </motion.div>
               )}
@@ -561,7 +588,7 @@ export const AssetDetails = () => {
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                   <div className="text-center mb-8">
                     <h4 className="text-2xl font-bold text-[#0b1b34] mb-2">{t('asset.checkout.agreement')}</h4>
-                    <p className="text-gray-600 text-sm">Review and sign the LLC membership agreement for {asset.name}.</p>
+                    <p className="text-gray-600 text-sm">{t('asset.checkout.reviewSign')}</p>
                   </div>
                   
                   <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 h-48 overflow-y-auto text-xs text-gray-600 space-y-4">
@@ -583,7 +610,7 @@ export const AssetDetails = () => {
                       {t('asset.checkout.back')}
                     </button>
                     <button onClick={handleAgreementSign} className="w-2/3 py-4 bg-[#0b1b34] text-white font-bold rounded-full hover:bg-[#0b1b34]/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#0b1b34]/20">
-                      Sign & Continue
+                      {t('asset.checkout.signContinue')}
                     </button>
                   </div>
                 </motion.div>
@@ -599,15 +626,67 @@ export const AssetDetails = () => {
                   
                   <div className="bg-[#f8f9fa] rounded-2xl p-6 mb-6">
                     <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200">
-                      <span className="text-gray-600 font-medium">{t('asset.checkout.total')}</span>
-                      <span className="text-2xl font-bold text-[#0b1b34]">{formatCurrency(asset.pricePerShare * selectedShares, lang)}</span>
+                      <span className="text-gray-600 font-medium">{t('asset.checkout.subtotal')}</span>
+                      <span className="text-lg font-bold text-[#0b1b34]">{formatCurrency(asset.pricePerShare * selectedShares, lang)}</span>
                     </div>
+                    
+                    {isPromoApplied && (
+                      <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-200 text-green-600">
+                        <span className="font-medium">{t('asset.checkout.discount')} ({promoCode.toUpperCase()})</span>
+                        <span className="font-bold">- {formatCurrency(discountAmount, lang)}</span>
+                      </div>
+                    )}
+
+                    <div className="flex justify-between items-center mb-6">
+                      <span className="text-gray-800 font-bold text-lg">{t('asset.checkout.total')}</span>
+                      <span className="text-2xl font-bold text-[#0b1b34]">
+                        {formatCurrency(Math.max(0, (asset.pricePerShare * selectedShares) - discountAmount), lang)}
+                      </span>
+                    </div>
+                    
+                    {/* Promo Code Input */}
+                    {!isPromoApplied ? (
+                      <div className="mb-6">
+                        <div className="flex space-x-2">
+                          <input
+                            type="text"
+                            placeholder={t('asset.checkout.promoPlaceholder')}
+                            value={promoCode}
+                            onChange={(e) => setPromoCode(e.target.value)}
+                            className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0b1b34] focus:border-transparent outline-none uppercase text-sm"
+                          />
+                          <button
+                            onClick={handleApplyPromo}
+                            disabled={!promoCode}
+                            className="px-6 py-3 bg-[#0b1b34] text-white font-bold rounded-xl hover:bg-[#0b1b34]/90 transition-colors disabled:opacity-50 text-sm"
+                          >
+                            {t('asset.checkout.apply')}
+                          </button>
+                        </div>
+                        {promoError && <p className="text-red-500 text-xs mt-2 font-medium">{promoError}</p>}
+                      </div>
+                    ) : (
+                      <div className="mb-6 flex justify-between items-center bg-green-50 px-4 py-3 rounded-xl border border-green-100">
+                        <span className="text-green-700 font-medium text-sm">{t('asset.checkout.promoSuccess')}</span>
+                        <button 
+                          onClick={() => {
+                            setIsPromoApplied(false);
+                            setDiscountAmount(0);
+                            setPromoCode('');
+                            setClientSecret(null);
+                          }}
+                          className="text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
                     
                     <div className="space-y-4">
                       {clientSecret ? (
                         <Elements stripe={stripePromise} options={{ clientSecret }}>
                           <PaymentForm 
-                            amount={asset.pricePerShare * selectedShares} 
+                            amount={Math.max(0, (asset.pricePerShare * selectedShares) - discountAmount)} 
                             onSuccess={handlePurchase}
                             onCancel={() => setCheckoutStep(2)}
                           />

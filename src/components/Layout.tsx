@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import { useLanguage } from '../store/language';
-import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple } from 'lucide-react';
+import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple, HelpCircle, ChevronRight } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { Dock } from './Dock';
@@ -41,6 +41,20 @@ export const Layout = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location]);
+
   const getPageTitle = () => {
     if (location.pathname.startsWith('/dashboard')) return t('nav.vault');
     if (location.pathname.startsWith('/assets')) return t('nav.assets');
@@ -56,6 +70,7 @@ export const Layout = () => {
     { name: t('nav.vault'), path: '/dashboard', icon: LayoutDashboard },
     { name: t('nav.booking'), path: '/booking', icon: Calendar },
     { name: t('nav.settings'), path: '/settings', icon: Settings },
+    { name: t('nav.helpFaq'), path: '/faq', icon: HelpCircle },
   ];
 
   const handleLogout = () => {
@@ -66,6 +81,25 @@ export const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-surface font-sans">
+      {/* Announcement Banner */}
+      <div className="relative overflow-hidden bg-[#0b1b34] text-white py-2 px-4 text-center text-sm font-medium flex items-center justify-center space-x-4 group">
+        {/* Enhanced shimmer effect */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-45deg] w-1/2"
+          animate={{ x: ['-200%', '300%'] }}
+          transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
+        />
+        <span className="relative z-10">{t('banner.text')}</span>
+        <a 
+          href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="relative z-10 inline-flex items-center text-[#49bee4] group-hover:text-white transition-colors font-bold"
+        >
+          {t('banner.cta')} <ChevronRight className="w-4 h-4 ml-1" />
+        </a>
+      </div>
+
       {/* Contextual Header */}
       <header className={cn(
         "sticky top-0 z-50 transition-all duration-500",
@@ -93,15 +127,15 @@ export const Layout = () => {
             </div>
 
             {/* Centered Navigation Links (Desktop) */}
-            {location.pathname === '/' && (
+            {(location.pathname === '/' || location.pathname === '/how-it-works' || location.pathname === '/faq') && (
               <div className={cn(
                 "hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2 transition-all duration-500",
-                showNavLinks ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
+                (showNavLinks || location.pathname !== '/') ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
               )}>
                 <Link to="/assets" className="text-sm font-bold text-[#05A7E8] hover:text-[#49bee4] transition-colors">{t('nav.marketplace')}</Link>
-                <a href="#how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</a>
-                <a href="#use-cases" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.useCases')}</a>
-                <a href="#faq" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.faq')}</a>
+                <Link to="/how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</Link>
+                <Link to="/#use-cases" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.useCases')}</Link>
+                <Link to="/faq" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.faq')}</Link>
               </div>
             )}
 
@@ -255,9 +289,10 @@ export const Layout = () => {
                 </div>
               </a>
               <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
+                <Link to="/how-it-works" className="hover:text-primary transition-colors">How it works</Link>
+                <Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.terms')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.privacy')}</a>
-                <a href="#" className="hover:text-primary transition-colors">{t('footer.contact')}</a>
               </div>
             </div>
           </div>

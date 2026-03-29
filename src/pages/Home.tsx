@@ -7,7 +7,6 @@ import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkl
 import { useAssets } from '../hooks/useAssets';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
-
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
@@ -74,8 +73,8 @@ export const Home = () => {
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img
-            src='/assets/Coshare Hero Banner Homepage1.png' 
-            alt="Hero"
+            src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1742461144186_image.png"
+            alt="Luxury Car"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -121,63 +120,6 @@ export const Home = () => {
                 {t('home.hero.list')}
               </Link>
             </div>
-            <a 
-              href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="mt-4 text-xs font-bold text-white/80 hover:text-white transition-all duration-500 uppercase tracking-[0.2em] flex items-center group"
-            >
-              {lang === 'EN' ? (
-                <>
-                  {t('home.hero.tryApp').split('App')[0]}
-                  <span className="relative inline-flex items-center justify-center px-6 py-2 mx-3 rounded-full bg-[#0b1b34]/40 backdrop-blur-xl border border-white/10 overflow-hidden group-hover:scale-105 transition-all duration-500 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                    {/* Spinning border spotlight */}
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                      className="absolute w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0_280deg,#05A7E8_360deg)] opacity-80"
-                    />
-                    {/* Inner dark pill to mask the center of the conic gradient */}
-                    <div className="absolute inset-[2px] bg-[#0b1b34] rounded-full" />
-                    
-                    {/* The text itself with a subtle pulse */}
-                    <motion.span 
-                      animate={{ opacity: [0.7, 1, 0.7] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="relative z-10 font-black tracking-[0.2em] text-sm text-white drop-shadow-[0_0_8px_rgba(5,167,232,0.8)]"
-                    >
-                      APP
-                    </motion.span>
-                  </span>
-                  {t('home.hero.tryApp').split('App')[1]}
-                </>
-              ) : (
-                <>
-                  {t('home.hero.tryApp').split('التطبيق')[0]}
-                  <span className="relative inline-flex items-center justify-center px-6 py-2 mx-3 rounded-full bg-[#0b1b34]/40 backdrop-blur-xl border border-white/10 overflow-hidden group-hover:scale-105 transition-all duration-500 shadow-[0_0_15px_rgba(0,0,0,0.5)]">
-                    {/* Spinning border spotlight */}
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                      className="absolute w-[200%] h-[200%] bg-[conic-gradient(from_0deg,transparent_0_280deg,#05A7E8_360deg)] opacity-80"
-                    />
-                    {/* Inner dark pill to mask the center of the conic gradient */}
-                    <div className="absolute inset-[2px] bg-[#0b1b34] rounded-full" />
-                    
-                    {/* The text itself with a subtle pulse */}
-                    <motion.span 
-                      animate={{ opacity: [0.7, 1, 0.7] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="relative z-10 font-black tracking-[0.2em] text-sm text-white drop-shadow-[0_0_8px_rgba(5,167,232,0.8)]"
-                    >
-                      التطبيق
-                    </motion.span>
-                  </span>
-                  {t('home.hero.tryApp').split('التطبيق')[1]}
-                </>
-              )}
-              <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform text-[#05A7E8] group-hover:text-[#49bee4]" />
-            </a>
           </motion.div>
         </div>
       </section>
@@ -648,6 +590,15 @@ export const Home = () => {
               question={t('home.faq.4.q')} 
               answer={t('home.faq.4.a')} 
             />
+          </div>
+          <div className="mt-12 text-center">
+            <Link 
+              to="/faq" 
+              className="inline-flex items-center px-8 py-4 bg-white border border-gray-200 text-[#0b1b34] font-bold rounded-full hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 shadow-sm group"
+            >
+              {t('home.faq.viewAll')}
+              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
       </section>

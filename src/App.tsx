@@ -18,6 +18,8 @@ import { Booking } from './pages/Booking';
 import { Profile } from './pages/Profile';
 import { Settings } from './pages/Settings';
 import { Login } from './pages/Login';
+import { HowItWorks } from './pages/HowItWorks';
+import { FAQ } from './pages/FAQ';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { SEO } from './components/SEO';
 import { ScrollToTop } from './components/ScrollToTop';
@@ -47,6 +49,8 @@ export default function App() {
                   <Route path="booking" element={<Booking />} />
                   <Route path="profile" element={<Profile />} />
                   <Route path="settings" element={<Settings />} />
+                  <Route path="how-it-works" element={<HowItWorks />} />
+                  <Route path="faq" element={<FAQ />} />
                 </Route>
               </Routes>
             </BrowserRouter>
