@@ -152,7 +152,7 @@ export const ASSETS: Asset[] = [
     pricePerShare: 45000,
     totalShares: 8,
     availableShares: 0,
-    description: 'The ultimate luxury off-roader, combining rugged capability with opulent comfort.',
+    description: 'The ultimate premium off-roader, combining rugged capability with opulent comfort.',
     specs: { year: '2023', engine: '4.0L Twin-Turbo V8', power: '577 hp', location: 'Dubai, UAE' }
   },
   {
@@ -164,7 +164,7 @@ export const ASSETS: Asset[] = [
     pricePerShare: 35000,
     totalShares: 8,
     availableShares: 2,
-    description: 'Unstoppable off-road capability meets modern luxury and V8 performance.',
+    description: 'Unstoppable off-road capability meets modern premium comfort and V8 performance.',
     specs: { year: '2023', engine: '5.0L Supercharged V8', power: '518 hp', location: 'Dubai, UAE' }
   },
   {
@@ -188,7 +188,7 @@ export const ASSETS: Asset[] = [
     pricePerShare: 55000,
     totalShares: 8,
     availableShares: 4,
-    description: 'The pinnacle of Range Rover luxury, offering unparalleled refinement.',
+    description: 'The pinnacle of Range Rover refinement, offering unparalleled comfort.',
     specs: { year: '2023', engine: '4.4L Twin-Turbo V8', power: '606 hp', location: 'Dubai, UAE' }
   },
   {
@@ -224,7 +224,7 @@ export const ASSETS: Asset[] = [
     pricePerShare: 110000,
     totalShares: 8,
     availableShares: 3,
-    description: 'Supreme luxury meets absolute capability. Effortless, everywhere.',
+    description: 'Supreme comfort meets absolute capability. Effortless, everywhere.',
     specs: { year: '2023', engine: '6.75L Twin-Turbo V12', power: '563 hp', location: 'Dubai, UAE' }
   },
 

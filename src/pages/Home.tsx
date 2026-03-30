@@ -64,7 +64,7 @@ export const Home = () => {
         <div className="absolute inset-0 z-0">
           <img
             src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1742461144186_image.png"
-            alt="Luxury Car"
+            alt="Premium Car"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
           />
@@ -117,13 +117,13 @@ export const Home = () => {
       {/* Editorial Content: Why coshare. - Bento Grid Redesign */}
       <section id="why-coshare" ref={whyRef} className="py-16 bg-[#f8f9fa] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">
               {t('home.why.title').split('coshare.')[0]}
               <span dir="ltr" className="inline-block">coshare<span className="text-[#05A7E8]">.</span></span>
               {t('home.why.title').split('coshare.')[1]}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl">
               {t('home.why.subtitle')}
             </p>
           </div>
@@ -135,7 +135,7 @@ export const Home = () => {
                 title: t('home.why.1.title'),
                 description: t('home.why.1.desc'),
                 className: "md:col-span-8 md:row-span-2 min-h-[350px] md:min-h-[500px]",
-                image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80&w=1000",
+                image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.1.badge')
               },
               {
@@ -143,7 +143,7 @@ export const Home = () => {
                 title: t('home.why.2.title'),
                 description: t('home.why.2.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
-                image: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?auto=format&fit=crop&q=80&w=1000",
+                image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.2.badge')
               },
               {
@@ -151,7 +151,7 @@ export const Home = () => {
                 title: t('home.why.3.title'),
                 description: t('home.why.3.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
-                image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000",
+                image: "https://images.unsplash.com/photo-1582672060624-cdac1654672b?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.3.badge')
               },
               {
@@ -159,7 +159,7 @@ export const Home = () => {
                 title: t('home.why.4.title'),
                 description: t('home.why.4.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
-                image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&q=80&w=1000",
+                image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.4.badge')
               },
               {
@@ -167,7 +167,7 @@ export const Home = () => {
                 title: t('home.why.5.title'),
                 description: t('home.why.5.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
-                image: "https://images.unsplash.com/photo-1522158634235-47a056cc0662?auto=format&fit=crop&q=80&w=1000",
+                image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.5.badge')
               },
               {
@@ -175,7 +175,7 @@ export const Home = () => {
                 title: t('home.why.6.title'),
                 description: t('home.why.6.desc'),
                 className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
-                image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=1000",
+                image: "https://images.unsplash.com/photo-1526495124232-a04e1849168c?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.6.badge')
               }
             ].map((feature, index) => (
@@ -230,9 +230,9 @@ export const Home = () => {
       <section id="use-cases" className="py-24 bg-[#0b1b34] text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
+          <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Who is Coshare For?</h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-400 max-w-2xl">
               Whether you're looking for lifestyle upgrades or smart diversification, there's a place for you.
             </p>
           </div>
@@ -244,25 +244,25 @@ export const Home = () => {
                 {
                   icon: Car,
                   title: "The Experience Seeker",
-                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full ownership, depreciation, or maintenance.",
-                  image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000"
+                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full car ownership, depreciation, or maintenance costs in Dubai.",
+                  image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Wallet,
                   title: "The Smart Diversifier",
-                  description: "You understand that tying up 100% capital in a single depreciating asset is inefficient. You prefer to spread your investment across multiple premium assets.",
-                  image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1000"
+                  description: "You understand that tying up capital in a single depreciating asset is inefficient. Diversify your alternative investment portfolio across multiple premium assets.",
+                  image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Plane,
                   title: "The Seasonal Resident",
-                  description: "You're only in Dubai for a few months a year. Why pay for a luxury car that sits in a garage for 9 months when you can own just the fraction you use?",
+                  description: "You're an expat or frequent visitor in the UAE. Why pay for a premium car that sits in a garage for 9 months when you can own and pay for just the fraction you use?",
                   image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: HomeIcon,
                   title: "The Aspirational Buyer",
-                  description: "You want access to the luxury lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
+                  description: "You want access to an elevated lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
                   image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
                 }
               ].map((useCase, index) => (
@@ -297,25 +297,25 @@ export const Home = () => {
                 {
                   icon: Car,
                   title: "The Experience Seeker",
-                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full ownership, depreciation, or maintenance.",
-                  image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80&w=1000"
+                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full car ownership, depreciation, or maintenance costs in Dubai.",
+                  image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Wallet,
                   title: "The Smart Diversifier",
-                  description: "You understand that tying up 100% capital in a single depreciating asset is inefficient. You prefer to spread your investment across multiple premium assets.",
-                  image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=1000"
+                  description: "You understand that tying up capital in a single depreciating asset is inefficient. Diversify your alternative investment portfolio across multiple premium assets.",
+                  image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Plane,
                   title: "The Seasonal Resident",
-                  description: "You're only in Dubai for a few months a year. Why pay for a luxury car that sits in a garage for 9 months when you can own just the fraction you use?",
+                  description: "You're an expat or frequent visitor in the UAE. Why pay for a premium car that sits in a garage for 9 months when you can own and pay for just the fraction you use?",
                   image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: HomeIcon,
                   title: "The Aspirational Buyer",
-                  description: "You want access to the luxury lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
+                  description: "You want access to an elevated lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
                   image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
                 }
               ].map((useCase, index) => (
@@ -366,9 +366,9 @@ export const Home = () => {
       {/* Featured Assets */}
       <section className="py-16 bg-[#f8f9fa]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-10">
+          <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-2">{t('home.featured.title')}</h2>
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.featured.title')}</h2>
               <p className="text-gray-600">{t('home.featured.subtitle')}</p>
             </div>
             <Link
@@ -447,7 +447,7 @@ export const Home = () => {
       {/* FAQ Section for SEO/GEO */}
       <section id="faq" className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h2>
             <p className="text-gray-600">{t('home.faq.subtitle')}</p>
           </div>
@@ -501,7 +501,7 @@ export const Home = () => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">Today.</span>
               </h2>
               <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-lg font-light leading-relaxed">
-                Join early co-owners in Dubai sharing Porsches, Mercedes, Land Rovers, and more. Download the Coshare app to browse assets, purchase shares, and book your time instantly.
+                Join a growing community of co-owners in Dubai sharing Porsches, Mercedes-Benz, Land Rovers, and premium yachts. Download the Coshare mobile app to browse available assets, purchase fractional shares, and book your time instantly.
               </p>
               
               <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -518,12 +518,20 @@ export const Home = () => {
                   </div>
                 </a>
                 
-                <div className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white/5 border border-white/10 text-white/50 rounded-full font-medium cursor-not-allowed">
+                <a 
+                  href="https://play.google.com/store/apps/details?id=com.coshare.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white/10 border border-white/20 text-white rounded-full font-bold hover:bg-white/20 transition-all hover:scale-105 active:scale-95 group"
+                >
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mr-3">
+                    <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.22-.28.15-.4.54-.22.85L6.4 9.48C2.84 11.58.52 15.41.05 19.81h23.9c-.47-4.4-2.79-8.23-6.35-10.33zm-10.4 7.14c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15zm9.6 0c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15z"/>
+                  </svg>
                   <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wider text-white/40 font-medium">Android</div>
-                    <div className="text-sm leading-none mt-0.5">Coming Soon</div>
+                    <div className="text-[10px] uppercase tracking-wider text-white/70 font-medium">Get it on</div>
+                    <div className="text-sm leading-none mt-0.5">Google Play</div>
                   </div>
-                </div>
+                </a>
               </div>
               
               <div className="mt-12 flex items-center gap-4">

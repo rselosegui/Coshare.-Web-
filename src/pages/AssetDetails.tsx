@@ -340,21 +340,21 @@ export const AssetDetails = () => {
               </div>
               <div className="bg-[#f8f9fa] p-6 rounded-2xl border border-gray-100 mb-6">
                 <p className="text-sm text-gray-600 leading-relaxed mb-4">
-                  {t('asset.legal.spv.desc')}
+                  {t('asset.legal.desc')}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex items-center p-3 bg-white rounded-xl border border-gray-100">
                     <FileText className="w-5 h-5 text-[#256ab1] mr-3" />
                     <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider">{t('asset.legal.spv')}</p>
-                      <p className="text-sm font-bold text-[#0b1b34]">ADGM SPV (LLC)</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wider">{t('asset.legal.entityType')}</p>
+                      <p className="text-sm font-bold text-[#0b1b34]">{t('asset.legal.entityValue')}</p>
                     </div>
                   </div>
                   <div className="flex items-center p-3 bg-white rounded-xl border border-gray-100">
                     <Lock className="w-5 h-5 text-[#256ab1] mr-3" />
                     <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider">{t('asset.legal.smart')}</p>
-                      <p className="text-sm font-bold text-[#0b1b34]">{t('asset.legal.smart.desc')}</p>
+                      <p className="text-xs text-gray-500 uppercase tracking-wider">{t('asset.legal.status')}</p>
+                      <p className="text-sm font-bold text-[#0b1b34]">{t('asset.legal.statusValue')}</p>
                     </div>
                   </div>
                 </div>
@@ -362,7 +362,7 @@ export const AssetDetails = () => {
               
               <h3 className="text-sm font-bold text-[#0b1b34] uppercase tracking-wider mb-4">{t('asset.checkout.legal')}</h3>
               <div className="space-y-3">
-                {[t('asset.checkout.agreement'), 'Independent Valuation Report', 'Physical Inspection Certificate'].map((doc, i) => (
+                {[t('asset.checkout.agreement'), t('asset.legal.doc2'), t('asset.legal.doc3')].map((doc, i) => (
                   <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-gray-100 hover:border-[#49bee4]/50 transition-colors cursor-pointer group">
                     <div className="flex items-center">
                       <FileText className="w-5 h-5 text-gray-400 group-hover:text-[#256ab1] mr-3 transition-colors" />
@@ -593,7 +593,7 @@ export const AssetDetails = () => {
                   
                   <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 h-48 overflow-y-auto text-xs text-gray-600 space-y-4">
                     <p className="font-bold text-[#0b1b34] text-sm mb-2">MEMBERSHIP INTEREST PURCHASE AGREEMENT</p>
-                    <p>This Membership Interest Purchase Agreement (this "Agreement") is entered into as of today, by and between Coshare SPV LLC (the "Company") and the undersigned investor (the "Purchaser").</p>
+                    <p>This Co-Ownership Agreement (this "Agreement") is entered into as of today, by and between Coshare (the "Manager") and the undersigned investor (the "Cosharer").</p>
                     <p>WHEREAS, the Company owns the asset described as {asset.name};</p>
                     <p>WHEREAS, the Purchaser desires to purchase {selectedShares} membership interests (the "Shares") in the Company at a price of {formatCurrency(asset.pricePerShare, lang)} per Share, for a total purchase price of {formatCurrency(asset.pricePerShare * selectedShares, lang)};</p>
                     <p>NOW, THEREFORE, in consideration of the mutual covenants contained herein, the parties agree as follows...</p>

@@ -22,7 +22,7 @@ export const SEO: React.FC<SEOProps> = ({
     "name": "Coshare",
     "url": "https://coshare.ai",
     "logo": "https://coshare.ai/logo.png",
-    "description": "Premium fractional ownership platform for luxury assets in the UAE.",
+    "description": "Premium fractional ownership platform for high-value assets in the UAE.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Dubai",
@@ -43,7 +43,7 @@ export const SEO: React.FC<SEOProps> = ({
         "name": "What is fractional ownership?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Fractional ownership allows multiple individuals to share ownership of a high-value asset, such as a luxury car or yacht. Each owner holds a legal share in an SPV (Special Purpose Vehicle) that owns the asset."
+          "text": "Fractional ownership allows multiple individuals to share ownership of a high-value asset, such as a premium car or yacht. Each owner is officially registered as an authorized co-owner to ensure legal compliance."
         }
       },
       {
@@ -51,7 +51,7 @@ export const SEO: React.FC<SEOProps> = ({
         "name": "How does Coshare work in the UAE?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Coshare identifies premium assets, structures them into ADGM-registered SPVs, and allows users to buy fractions (from 1/10th). We handle all maintenance, insurance, and storage while you enjoy guaranteed usage days."
+          "text": "Coshare identifies premium assets, protects them under a comprehensive co-ownership agreement, and allows users to buy fractions (from 1/8th). We handle all maintenance, insurance, and storage while you enjoy guaranteed usage days."
         }
       },
       {
@@ -59,7 +59,7 @@ export const SEO: React.FC<SEOProps> = ({
         "name": "Is fractional ownership legal in Dubai?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, Coshare uses legally recognized Special Purpose Vehicles (SPVs) registered in the Abu Dhabi Global Market (ADGM) to ensure secure and transparent ownership for all participants."
+          "text": "Yes, Coshare utilizes a streamlined legal structure protected by a comprehensive co-ownership agreement and official RTA registration to ensure strict compliance."
         }
       }
     ]

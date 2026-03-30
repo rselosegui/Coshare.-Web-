@@ -25,7 +25,7 @@ export const Layout = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-      setShowNavLinks(window.scrollY > window.innerHeight * 0.35);
+      setShowNavLinks(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -90,18 +90,19 @@ export const Layout = () => {
         )}>
           {/* Enhanced shimmer effect */}
           <motion.div 
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-45deg] w-1/2"
-            animate={{ x: ['-200%', '300%'] }}
-            transition={{ duration: 3, repeat: Infinity, repeatDelay: 4, ease: "easeInOut" }}
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-[-45deg] w-1/3"
+            animate={{ x: ['-200%', '400%'] }}
+            transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1, ease: "linear" }}
           />
           <span className="relative z-10">{t('banner.text')}</span>
           <a 
-            href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
-            target="_blank" 
+            href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
+            target="_blank"
             rel="noopener noreferrer"
-            className="relative z-10 inline-flex items-center text-[#49bee4] group-hover:text-white transition-colors font-bold"
+            className="relative z-10 inline-flex items-center bg-[#49bee4] text-[#0b1b34] px-4 py-1 rounded-full hover:bg-white transition-all hover:scale-105 active:scale-95 font-bold ml-3 shadow-[0_0_20px_rgba(73,190,228,0.6)] ring-2 ring-[#49bee4]/30 ring-offset-2 ring-offset-[#0b1b34]"
           >
-            {t('banner.cta')} <ChevronRight className="w-4 h-4 ml-1" />
+            {t('banner.cta')}
+            <ChevronRight className="w-4 h-4 ml-1" />
           </a>
         </div>
 
@@ -296,7 +297,7 @@ export const Layout = () => {
               </a>
               <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
                 <Link to="/how-it-works" className="hover:text-primary transition-colors">How it works</Link>
-                <Link to="/faq" className="hover:text-primary transition-colors">FAQ</Link>
+                <Link to="/faq" className="hover:text-primary transition-colors">FAQs</Link>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.terms')}</a>
                 <a href="#" className="hover:text-primary transition-colors">{t('footer.privacy')}</a>
               </div>

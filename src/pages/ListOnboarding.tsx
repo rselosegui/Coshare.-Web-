@@ -25,7 +25,7 @@ export const ListOnboarding = () => {
     Cars: ['Supercars', 'Desert 4x4', 'Classics'],
     Motorbikes: ['Superbikes', 'Cruisers', 'Sportbikes'],
     Yachts: ['Sailing', 'Motor Yachts', 'Catamarans'],
-    Others: ['Luxury Items', 'Collectibles']
+    Others: ['Premium Items', 'Collectibles']
   };
 
   const handleNext = async () => {
@@ -69,7 +69,7 @@ export const ListOnboarding = () => {
     <div className="min-h-screen bg-[#f8f9fa] py-16 md:py-24 px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
       <SEO 
         title="List Your Asset | Coshare Onboarding"
-        description="List your luxury asset for fractional ownership on Coshare. Invite friends, split expenses, and manage your asset with AI-powered tools."
+        description="List your premium asset for fractional ownership on Coshare. Invite friends, split expenses, and manage your asset with AI-powered tools."
         canonical="https://coshare.ai/list"
       />
       <div className="max-w-2xl mx-auto w-full">
@@ -375,7 +375,7 @@ export const ListOnboarding = () => {
                     <div className="w-7 h-7 md:w-8 md:h-8 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center text-[10px] md:text-xs font-bold flex-shrink-0 mt-1">3</div>
                     <div>
                       <h4 className="font-bold text-gray-400 text-xs md:text-sm">Legal Structuring</h4>
-                      <p className="text-[10px] md:text-xs text-gray-400">We handle the SPV creation and fractionalization legal framework.</p>
+                      <p className="text-[10px] md:text-xs text-gray-400">We handle the legal framework and RTA registration for co-ownership.</p>
                     </div>
                   </div>
                 </div>

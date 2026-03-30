@@ -2,7 +2,8 @@ import React, { useRef } from 'react';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { Plus, PieChart, CalendarCheck, ShieldCheck } from 'lucide-react';
+import { Search, FileText, CalendarCheck, Sparkles, CheckCircle2, ShieldCheck, Wrench, RefreshCw, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
 export const HowItWorks = () => {
@@ -22,15 +23,38 @@ export const HowItWorks = () => {
     <div className="min-h-screen bg-[#0b1b34] pt-24 pb-20">
       <SEO 
         title="How It Works | Coshare"
-        description="Learn how fractional ownership works with Coshare."
+        description="Learn how fractional ownership works with Coshare. Discover how we make owning premium assets accessible, hassle-free, and financially smart."
       />
-      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative">
+
+      {/* Hero Section */}
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6"
+          >
+            {t('how.hero.title')}
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed"
+          >
+            {t('how.hero.subtitle')}
+          </motion.p>
+        </div>
+      </section>
+
+      {/* Scrolling Steps Section */}
+      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-12 md:gap-24">
             
             {/* Left: Sticky Content */}
             <div className="w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex flex-col justify-center pt-24 md:pt-0 z-10">
-              <h2 className="text-4xl md:text-5xl font-display font-bold mb-8">{t('home.how.title')}</h2>
               <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-[#1a2b4c] hidden md:block">
                 <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>
                   <Visual1 />
@@ -58,33 +82,37 @@ export const HowItWorks = () => {
                 style={{ scaleY: howScrollY }} 
               />
 
-              <div className="flex flex-col gap-12 md:gap-0">
+              <div className="flex flex-col gap-24 md:gap-0">
                 {[
                   {
-                    icon: Plus,
-                    title: t('home.how.1.title'),
-                    description: t('home.how.1.desc'),
+                    icon: Search,
+                    title: t('how.step1.title'),
+                    description: t('how.step1.desc'),
+                    points: [t('how.step1.point1'), t('how.step1.point2'), t('how.step1.point3')],
                     num: '01',
                     Visual: Visual1
                   },
                   {
-                    icon: PieChart,
-                    title: t('home.how.2.title'),
-                    description: t('home.how.2.desc'),
+                    icon: FileText,
+                    title: t('how.step2.title'),
+                    description: t('how.step2.desc'),
+                    points: [t('how.step2.point1'), t('how.step2.point2'), t('how.step2.point3')],
                     num: '02',
                     Visual: Visual2
                   },
                   {
                     icon: CalendarCheck,
-                    title: t('home.how.3.title'),
-                    description: t('home.how.3.desc'),
+                    title: t('how.step3.title'),
+                    description: t('how.step3.desc'),
+                    points: [t('how.step3.point1'), t('how.step3.point2'), t('how.step3.point3')],
                     num: '03',
                     Visual: Visual3
                   },
                   {
-                    icon: ShieldCheck,
-                    title: t('home.how.4.title'),
-                    description: t('home.how.4.desc'),
+                    icon: Sparkles,
+                    title: t('how.step4.title'),
+                    description: t('how.step4.desc'),
+                    points: [t('how.step4.point1'), t('how.step4.point2'), t('how.step4.point3')],
                     num: '04',
                     Visual: Visual4
                   }
@@ -95,7 +123,7 @@ export const HowItWorks = () => {
                     whileInView={{ opacity: 1 }}
                     viewport={{ margin: "-40% 0px -40% 0px" }}
                     transition={{ duration: 0.5 }}
-                    className="md:min-h-[40vh] flex flex-col justify-center relative pl-0 md:pl-20 group"
+                    className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 group"
                   >
                     {/* Mobile Number */}
                     <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden">
@@ -123,7 +151,16 @@ export const HowItWorks = () => {
                           <step.icon className="w-8 h-8 text-[#49bee4]" />
                         </div>
                         <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
-                        <p className="text-xl text-gray-400 leading-relaxed max-w-md">{step.description}</p>
+                        <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
+                        
+                        <ul className="space-y-3">
+                          {step.points.map((point, i) => (
+                            <li key={i} className="flex items-start text-gray-300">
+                              <CheckCircle2 className="w-5 h-5 text-[#49bee4] mr-3 mt-0.5 flex-shrink-0" />
+                              <span>{point}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   </motion.div>
@@ -133,6 +170,108 @@ export const HowItWorks = () => {
           </div>
         </div>
       </section>
+
+      {/* The Financial Advantage Section */}
+      <section className="py-24 bg-[#1a2b4c] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.math.title')}</h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">{t('how.math.subtitle')}</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Traditional */}
+            <div className="bg-[#0b1b34] rounded-3xl p-8 border border-white/10">
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">{t('how.math.traditional')}</h3>
+              <div className="space-y-6">
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <span className="text-gray-400">{t('how.math.purchase')}</span>
+                  <span className="text-white font-bold">{t('how.math.100')}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <span className="text-gray-400">{t('how.math.depreciation')}</span>
+                  <span className="text-red-400 font-bold">{t('how.math.100')}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <span className="text-gray-400">{t('how.math.maintenance')}</span>
+                  <span className="text-red-400 font-bold">{t('how.math.high')}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-400">{t('how.math.utilization')}</span>
+                  <span className="text-gray-500 font-bold">{t('how.math.low')}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Coshare */}
+            <div className="bg-gradient-to-br from-[#05A7E8]/20 to-[#49bee4]/10 rounded-3xl p-8 border border-[#49bee4]/30 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#49bee4]/20 blur-3xl rounded-full" />
+              <h3 className="text-2xl font-bold text-white mb-8 text-center">{t('how.math.coshare')}</h3>
+              <div className="space-y-6 relative z-10">
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <span className="text-gray-300">{t('how.math.purchase')}</span>
+                  <span className="text-[#49bee4] font-bold">{t('how.math.12')}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <span className="text-gray-300">{t('how.math.depreciation')}</span>
+                  <span className="text-[#49bee4] font-bold">{t('how.math.12')}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <span className="text-gray-300">{t('how.math.maintenance')}</span>
+                  <span className="text-[#49bee4] font-bold">{t('how.math.split')}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">{t('how.math.utilization')}</span>
+                  <span className="text-[#49bee4] font-bold">{t('how.math.optimized')}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Concierge Section */}
+      <section className="py-24 bg-[#0b1b34] relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.concierge.title')}</h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">{t('how.concierge.subtitle')}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { icon: ShieldCheck, title: t('how.concierge.legal'), desc: t('how.concierge.legalDesc') },
+              { icon: FileText, title: t('how.concierge.insurance'), desc: t('how.concierge.insuranceDesc') },
+              { icon: Sparkles, title: t('how.concierge.storage'), desc: t('how.concierge.storageDesc') },
+              { icon: Wrench, title: t('how.concierge.maintenance'), desc: t('how.concierge.maintenanceDesc') },
+            ].map((item, i) => (
+              <div key={i} className="bg-[#1a2b4c] p-8 rounded-3xl border border-white/5 hover:border-white/10 transition-colors">
+                <div className="w-12 h-12 bg-[#05A7E8]/10 rounded-xl flex items-center justify-center mb-6">
+                  <item.icon className="w-6 h-6 text-[#49bee4]" />
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-b from-[#1a2b4c] to-[#0b1b34]">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.cta.title')}</h2>
+          <p className="text-xl text-gray-400 mb-10 font-light">{t('how.cta.desc')}</p>
+          <Link 
+            to="/assets"
+            className="inline-flex items-center justify-center px-8 py-4 bg-[#05A7E8] text-white rounded-full font-bold hover:bg-[#49bee4] transition-all hover:scale-105 active:scale-95 group"
+          >
+            {t('how.cta.button')}
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </div>
+      </section>
+
     </div>
   );
 };

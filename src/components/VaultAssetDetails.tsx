@@ -308,7 +308,7 @@ export const VaultAssetDetails = ({ asset, onClose }: VaultAssetDetailsProps) =>
                 className="space-y-4"
               >
                 {[
-                  { name: 'SPV Certificate of Incorporation', date: '2023-10-15', size: '1.2 MB' },
+                  { name: 'Co-Ownership Agreement', date: '2023-10-15', size: '1.2 MB' },
                   { name: 'Ownership Deed', date: '2023-10-15', size: '2.4 MB' },
                   { name: 'Comprehensive Insurance Policy', date: '2024-01-01', size: '3.1 MB' }
                 ].map((doc, idx) => (
