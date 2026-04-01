@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet } from 'lucide-react';
+import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet, FileText } from 'lucide-react';
 import { useAssets } from '../hooks/useAssets';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
@@ -23,6 +23,30 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           className="mt-2 text-gray-600 leading-relaxed"
+        >
+          {answer}
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+const FAQItemDark = ({ question, answer }: { question: string; answer: string }) => {
+  const [isOpen, setIsOpen] = React.useState(false);
+  return (
+    <div className="border-b border-gray-800 py-4">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex justify-between items-center w-full text-left group"
+      >
+        <h4 className="text-lg font-bold text-white group-hover:text-[#49bee4] transition-colors">{question}</h4>
+        {isOpen ? <Minus className="w-5 h-5 text-[#49bee4]" /> : <Plus className="w-5 h-5 text-gray-500" />}
+      </button>
+      {isOpen && (
+        <motion.div 
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          className="mt-2 text-gray-400 leading-relaxed"
         >
           {answer}
         </motion.div>
@@ -52,6 +76,16 @@ export const Home = () => {
   const y6 = useTransform(whyScrollY, [0, 1], [70, -70]);
   const yTransforms = [y1, y2, y3, y4, y5, y6];
 
+  const howRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: howScrollY } = useScroll({
+    target: howRef,
+    offset: ["start start", "end end"]
+  });
+  const img1Opacity = useTransform(howScrollY, [0, 0.2, 0.25], [1, 1, 0]);
+  const img2Opacity = useTransform(howScrollY, [0.2, 0.25, 0.45, 0.5], [0, 1, 1, 0]);
+  const img3Opacity = useTransform(howScrollY, [0.45, 0.5, 0.7, 0.75], [0, 1, 1, 0]);
+  const img4Opacity = useTransform(howScrollY, [0.7, 0.75, 1], [0, 1, 1]);
+
   return (
     <div className="flex flex-col min-h-screen">
       <SEO 
@@ -60,7 +94,7 @@ export const Home = () => {
         canonical="https://coshare.ai"
       />
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-[#0b1b34]">
         <div className="absolute inset-0 z-0">
           <img
             src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1742461144186_image.png"
@@ -226,13 +260,161 @@ export const Home = () => {
         </div>
       </section>
 
+      {/* How it works - Scrolling Version */}
+      <section id="how-it-works" ref={howRef} className="py-24 bg-[#0b1b34] relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="mb-16 text-left">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">How it works</h2>
+            <p className="text-lg text-gray-400 max-w-2xl">
+              Four simple steps to owning and enjoying premium assets.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-24">
+            {/* Steps */}
+            {[
+                  {
+                    icon: Search,
+                    title: t('how.step1.title'),
+                    description: t('how.step1.desc'),
+                    num: '01',
+                    Mockup: () => (
+                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Browse Assets</div>
+                        <div className="bg-white rounded-2xl p-3 shadow-sm mb-4">
+                          <img src="https://images.unsplash.com/photo-1592853625511-85c19280742d?auto=format&fit=crop&q=80&w=600" className="w-full h-32 object-cover rounded-xl mb-3" alt="Ferrari" />
+                          <div className="font-bold text-sm text-[#0b1b34]">Ferrari SF90</div>
+                          <div className="text-xs text-gray-500">AED 250,000 / share</div>
+                        </div>
+                        <div className="bg-white rounded-2xl p-3 shadow-sm">
+                          <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=600" className="w-full h-32 object-cover rounded-xl mb-3" alt="Porsche" />
+                          <div className="font-bold text-sm text-[#0b1b34]">Porsche 911 GT3</div>
+                          <div className="text-xs text-gray-500">AED 150,000 / share</div>
+                        </div>
+                      </div>
+                    )
+                  },
+                  {
+                    icon: FileText,
+                    title: t('how.step2.title'),
+                    description: t('how.step2.desc'),
+                    num: '02',
+                    Mockup: () => (
+                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Checkout</div>
+                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
+                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">Asset</span><span className="text-sm font-bold text-[#0b1b34]">Ferrari SF90</span></div>
+                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">Shares</span><span className="text-sm font-bold text-[#0b1b34]">1/2 to 1/10</span></div>
+                          <div className="flex justify-between pt-3 border-t border-gray-100"><span className="text-sm text-gray-500">Total</span><span className="text-sm font-bold text-[#256ab1]">AED 250,000</span></div>
+                        </div>
+                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
+                          <div className="flex items-center gap-3">
+                            <FileText className="w-5 h-5 text-[#256ab1]" />
+                            <div className="text-sm font-bold text-[#0b1b34]">Ownership Contract</div>
+                          </div>
+                        </div>
+                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">Sign & Pay</div>
+                      </div>
+                    )
+                  },
+                  {
+                    icon: CalendarCheck,
+                    title: t('how.step3.title'),
+                    description: t('how.step3.desc'),
+                    num: '03',
+                    Mockup: () => (
+                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Select Dates</div>
+                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
+                          <div className="text-sm font-bold text-[#0b1b34] mb-4">March 2026</div>
+                          <div className="grid grid-cols-7 gap-2 text-center mb-2">
+                            <div className="text-xs text-gray-400">M</div><div className="text-xs text-gray-400">T</div><div className="text-xs text-gray-400">W</div><div className="text-xs text-gray-400">T</div><div className="text-xs text-gray-400">F</div><div className="text-xs text-gray-400">S</div><div className="text-xs text-gray-400">S</div>
+                            {Array.from({length: 28}).map((_, i) => (
+                              <div key={i} className={`aspect-square flex items-center justify-center text-xs rounded-full ${i === 14 || i === 15 ? 'bg-[#256ab1] text-white font-bold' : i > 10 && i < 14 ? 'bg-gray-100 text-gray-400 line-through' : 'text-[#0b1b34]'}`}>{i + 1}</div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">Confirm Booking</div>
+                      </div>
+                    )
+                  },
+                  {
+                    icon: Sparkles,
+                    title: t('how.step4.title'),
+                    description: t('how.step4.desc'),
+                    num: '04',
+                    Mockup: () => (
+                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Digital Key</div>
+                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 flex flex-col items-center justify-center py-8">
+                          <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-4 border-4 border-[#256ab1]/20">
+                            <Sparkles className="w-10 h-10 text-[#256ab1]" />
+                          </div>
+                          <div className="font-bold text-lg mb-1 text-[#0b1b34]">Ferrari SF90</div>
+                          <div className="text-sm text-green-500 font-medium">Connected</div>
+                        </div>
+                        <div className="flex gap-4 mt-auto mb-8">
+                          <div className="flex-1 bg-gray-100 text-[#0b1b34] text-center py-3 rounded-xl font-bold text-sm">Lock</div>
+                          <div className="flex-1 bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm">Unlock</div>
+                        </div>
+                      </div>
+                    )
+                  }
+                ].map((step, index) => (
+                  <motion.div 
+                    key={index}
+                    initial={{ opacity: 0.3, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ margin: "-20% 0px -20% 0px" }}
+                    transition={{ duration: 0.7 }}
+                    className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
+                  >
+                    {/* Text Content */}
+                    <div className="flex-1">
+                      <div className="flex items-center gap-4 mb-6">
+                        <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 shadow-sm">
+                          <step.icon className="w-8 h-8 text-[#256ab1]" />
+                        </div>
+                        <div className="text-6xl font-display font-bold text-white/10">
+                          {step.num}
+                        </div>
+                      </div>
+                      <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
+                      <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
+                    </div>
+
+                    {/* Mockup */}
+                    <div className="flex-1 flex justify-center">
+                      <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-800 shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-500">
+                        <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-40 mx-auto z-20" />
+                        <div className="w-full h-full bg-white relative">
+                          <step.Mockup />
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            
+              <div className="mt-12 text-left">
+                <Link 
+                  to="/how-it-works" 
+                  className="inline-flex items-center text-[#256ab1] font-bold hover:text-white transition-colors"
+                >
+                  Learn more about the process
+                  <ArrowRight className="ml-1 w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+      </section>
+
       {/* Use Cases */}
-      <section id="use-cases" className="py-24 bg-[#0b1b34] text-white relative overflow-hidden">
+      <section id="use-cases" className="py-24 bg-[#f8f9fa] text-[#0b1b34] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Who is Coshare For?</h2>
-            <p className="text-lg text-gray-400 max-w-2xl">
+            <p className="text-lg text-gray-600 max-w-2xl">
               Whether you're looking for lifestyle upgrades or smart diversification, there's a place for you.
             </p>
           </div>
@@ -271,18 +453,18 @@ export const Home = () => {
                   onClick={() => setActiveUseCase(index)}
                   className={`text-left p-6 rounded-2xl transition-all duration-300 border ${
                     activeUseCase === index 
-                      ? 'bg-white/10 border-[#49bee4] shadow-[0_0_30px_rgba(73,190,228,0.15)]' 
-                      : 'bg-transparent border-white/5 hover:bg-white/5'
+                      ? 'bg-white border-[#256ab1]/20 shadow-lg' 
+                      : 'bg-transparent border-gray-200 hover:bg-gray-50'
                   }`}
                 >
                   <div className="flex items-center gap-4">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${
-                      activeUseCase === index ? 'bg-[#49bee4] text-[#0b1b34]' : 'bg-[#1a2b4c] text-[#49bee4]'
+                      activeUseCase === index ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-[#256ab1]'
                     }`}>
                       <useCase.icon className="w-6 h-6" />
                     </div>
                     <h3 className={`text-xl font-bold transition-colors duration-300 ${
-                      activeUseCase === index ? 'text-white' : 'text-gray-400'
+                      activeUseCase === index ? 'text-[#0b1b34]' : 'text-gray-500'
                     }`}>
                       {useCase.title}
                     </h3>
@@ -292,7 +474,7 @@ export const Home = () => {
             </div>
 
             {/* Right: Content */}
-            <div className="w-full lg:w-2/3 relative min-h-[400px] lg:min-h-[500px] rounded-3xl overflow-hidden border border-white/10 bg-[#1a2b4c]">
+            <div className="w-full lg:w-2/3 relative min-h-[400px] lg:min-h-[500px] rounded-3xl overflow-hidden border border-gray-200 bg-white shadow-xl">
               {[
                 {
                   icon: Car,
@@ -363,108 +545,27 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Featured Assets */}
-      <section className="py-16 bg-[#f8f9fa]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.featured.title')}</h2>
-              <p className="text-gray-600">{t('home.featured.subtitle')}</p>
-            </div>
-            <Link
-              to="/assets"
-              className="hidden md:flex items-center text-[#256ab1] font-bold hover:text-[#0b1b34] transition-colors"
-            >
-              {t('home.featured.viewAll')}
-              <ArrowRight className="ml-1 w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="flex overflow-x-auto no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-3 gap-6 sm:gap-8">
-            {featuredAssets.map((asset, index) => (
-              <motion.div
-                key={asset.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                onClick={() => navigate(`/assets/${asset.id}`)}
-                className="flex-shrink-0 w-[300px] sm:w-auto bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-pointer"
-              >
-                <div className="relative h-64 sm:h-72 overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-transparent z-10" />
-                  <img
-                    src={asset.imageUrl}
-                    alt={asset.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
-                  />
-                  <div className="absolute top-5 left-5 z-20 bg-white/20 backdrop-blur-md border border-white/30 px-4 py-1.5 rounded-full text-xs font-bold text-white uppercase tracking-wider shadow-sm">
-                    {asset.subcategory}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-[#0b1b34] mb-2">{asset.name}</h3>
-                  <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                    <div>
-                      <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.pricePerShare')}</p>
-                      <p className="text-lg font-bold text-[#256ab1]">AED {asset.pricePerShare.toLocaleString()}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">{t('asset.available')}</p>
-                      <p className="text-sm font-medium text-[#0b1b34]">{asset.availableShares} / {asset.totalShares}</p>
-                    </div>
-                  </div>
-                  
-                  {/* Scarcity Progress Bar */}
-                  <div className="mt-4">
-                    <div className="w-full bg-gray-100 rounded-full h-1.5 mb-1 overflow-hidden">
-                      <div 
-                        className="bg-[#256ab1] h-1.5 rounded-full" 
-                        style={{ width: `${((asset.totalShares - asset.availableShares) / asset.totalShares) * 100}%` }}
-                      ></div>
-                    </div>
-                    <p className="text-[10px] text-gray-400 text-right uppercase tracking-wider">
-                      {Math.round(((asset.totalShares - asset.availableShares) / asset.totalShares) * 100)}% Sold
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-          
-          <div className="mt-8 text-center md:hidden">
-            <Link
-              to="/assets"
-              className="inline-flex items-center justify-center px-6 py-3 border border-gray-300 rounded-full text-sm font-bold text-[#0b1b34] bg-white hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 shadow-sm"
-            >
-              {t('home.featured.viewAll')}
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Section for SEO/GEO */}
-      <section id="faq" className="py-20 bg-white">
+      <section id="faq" className="py-20 bg-[#0b1b34]">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h2>
-            <p className="text-gray-600">{t('home.faq.subtitle')}</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">{t('home.faq.title')}</h2>
+            <p className="text-gray-400">{t('home.faq.subtitle')}</p>
           </div>
           <div className="space-y-2">
-            <FAQItem 
+            <FAQItemDark 
               question={t('home.faq.1.q')} 
               answer={t('home.faq.1.a')} 
             />
-            <FAQItem 
+            <FAQItemDark 
               question={t('home.faq.2.q')} 
               answer={t('home.faq.2.a')} 
             />
-            <FAQItem 
+            <FAQItemDark 
               question={t('home.faq.3.q')} 
               answer={t('home.faq.3.a')} 
             />
-            <FAQItem 
+            <FAQItemDark 
               question={t('home.faq.4.q')} 
               answer={t('home.faq.4.a')} 
             />
@@ -472,7 +573,7 @@ export const Home = () => {
           <div className="mt-12 text-center">
             <Link 
               to="/faq" 
-              className="inline-flex items-center px-8 py-4 bg-white border border-gray-200 text-[#0b1b34] font-bold rounded-full hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 shadow-sm group"
+              className="inline-flex items-center px-8 py-4 bg-[#256ab1] border border-transparent text-white font-bold rounded-full hover:bg-[#1a4b82] transition-all hover:scale-105 active:scale-95 shadow-sm group"
             >
               {t('home.faq.viewAll')}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -482,10 +583,10 @@ export const Home = () => {
       </section>
 
       {/* App Launch CTA Section */}
-      <section className="py-24 bg-[#0b1b34] relative overflow-hidden">
+      <section className="py-24 bg-[#f8f9fa] relative overflow-hidden">
         {/* Background Elements */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#05A7E8]/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#49bee4]/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#05A7E8]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#49bee4]/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -496,11 +597,11 @@ export const Home = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#0b1b34] mb-6 leading-tight">
                 Start Co-Owning <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">Today.</span>
               </h2>
-              <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-lg font-light leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg font-light leading-relaxed">
                 Join a growing community of co-owners in Dubai sharing Porsches, Mercedes-Benz, Land Rovers, and premium yachts. Download the Coshare mobile app to browse available assets, purchase fractional shares, and book your time instantly.
               </p>
               
@@ -509,11 +610,11 @@ export const Home = () => {
                   href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white text-[#0b1b34] rounded-full font-bold hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 group shadow-xl shadow-white/10"
+                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-[#0b1b34] text-white rounded-full font-bold hover:bg-[#1a2b4c] transition-all hover:scale-105 active:scale-95 group shadow-xl shadow-[#0b1b34]/10 animate-pulse"
                 >
                   <Apple className="w-6 h-6 mr-3" />
                   <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">Download on the</div>
+                    <div className="text-[10px] uppercase tracking-wider text-gray-300 font-medium">Download on the</div>
                     <div className="text-sm leading-none mt-0.5">App Store</div>
                   </div>
                 </a>
@@ -522,13 +623,13 @@ export const Home = () => {
                   href="https://play.google.com/store/apps/details?id=com.coshare.app"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white/10 border border-white/20 text-white rounded-full font-bold hover:bg-white/20 transition-all hover:scale-105 active:scale-95 group"
+                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white border border-gray-200 text-[#0b1b34] rounded-full font-bold hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 group"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mr-3">
                     <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.22-.28.15-.4.54-.22.85L6.4 9.48C2.84 11.58.52 15.41.05 19.81h23.9c-.47-4.4-2.79-8.23-6.35-10.33zm-10.4 7.14c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15zm9.6 0c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15z"/>
                   </svg>
                   <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wider text-white/70 font-medium">Get it on</div>
+                    <div className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">Get it on</div>
                     <div className="text-sm leading-none mt-0.5">Google Play</div>
                   </div>
                 </a>
@@ -536,15 +637,15 @@ export const Home = () => {
               
               <div className="mt-12 flex items-center gap-4">
                 <div className="flex -space-x-3">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-[#0b1b34] object-cover" />
-                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-[#0b1b34] object-cover" />
-                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-[#0b1b34] object-cover" />
-                  <div className="w-10 h-10 rounded-full border-2 border-[#0b1b34] bg-[#256ab1] flex items-center justify-center text-white text-xs font-bold z-10">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
+                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
+                  <div className="w-10 h-10 rounded-full border-2 border-white bg-[#256ab1] flex items-center justify-center text-white text-xs font-bold z-10">
                     +50
                   </div>
                 </div>
-                <div className="text-sm text-gray-400">
-                  <span className="text-white font-bold">Early Adopters</span><br/>
+                <div className="text-sm text-gray-500">
+                  <span className="text-[#0b1b34] font-bold">Early Adopters</span><br/>
                   already co-owning
                 </div>
               </div>
@@ -562,15 +663,15 @@ export const Home = () => {
               <motion.div 
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute top-20 -left-4 md:-left-12 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-xl z-0 hidden sm:block"
+                className="absolute top-20 -left-4 md:-left-12 bg-white/80 backdrop-blur-xl border border-gray-200 p-4 rounded-2xl shadow-xl z-0 hidden sm:block"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
-                    <ShieldCheck className="w-5 h-5 text-green-400" />
+                    <ShieldCheck className="w-5 h-5 text-green-500" />
                   </div>
                   <div>
-                    <div className="text-xs text-gray-300">Asset Insured</div>
-                    <div className="text-sm font-bold text-white">Fully Covered</div>
+                    <div className="text-xs text-gray-500">Asset Insured</div>
+                    <div className="text-sm font-bold text-[#0b1b34]">Fully Covered</div>
                   </div>
                 </div>
               </motion.div>
@@ -578,15 +679,15 @@ export const Home = () => {
               <motion.div 
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute bottom-32 -right-4 md:-right-8 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-xl z-20 hidden sm:block"
+                className="absolute bottom-32 -right-4 md:-right-8 bg-white/80 backdrop-blur-xl border border-gray-200 p-4 rounded-2xl shadow-xl z-20 hidden sm:block"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#05A7E8]/20 rounded-full flex items-center justify-center">
-                    <CalendarCheck className="w-5 h-5 text-[#05A7E8]" />
+                  <div className="w-10 h-10 bg-[#256ab1]/20 rounded-full flex items-center justify-center">
+                    <CalendarCheck className="w-5 h-5 text-[#256ab1]" />
                   </div>
                   <div>
-                    <div className="text-xs text-gray-300">Next Booking</div>
-                    <div className="text-sm font-bold text-white">Tomorrow, 10 AM</div>
+                    <div className="text-xs text-gray-500">Next Booking</div>
+                    <div className="text-sm font-bold text-[#0b1b34]">Tomorrow, 10 AM</div>
                   </div>
                 </div>
               </motion.div>

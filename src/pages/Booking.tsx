@@ -119,18 +119,32 @@ export const Booking = () => {
   const selectedAsset = portfolioAssets.find(a => a.id === selectedAssetId);
 
   const handleConfirmBooking = async () => {
-    if (!user || !selectedAssetId || !selectedRange.start || !selectedRange.end) return;
+    if (!user || !selectedAssetId || !selectedRange.start) return;
+
+    const endDate = selectedRange.end || selectedRange.start;
 
     setIsBooking(true);
     try {
-      await addDoc(collection(db, 'bookings'), {
-        userId: user.uid,
-        assetId: selectedAssetId,
-        startDate: selectedRange.start.toISOString(),
-        endDate: selectedRange.end.toISOString(),
-        status: 'confirmed',
-        createdAt: new Date().toISOString()
-      });
+      if (user.uid === 'demo-user-123') {
+        // Handle demo user locally
+        const newBooking: BookingItem = {
+          id: `demo-b-${Date.now()}`,
+          assetId: selectedAssetId,
+          startDate: selectedRange.start.toISOString(),
+          endDate: endDate.toISOString(),
+          status: 'confirmed'
+        };
+        setBookings([...bookings, newBooking]);
+      } else {
+        await addDoc(collection(db, 'bookings'), {
+          userId: user.uid,
+          assetId: selectedAssetId,
+          startDate: selectedRange.start.toISOString(),
+          endDate: endDate.toISOString(),
+          status: 'confirmed',
+          createdAt: new Date().toISOString()
+        });
+      }
       setBookingSuccess(true);
       setTimeout(() => {
         setBookingSuccess(false);
@@ -445,7 +459,7 @@ export const Booking = () => {
                 </p>
               </div>
               <button
-                disabled={isBooking || bookingSuccess || !selectedRange.end}
+                disabled={isBooking || bookingSuccess}
                 onClick={handleConfirmBooking}
                 className="px-8 py-3 bg-accent text-primary font-bold text-xs uppercase tracking-widest rounded-full hover:scale-105 transition-all disabled:opacity-50 flex items-center"
               >

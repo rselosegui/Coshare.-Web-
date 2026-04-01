@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import { useLanguage } from '../store/language';
-import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple, HelpCircle, ChevronRight } from 'lucide-react';
+import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple, HelpCircle, ChevronRight, X } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { Dock } from './Dock';
@@ -20,6 +20,7 @@ export const Layout = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showNavLinks, setShowNavLinks] = useState(false);
+  const [isBannerVisible, setIsBannerVisible] = useState(true);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -84,27 +85,42 @@ export const Layout = () => {
       {/* Sticky Header Container */}
       <div className="sticky top-0 z-50 flex flex-col">
         {/* Announcement Banner */}
-        <div className={cn(
-          "relative overflow-hidden bg-[#0b1b34] text-white py-2 px-4 text-center text-sm font-medium flex items-center justify-center space-x-4 group transition-all duration-500",
-          isScrolled ? "shadow-[0_4px_15px_rgba(0,0,0,0.15)] z-20" : "z-20"
-        )}>
-          {/* Enhanced shimmer effect */}
-          <motion.div 
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-[-45deg] w-1/3"
-            animate={{ x: ['-200%', '400%'] }}
-            transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1, ease: "linear" }}
-          />
-          <span className="relative z-10">{t('banner.text')}</span>
-          <a 
-            href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="relative z-10 inline-flex items-center bg-[#49bee4] text-[#0b1b34] px-4 py-1 rounded-full hover:bg-white transition-all hover:scale-105 active:scale-95 font-bold ml-3 shadow-[0_0_20px_rgba(73,190,228,0.6)] ring-2 ring-[#49bee4]/30 ring-offset-2 ring-offset-[#0b1b34]"
-          >
-            {t('banner.cta')}
-            <ChevronRight className="w-4 h-4 ml-1" />
-          </a>
-        </div>
+        <AnimatePresence>
+          {isBannerVisible && (
+            <motion.div 
+              initial={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className={cn(
+                "relative overflow-hidden bg-[#0b1b34] text-white py-2 px-4 text-center text-sm font-medium flex items-center justify-center space-x-4 group transition-all duration-500",
+                isScrolled ? "shadow-[0_4px_15px_rgba(0,0,0,0.15)] z-20" : "z-20"
+              )}
+            >
+              {/* Enhanced shimmer effect */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-[-45deg] w-1/3"
+                animate={{ x: ['-200%', '400%'] }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1, ease: "linear" }}
+              />
+              <span className="relative z-10">{t('banner.text')}</span>
+              <a 
+                href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="relative z-10 inline-flex items-center bg-[#49bee4] text-[#0b1b34] px-4 py-1 rounded-full hover:bg-white transition-all hover:scale-105 active:scale-95 font-bold ml-3 shadow-[0_0_20px_rgba(73,190,228,0.6)] ring-2 ring-[#49bee4]/30 ring-offset-2 ring-offset-[#0b1b34] animate-pulse"
+              >
+                {t('banner.cta')}
+                <ChevronRight className="w-4 h-4 ml-1" />
+              </a>
+              <button 
+                onClick={() => setIsBannerVisible(false)}
+                className="absolute right-4 z-10 p-1 rounded-full hover:bg-white/10 transition-colors"
+                aria-label="Close banner"
+              >
+                <X className="w-4 h-4 text-white/80 hover:text-white" />
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Contextual Header */}
         <header className={cn(
@@ -239,26 +255,26 @@ export const Layout = () => {
       {user && <Dock />}
 
       {/* Footer */}
-      <footer className="bg-surface border-t border-white/10 py-12 mt-auto">
+      <footer className="bg-[#0b1b34] border-t border-white/10 py-12 mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
             {/* Brand & Tagline */}
             <div className="flex flex-col items-center md:items-start">
-              <h3 className="font-display font-bold text-2xl text-primary mb-2">
+              <h3 className="font-display font-bold text-2xl text-white mb-2">
                 <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
               </h3>
-              <p className="text-sm text-gray-500 text-center md:text-left max-w-xs">{t('footer.tagline')}</p>
+              <p className="text-sm text-gray-400 text-center md:text-left max-w-xs">{t('footer.tagline')}</p>
             </div>
 
             {/* Social Links */}
             <div className="flex flex-col items-center">
-              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 mb-6">{t('footer.follow')}</h4>
+              <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500 mb-6">{t('footer.follow')}</h4>
               <div className="flex space-x-6">
                 <a 
                   href="https://www.instagram.com/coshare.ai/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-primary transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
@@ -266,7 +282,7 @@ export const Layout = () => {
                   href="https://x.com/CoshareAI" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-primary transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 </a>
@@ -274,7 +290,7 @@ export const Layout = () => {
                   href="https://www.linkedin.com/company/coshareai/" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-primary transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
@@ -287,7 +303,7 @@ export const Layout = () => {
                 href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="flex items-center bg-black text-white px-5 py-2.5 rounded-full border border-white/10 hover:bg-gray-900 transition-all hover:scale-105 active:scale-95 mb-8 group"
+                className="flex items-center bg-white text-[#0b1b34] px-5 py-2.5 rounded-full border border-white/10 hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 mb-8 group"
               >
                 <Apple className="w-7 h-7 mr-3 group-hover:scale-110 transition-transform" />
                 <div className="text-left">
@@ -295,11 +311,11 @@ export const Layout = () => {
                   <p className="text-base font-bold leading-tight">{t('footer.appStore')}</p>
                 </div>
               </a>
-              <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-400">
-                <Link to="/how-it-works" className="hover:text-primary transition-colors">How it works</Link>
-                <Link to="/faq" className="hover:text-primary transition-colors">FAQs</Link>
-                <a href="#" className="hover:text-primary transition-colors">{t('footer.terms')}</a>
-                <a href="#" className="hover:text-primary transition-colors">{t('footer.privacy')}</a>
+              <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-500">
+                <Link to="/how-it-works" className="hover:text-white transition-colors">How it works</Link>
+                <Link to="/faq" className="hover:text-white transition-colors">FAQs</Link>
+                <a href="#" className="hover:text-white transition-colors">{t('footer.terms')}</a>
+                <a href="#" className="hover:text-white transition-colors">{t('footer.privacy')}</a>
               </div>
             </div>
           </div>

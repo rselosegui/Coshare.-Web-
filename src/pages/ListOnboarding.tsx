@@ -18,13 +18,13 @@ export const ListOnboarding = () => {
     location: '',
     idleWeeks: 12,
     visibility: 'public' as 'public' | 'private',
+    insuranceRecord: '',
   });
 
-  const categories = ['Cars', 'Motorbikes', 'Yachts', 'Others'];
+  const categories = ['Cars', 'Motorbikes', 'Others'];
   const subcategories: Record<string, string[]> = {
     Cars: ['Supercars', 'Desert 4x4', 'Classics'],
     Motorbikes: ['Superbikes', 'Cruisers', 'Sportbikes'],
-    Yachts: ['Sailing', 'Motor Yachts', 'Catamarans'],
     Others: ['Premium Items', 'Collectibles']
   };
 
@@ -50,6 +50,7 @@ export const ListOnboarding = () => {
           location: formData.location,
           idleWeeks: formData.idleWeeks,
           visibility: formData.visibility,
+          insuranceRecord: formData.insuranceRecord,
           status: 'pending_review',
           createdAt: new Date().toISOString()
         });
@@ -262,6 +263,16 @@ export const ListOnboarding = () => {
                   </div>
 
                   <div>
+                    <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Insurance Track Record</label>
+                    <textarea
+                      value={formData.insuranceRecord}
+                      onChange={(e) => setFormData({ ...formData, insuranceRecord: e.target.value })}
+                      placeholder="Please provide details of any past damages or claims to inform potential co-owners."
+                      className="w-full p-4 md:p-5 border-2 border-gray-100 rounded-2xl md:rounded-3xl focus:outline-none focus:border-[#0b1b34] bg-gray-50/50 text-[#0b1b34] font-medium transition-all text-sm md:text-base min-h-[100px] resize-none"
+                    />
+                  </div>
+
+                  <div>
                     <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-4">Listing Visibility</label>
                     <div className="grid grid-cols-2 gap-3 md:gap-4">
                       <button
@@ -322,17 +333,22 @@ export const ListOnboarding = () => {
                   >
                     Back
                   </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={!formData.location || !agreedToTerms || isSubmitting}
-                    className="w-full sm:w-auto px-10 py-3.5 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg shadow-[#0b1b34]/20 active:scale-95 order-1 sm:order-2"
-                  >
-                    {isSubmitting ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <>Submit Application <ChevronRight className="ml-2 w-4 h-4" /></>
-                    )}
-                  </button>
+                  <div className="flex flex-col items-end order-1 sm:order-2 w-full sm:w-auto">
+                    <button
+                      onClick={handleNext}
+                      disabled={!formData.location || !agreedToTerms || isSubmitting}
+                      className="w-full sm:w-auto px-10 py-3.5 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-widest rounded-full hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg shadow-[#0b1b34]/20 active:scale-95"
+                    >
+                      {isSubmitting ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                      ) : (
+                        <>Submit Application <ChevronRight className="ml-2 w-4 h-4" /></>
+                      )}
+                    </button>
+                    <p className="text-[10px] text-gray-400 mt-2 text-center sm:text-right max-w-xs">
+                      By submitting, you agree to manual review. We may also automatically retrieve public records (e.g., accident history) to verify asset details.
+                    </p>
+                  </div>
                 </div>
               </motion.div>
             )}
