@@ -89,8 +89,8 @@ export const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <SEO 
-        title="Coshare | Fractional Ownership of Assets in UAE"
-        description="Join the future of ownership. Co-own cars, yachts, real estate and more in the UAE with Coshare's AI-powered fractional ownership marketplace."
+        title={t('home.seo.title')}
+        description={t('home.seo.description')}
         canonical="https://coshare.ai"
       />
       {/* Hero Section */}
@@ -264,9 +264,9 @@ export const Home = () => {
       <section id="how-it-works" ref={howRef} className="py-24 bg-[#0b1b34] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-16 text-left">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">How it works</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">{t('home.how.title')}</h2>
             <p className="text-lg text-gray-400 max-w-2xl">
-              Four simple steps to owning and enjoying premium assets.
+              {t('home.how.subtitle')}
             </p>
           </div>
 
@@ -280,16 +280,16 @@ export const Home = () => {
                     num: '01',
                     Mockup: () => (
                       <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Browse Assets</div>
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.browse')}</div>
                         <div className="bg-white rounded-2xl p-3 shadow-sm mb-4">
                           <img src="https://images.unsplash.com/photo-1592853625511-85c19280742d?auto=format&fit=crop&q=80&w=600" className="w-full h-32 object-cover rounded-xl mb-3" alt="Ferrari" />
-                          <div className="font-bold text-sm text-[#0b1b34]">Ferrari SF90</div>
-                          <div className="text-xs text-gray-500">AED 250,000 / share</div>
+                          <div className="font-bold text-sm text-[#0b1b34]">{t('home.how.ferrari')}</div>
+                          <div className="text-xs text-gray-500">{t('home.how.price250')}</div>
                         </div>
                         <div className="bg-white rounded-2xl p-3 shadow-sm">
                           <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=600" className="w-full h-32 object-cover rounded-xl mb-3" alt="Porsche" />
-                          <div className="font-bold text-sm text-[#0b1b34]">Porsche 911 GT3</div>
-                          <div className="text-xs text-gray-500">AED 150,000 / share</div>
+                          <div className="font-bold text-sm text-[#0b1b34]">{t('home.how.porsche')}</div>
+                          <div className="text-xs text-gray-500">{t('home.how.price150')}</div>
                         </div>
                       </div>
                     )
@@ -301,19 +301,19 @@ export const Home = () => {
                     num: '02',
                     Mockup: () => (
                       <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Checkout</div>
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.checkout')}</div>
                         <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
-                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">Asset</span><span className="text-sm font-bold text-[#0b1b34]">Ferrari SF90</span></div>
-                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">Shares</span><span className="text-sm font-bold text-[#0b1b34]">1/2 to 1/10</span></div>
-                          <div className="flex justify-between pt-3 border-t border-gray-100"><span className="text-sm text-gray-500">Total</span><span className="text-sm font-bold text-[#256ab1]">AED 250,000</span></div>
+                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">{t('home.how.asset')}</span><span className="text-sm font-bold text-[#0b1b34]">{t('home.how.ferrari')}</span></div>
+                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">{t('home.how.shares')}</span><span className="text-sm font-bold text-[#0b1b34]">{t('home.how.sharesRange')}</span></div>
+                          <div className="flex justify-between pt-3 border-t border-gray-100"><span className="text-sm text-gray-500">{t('home.how.total')}</span><span className="text-sm font-bold text-[#256ab1]">{t('home.how.totalPrice')}</span></div>
                         </div>
                         <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
                           <div className="flex items-center gap-3">
                             <FileText className="w-5 h-5 text-[#256ab1]" />
-                            <div className="text-sm font-bold text-[#0b1b34]">Ownership Contract</div>
+                            <div className="text-sm font-bold text-[#0b1b34]">{t('home.how.contract')}</div>
                           </div>
                         </div>
-                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">Sign & Pay</div>
+                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">{t('home.how.sign')}</div>
                       </div>
                     )
                   },
@@ -324,7 +324,7 @@ export const Home = () => {
                     num: '03',
                     Mockup: () => (
                       <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Select Dates</div>
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.selectDates')}</div>
                         <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
                           <div className="text-sm font-bold text-[#0b1b34] mb-4">March 2026</div>
                           <div className="grid grid-cols-7 gap-2 text-center mb-2">
@@ -334,7 +334,7 @@ export const Home = () => {
                             ))}
                           </div>
                         </div>
-                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">Confirm Booking</div>
+                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">{t('home.how.confirmBooking')}</div>
                       </div>
                     )
                   },
@@ -345,17 +345,17 @@ export const Home = () => {
                     num: '04',
                     Mockup: () => (
                       <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">Digital Key</div>
+                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.digitalKey')}</div>
                         <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 flex flex-col items-center justify-center py-8">
                           <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-4 border-4 border-[#256ab1]/20">
                             <Sparkles className="w-10 h-10 text-[#256ab1]" />
                           </div>
                           <div className="font-bold text-lg mb-1 text-[#0b1b34]">Ferrari SF90</div>
-                          <div className="text-sm text-green-500 font-medium">Connected</div>
+                          <div className="text-sm text-green-500 font-medium">{t('home.how.connected')}</div>
                         </div>
                         <div className="flex gap-4 mt-auto mb-8">
-                          <div className="flex-1 bg-gray-100 text-[#0b1b34] text-center py-3 rounded-xl font-bold text-sm">Lock</div>
-                          <div className="flex-1 bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm">Unlock</div>
+                          <div className="flex-1 bg-gray-100 text-[#0b1b34] text-center py-3 rounded-xl font-bold text-sm">{t('home.how.lock')}</div>
+                          <div className="flex-1 bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm">{t('home.how.unlock')}</div>
                         </div>
                       </div>
                     )
@@ -401,7 +401,7 @@ export const Home = () => {
                   to="/how-it-works" 
                   className="inline-flex items-center text-[#256ab1] font-bold hover:text-white transition-colors"
                 >
-                  Learn more about the process
+                  {t('home.how.learnMore')}
                   <ArrowRight className="ml-1 w-4 h-4" />
                 </Link>
               </div>
@@ -413,9 +413,9 @@ export const Home = () => {
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Who is Coshare For?</h2>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">{t('home.useCases.title')}</h2>
             <p className="text-lg text-gray-600 max-w-2xl">
-              Whether you're looking for lifestyle upgrades or smart diversification, there's a place for you.
+              {t('home.useCases.subtitle')}
             </p>
           </div>
 
@@ -425,26 +425,26 @@ export const Home = () => {
               {[
                 {
                   icon: Car,
-                  title: "The Experience Seeker",
-                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full car ownership, depreciation, or maintenance costs in Dubai.",
+                  title: t('home.useCases.1.title'),
+                  description: t('home.useCases.1.desc'),
                   image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Wallet,
-                  title: "The Smart Diversifier",
-                  description: "You understand that tying up capital in a single depreciating asset is inefficient. Diversify your alternative investment portfolio across multiple premium assets.",
+                  title: t('home.useCases.2.title'),
+                  description: t('home.useCases.2.desc'),
                   image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Plane,
-                  title: "The Seasonal Resident",
-                  description: "You're an expat or frequent visitor in the UAE. Why pay for a premium car that sits in a garage for 9 months when you can own and pay for just the fraction you use?",
+                  title: t('home.useCases.3.title'),
+                  description: t('home.useCases.3.desc'),
                   image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: HomeIcon,
-                  title: "The Aspirational Buyer",
-                  description: "You want access to an elevated lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
+                  title: t('home.useCases.4.title'),
+                  description: t('home.useCases.4.desc'),
                   image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
                 }
               ].map((useCase, index) => (
@@ -478,26 +478,26 @@ export const Home = () => {
               {[
                 {
                   icon: Car,
-                  title: "The Experience Seeker",
-                  description: "You want the thrill of driving a Porsche this weekend and a G-Wagon the next, without the burden of full car ownership, depreciation, or maintenance costs in Dubai.",
+                  title: t('home.useCases.1.title'),
+                  description: t('home.useCases.1.desc'),
                   image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Wallet,
-                  title: "The Smart Diversifier",
-                  description: "You understand that tying up capital in a single depreciating asset is inefficient. Diversify your alternative investment portfolio across multiple premium assets.",
+                  title: t('home.useCases.2.title'),
+                  description: t('home.useCases.2.desc'),
                   image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: Plane,
-                  title: "The Seasonal Resident",
-                  description: "You're an expat or frequent visitor in the UAE. Why pay for a premium car that sits in a garage for 9 months when you can own and pay for just the fraction you use?",
+                  title: t('home.useCases.3.title'),
+                  description: t('home.useCases.3.desc'),
                   image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
                 },
                 {
                   icon: HomeIcon,
-                  title: "The Aspirational Buyer",
-                  description: "You want access to an elevated lifestyle now. Coshare lowers the barrier to entry, letting you enjoy premium assets at a fraction of the upfront cost.",
+                  title: t('home.useCases.4.title'),
+                  description: t('home.useCases.4.desc'),
                   image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
                 }
               ].map((useCase, index) => (
@@ -598,11 +598,11 @@ export const Home = () => {
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#0b1b34] mb-6 leading-tight">
-                Start Co-Owning <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">Today.</span>
+                {t('home.cta.title1')} <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">{t('home.cta.title2')}</span>
               </h2>
               <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg font-light leading-relaxed">
-                Join a growing community of co-owners in Dubai sharing Porsches, Mercedes-Benz, Land Rovers, and premium yachts. Download the Coshare mobile app to browse available assets, purchase fractional shares, and book your time instantly.
+                {t('home.cta.desc')}
               </p>
               
               <div className="flex flex-col sm:flex-row items-center gap-4">
@@ -614,8 +614,8 @@ export const Home = () => {
                 >
                   <Apple className="w-6 h-6 mr-3" />
                   <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wider text-gray-300 font-medium">Download on the</div>
-                    <div className="text-sm leading-none mt-0.5">App Store</div>
+                    <div className="text-[10px] uppercase tracking-wider text-gray-300 font-medium">{t('home.cta.downloadOn')}</div>
+                    <div className="text-sm leading-none mt-0.5">{t('home.cta.appStore')}</div>
                   </div>
                 </a>
                 
@@ -629,8 +629,8 @@ export const Home = () => {
                     <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.22-.28.15-.4.54-.22.85L6.4 9.48C2.84 11.58.52 15.41.05 19.81h23.9c-.47-4.4-2.79-8.23-6.35-10.33zm-10.4 7.14c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15zm9.6 0c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15z"/>
                   </svg>
                   <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">Get it on</div>
-                    <div className="text-sm leading-none mt-0.5">Google Play</div>
+                    <div className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">{t('home.cta.getItOn')}</div>
+                    <div className="text-sm leading-none mt-0.5">{t('home.cta.googlePlay')}</div>
                   </div>
                 </a>
               </div>
@@ -645,8 +645,8 @@ export const Home = () => {
                   </div>
                 </div>
                 <div className="text-sm text-gray-500">
-                  <span className="text-[#0b1b34] font-bold">Early Adopters</span><br/>
-                  already co-owning
+                  <span className="text-[#0b1b34] font-bold">{t('home.cta.earlyAdopters')}</span><br/>
+                  {t('home.cta.alreadyCoOwning')}
                 </div>
               </div>
             </motion.div>
@@ -670,8 +670,8 @@ export const Home = () => {
                     <ShieldCheck className="w-5 h-5 text-green-500" />
                   </div>
                   <div>
-                    <div className="text-xs text-gray-500">Asset Insured</div>
-                    <div className="text-sm font-bold text-[#0b1b34]">Fully Covered</div>
+                    <div className="text-xs text-gray-500">{t('home.cta.assetInsured')}</div>
+                    <div className="text-sm font-bold text-[#0b1b34]">{t('home.cta.fullyCovered')}</div>
                   </div>
                 </div>
               </motion.div>
@@ -686,8 +686,8 @@ export const Home = () => {
                     <CalendarCheck className="w-5 h-5 text-[#256ab1]" />
                   </div>
                   <div>
-                    <div className="text-xs text-gray-500">Next Booking</div>
-                    <div className="text-sm font-bold text-[#0b1b34]">Tomorrow, 10 AM</div>
+                    <div className="text-xs text-gray-500">{t('home.cta.nextBooking')}</div>
+                    <div className="text-sm font-bold text-[#0b1b34]">{t('home.cta.tomorrow10am')}</div>
                   </div>
                 </div>
               </motion.div>
@@ -703,8 +703,8 @@ export const Home = () => {
                   <div className="pt-12 pb-4 px-6 bg-white border-b border-gray-100">
                     <div className="flex justify-between items-center mb-6">
                       <div>
-                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Portfolio Value</p>
-                        <h3 className="text-2xl font-display font-bold text-[#0b1b34]">AED 250,000</h3>
+                        <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">{t('home.cta.portfolioValue')}</p>
+                        <h3 className="text-2xl font-display font-bold text-[#0b1b34]">{t('home.how.totalPrice')}</h3>
                       </div>
                       <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Profile" className="w-full h-full object-cover" />
@@ -718,14 +718,14 @@ export const Home = () => {
                       <div className="w-full h-32 rounded-xl overflow-hidden mb-3 relative">
                         <img src="https://images.unsplash.com/photo-1592853625511-85c19280742d?auto=format&fit=crop&q=80&w=600" alt="Ferrari" className="w-full h-full object-cover" />
                         <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-[8px] font-bold text-[#0b1b34] uppercase tracking-widest">
-                          2/8 Shares
+                          {t('home.cta.shares28')}
                         </div>
                       </div>
                       <h4 className="font-bold text-[#0b1b34] text-sm">Ferrari SF90 Stradale</h4>
-                      <p className="text-[10px] text-gray-500 mb-2">Dubai, UAE</p>
+                      <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.dubai')}</p>
                       <div className="flex justify-between items-center pt-2 border-t border-gray-50">
-                        <span className="text-[10px] font-bold text-[#256ab1]">Book Time</span>
-                        <span className="text-[10px] font-bold text-gray-400">Trade Shares</span>
+                        <span className="text-[10px] font-bold text-[#256ab1]">{t('home.cta.bookTime')}</span>
+                        <span className="text-[10px] font-bold text-gray-400">{t('home.cta.tradeShares')}</span>
                       </div>
                     </div>
                     
@@ -733,11 +733,11 @@ export const Home = () => {
                       <div className="w-full h-32 rounded-xl overflow-hidden mb-3 relative">
                         <img src="https://images.unsplash.com/photo-1669023030485-573b6a75ab64?auto=format&fit=crop&q=80&w=600" alt="Lambo" className="w-full h-full object-cover" />
                         <div className="absolute top-2 left-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-[8px] font-bold text-[#0b1b34] uppercase tracking-widest">
-                          1/8 Shares
+                          {t('home.cta.shares18')}
                         </div>
                       </div>
                       <h4 className="font-bold text-[#0b1b34] text-sm">Lamborghini Revuelto</h4>
-                      <p className="text-[10px] text-gray-500 mb-2">Abu Dhabi, UAE</p>
+                      <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.abuDhabi')}</p>
                     </div>
                   </div>
                   

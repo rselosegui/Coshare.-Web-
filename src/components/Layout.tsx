@@ -312,8 +312,8 @@ export const Layout = () => {
                 </div>
               </a>
               <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                <Link to="/how-it-works" className="hover:text-white transition-colors">How it works</Link>
-                <Link to="/faq" className="hover:text-white transition-colors">FAQs</Link>
+                <Link to="/how-it-works" className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link>
+                <Link to="/faq" className="hover:text-white transition-colors">{t('nav.faq')}</Link>
                 <a href="#" className="hover:text-white transition-colors">{t('footer.terms')}</a>
                 <a href="#" className="hover:text-white transition-colors">{t('footer.privacy')}</a>
               </div>
