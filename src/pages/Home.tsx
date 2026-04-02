@@ -93,10 +93,9 @@ export const Home = () => {
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-[#0b1b34]">
         <div className="absolute inset-0 z-0">
           <img
-            src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1742461144186_image.png"
+            src="/coshare-hero-banner.png"
             alt="Premium Car"
             className="w-full h-full object-cover"
-            referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34]/90 via-[#0b1b34]/40 to-transparent" />
         </div>
