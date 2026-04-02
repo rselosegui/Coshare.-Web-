@@ -5,7 +5,6 @@ import { useLanguage } from '../store/language';
 import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple, HelpCircle, ChevronRight, X } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import { Dock } from './Dock';
 import { motion, AnimatePresence } from 'motion/react';
 
 export function cn(...inputs: ClassValue[]) {
@@ -241,8 +240,7 @@ export const Layout = () => {
         </main>
       </div>
 
-      {/* Floating Dock (Post-login) */}
-      {user && <Dock />}
+
 
       {/* Footer */}
       <footer className="bg-[#0b1b34] border-t border-white/10 py-12 mt-auto">
