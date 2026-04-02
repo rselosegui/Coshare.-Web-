@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../store/auth';
+import { useLanguage } from '../store/language';
 import { motion, AnimatePresence } from 'motion/react';
 import { format, addDays, startOfWeek, endOfWeek, eachDayOfInterval, isSameMonth, isSameDay, addMonths, subMonths, isWithinInterval, isBefore } from 'date-fns';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Info, CheckCircle, MessageSquare, ArrowLeftRight, X } from 'lucide-react';
@@ -24,6 +25,7 @@ interface BookingItem {
 
 export const Booking = () => {
   const { user, isAuthReady } = useAuth();
+  const { t } = useLanguage();
   const { assets } = useAssets();
   const [portfolio, setPortfolio] = useState<PortfolioItem[]>([]);
   const [bookings, setBookings] = useState<BookingItem[]>([]);
@@ -251,10 +253,10 @@ export const Booking = () => {
               <div className="w-6 h-6 lg:w-8 lg:h-8 bg-accent/20 rounded-lg flex items-center justify-center">
                 <CalendarIcon className="w-3 h-3 lg:w-4 lg:h-4 text-accent" />
               </div>
-              <span className="text-accent text-[10px] lg:text-xs font-bold uppercase tracking-[0.3em] block">Booking Portal</span>
+              <span className="text-accent text-[10px] lg:text-xs font-bold uppercase tracking-[0.3em] block">{t('booking.portal')}</span>
             </div>
             <h1 className="text-2xl lg:text-6xl font-display font-bold text-white mb-4 lg:mb-8 leading-tight">
-              {selectedAsset?.name || 'Select an Asset'}
+              {selectedAsset?.name || t('booking.selectAsset')}
             </h1>
 
             {selectedAsset && (
@@ -298,7 +300,7 @@ export const Booking = () => {
           <div className="lg:hidden mb-8 p-6 bg-primary rounded-3xl text-white shadow-xl">
             <div className="flex justify-between items-start mb-4">
               <div>
-                <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-1">Currently Booking</p>
+                <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-1">{t('booking.currentlyBooking')}</p>
                 <h2 className="text-2xl font-display font-bold">{selectedAsset?.name}</h2>
               </div>
               <div className="bg-white/10 p-2 rounded-xl">
@@ -429,8 +431,8 @@ export const Booking = () => {
           <div className="mt-24 grid grid-cols-2 gap-4">
             <div className="p-6 rounded-3xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
               <Info className="w-5 h-5 text-accent mb-4" />
-              <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-2">FIFO Priority</h4>
-              <p className="text-[10px] text-gray-500 leading-relaxed">Bookings are confirmed on a first-come, first-served basis to ensure fairness.</p>
+              <h4 className="text-xs font-bold text-primary uppercase tracking-widest mb-2">{t('booking.fifo')}</h4>
+              <p className="text-[10px] text-gray-500 leading-relaxed">{t('booking.fairness')}</p>
             </div>
             <div className="p-6 rounded-3xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10">
               <CalendarIcon className="w-5 h-5 text-accent mb-4" />
@@ -452,10 +454,10 @@ export const Booking = () => {
           >
             <div className="bg-primary/80 backdrop-blur-2xl border border-white/10 p-6 rounded-full shadow-2xl flex items-center justify-between">
               <div>
-                <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">Confirm Selection</p>
+                <p className="text-[10px] text-white/50 uppercase tracking-widest mb-1">{t('booking.confirmSelection')}</p>
                 <p className="text-sm font-bold text-white">
                   {format(selectedRange.start, 'MMM d')}
-                  {selectedRange.end ? ` — ${format(selectedRange.end, 'MMM d, yyyy')}` : ' (Select end date)'}
+                  {selectedRange.end ? ` — ${format(selectedRange.end, 'MMM d, yyyy')}` : t('booking.selectEnd')}
                 </p>
               </div>
               <button
@@ -468,10 +470,10 @@ export const Booking = () => {
                 ) : bookingSuccess ? (
                   <>
                     <CheckCircle className="w-4 h-4 mr-2" />
-                    Confirmed
+                    {t('booking.confirmed')}
                   </>
                 ) : (
-                  'Book Now'
+                  t('booking.bookNow')
                 )}
               </button>
             </div>
@@ -507,20 +509,20 @@ export const Booking = () => {
                 <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <ArrowLeftRight className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-2xl font-display font-bold text-primary mb-2">Request a Swap</h3>
+                <h3 className="text-2xl font-display font-bold text-primary mb-2">{t('booking.requestSwap')}</h3>
                 <p className="text-gray-500 text-sm">
-                  This date is currently reserved by another owner. Would you like to propose a date swap?
+                  {t('booking.swapDesc')}
                 </p>
               </div>
 
               <div className="bg-gray-50 rounded-2xl p-6 mb-8 border border-gray-100">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Target Date</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t('booking.targetDate')}</span>
                   <span className="text-sm font-bold text-primary">{swapTargetDate && format(swapTargetDate, 'MMMM d, yyyy')}</span>
                 </div>
                 <div className="flex items-center text-xs text-accent font-medium">
                   <MessageSquare className="w-4 h-4 mr-2" />
-                  Anonymous request will be sent to the owner.
+                  {t('booking.anonymousRequest')}
                 </div>
               </div>
 
@@ -529,7 +531,7 @@ export const Booking = () => {
                   <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle className="w-6 h-6 text-green-600" />
                   </div>
-                  <p className="text-sm font-bold text-green-600">Swap Request Sent!</p>
+                  <p className="text-sm font-bold text-green-600">{t('booking.swapSent')}</p>
                 </motion.div>
               ) : (
                 <button
@@ -542,7 +544,7 @@ export const Booking = () => {
                   }}
                   className="w-full py-4 bg-primary text-white font-bold rounded-full hover:scale-105 transition-all active:scale-95 shadow-lg shadow-primary/20"
                 >
-                  Propose Swap
+                  {t('booking.proposeSwap')}
                 </button>
               )}
             </motion.div>

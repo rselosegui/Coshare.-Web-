@@ -552,10 +552,10 @@ export const AssetDetails = () => {
                   <div className="bg-[#f8f9fa] border border-gray-200 rounded-2xl p-6 text-center border-dashed">
                     <UserCheck className={`w-12 h-12 mx-auto mb-4 ${kycStatus === 'verified' ? 'text-green-500' : 'text-[#256ab1] opacity-50'}`} />
                     <p className="text-sm font-medium text-[#0b1b34] mb-1">
-                      {kycStatus === 'verified' ? 'Identity Verified' : t('asset.checkout.verify')}
+                      {kycStatus === 'verified' ? t('asset.checkout.verified') : t('asset.checkout.verify')}
                     </p>
                     <p className="text-xs text-gray-500 mb-4">
-                      {kycStatus === 'verified' ? 'Your identity has been successfully verified.' : t('asset.checkout.uploadDesc')}
+                      {kycStatus === 'verified' ? t('asset.checkout.verifiedDesc') : t('asset.checkout.uploadDesc')}
                     </p>
                     {kycStatus !== 'verified' && (
                       <button 

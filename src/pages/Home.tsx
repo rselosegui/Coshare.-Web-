@@ -130,18 +130,20 @@ export const Home = () => {
             className="flex flex-col items-center justify-center"
           >
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
-              <Link
-                to="/assets"
+              <a
+                href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-full sm:w-auto px-8 py-4 bg-white text-[#0b1b34] font-bold rounded-full hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/5 flex items-center justify-center group"
               >
                 {t('home.hero.start')}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
+              </a>
               <Link
-                to="/list-onboarding"
+                to="#how-it-works"
                 className="w-full sm:w-auto px-8 py-4 bg-transparent border border-white text-white font-bold rounded-full hover:bg-white/10 transition-all hover:scale-105 active:scale-95 flex items-center justify-center"
               >
-                {t('home.hero.list')}
+                {t('nav.howItWorks')}
               </Link>
             </div>
           </motion.div>
@@ -326,9 +328,9 @@ export const Home = () => {
                       <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
                         <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.selectDates')}</div>
                         <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
-                          <div className="text-sm font-bold text-[#0b1b34] mb-4">March 2026</div>
+                          <div className="text-sm font-bold text-[#0b1b34] mb-4">{t('home.visuals.march2026')}</div>
                           <div className="grid grid-cols-7 gap-2 text-center mb-2">
-                            <div className="text-xs text-gray-400">M</div><div className="text-xs text-gray-400">T</div><div className="text-xs text-gray-400">W</div><div className="text-xs text-gray-400">T</div><div className="text-xs text-gray-400">F</div><div className="text-xs text-gray-400">S</div><div className="text-xs text-gray-400">S</div>
+                            <div className="text-xs text-gray-400">{t('day.m')}</div><div className="text-xs text-gray-400">{t('day.t')}</div><div className="text-xs text-gray-400">{t('day.w')}</div><div className="text-xs text-gray-400">{t('day.th')}</div><div className="text-xs text-gray-400">{t('day.f')}</div><div className="text-xs text-gray-400">{t('day.s')}</div><div className="text-xs text-gray-400">{t('day.su')}</div>
                             {Array.from({length: 28}).map((_, i) => (
                               <div key={i} className={`aspect-square flex items-center justify-center text-xs rounded-full ${i === 14 || i === 15 ? 'bg-[#256ab1] text-white font-bold' : i > 10 && i < 14 ? 'bg-gray-100 text-gray-400 line-through' : 'text-[#0b1b34]'}`}>{i + 1}</div>
                             ))}
@@ -350,7 +352,7 @@ export const Home = () => {
                           <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-4 border-4 border-[#256ab1]/20">
                             <Sparkles className="w-10 h-10 text-[#256ab1]" />
                           </div>
-                          <div className="font-bold text-lg mb-1 text-[#0b1b34]">Ferrari SF90</div>
+                          <div className="font-bold text-lg mb-1 text-[#0b1b34]">{t('home.how.ferrari')}</div>
                           <div className="text-sm text-green-500 font-medium">{t('home.how.connected')}</div>
                         </div>
                         <div className="flex gap-4 mt-auto mb-8">
@@ -721,7 +723,7 @@ export const Home = () => {
                           {t('home.cta.shares28')}
                         </div>
                       </div>
-                      <h4 className="font-bold text-[#0b1b34] text-sm">Ferrari SF90 Stradale</h4>
+                      <h4 className="font-bold text-[#0b1b34] text-sm">{t('home.how.ferrariStradale')}</h4>
                       <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.dubai')}</p>
                       <div className="flex justify-between items-center pt-2 border-t border-gray-50">
                         <span className="text-[10px] font-bold text-[#256ab1]">{t('home.cta.bookTime')}</span>
@@ -736,7 +738,7 @@ export const Home = () => {
                           {t('home.cta.shares18')}
                         </div>
                       </div>
-                      <h4 className="font-bold text-[#0b1b34] text-sm">Lamborghini Revuelto</h4>
+                      <h4 className="font-bold text-[#0b1b34] text-sm">{t('home.how.lamborghini')}</h4>
                       <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.abuDhabi')}</p>
                     </div>
                   </div>

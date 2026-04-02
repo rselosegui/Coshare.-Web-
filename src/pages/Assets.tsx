@@ -225,9 +225,9 @@ export const Assets = () => {
                 {/* Scarcity Progress Bar */}
                 <div className="mt-4">
                   <div className="flex justify-between items-center mb-1.5">
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Availability</span>
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">{t('asset.availability')}</span>
                     <span className="text-[10px] font-bold text-[#256ab1] uppercase tracking-wider">
-                      {Math.round(((asset.totalShares - asset.availableShares) / asset.totalShares) * 100)}% Sold
+                      {Math.round(((asset.totalShares - asset.availableShares) / asset.totalShares) * 100)}% {t('asset.sold')}
                     </span>
                   </div>
                   <div className="w-full bg-gray-100 rounded-full h-1.5 relative overflow-hidden">

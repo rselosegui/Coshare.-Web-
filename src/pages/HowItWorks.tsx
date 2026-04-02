@@ -262,13 +262,15 @@ export const HowItWorks = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.cta.title')}</h2>
           <p className="text-xl text-gray-400 mb-10 font-light">{t('how.cta.desc')}</p>
-          <Link 
-            to="/assets"
+          <a 
+            href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center px-8 py-4 bg-[#05A7E8] text-white rounded-full font-bold hover:bg-[#49bee4] transition-all hover:scale-105 active:scale-95 group"
           >
-            {t('how.cta.button')}
+            {t('banner.cta')}
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+          </a>
         </div>
       </section>
 

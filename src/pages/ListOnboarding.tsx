@@ -400,7 +400,7 @@ export const ListOnboarding = () => {
                   onClick={() => window.location.href = '/'}
                   className="w-full sm:w-auto px-12 py-4 bg-[#0b1b34] text-white font-bold text-xs uppercase tracking-[0.2em] rounded-full hover:scale-105 transition-all shadow-xl shadow-[#0b1b34]/20 active:scale-95"
                 >
-                  Return to Marketplace
+                  {t('onboarding.returnHome')}
                 </button>
               </motion.div>
             )}

@@ -132,7 +132,7 @@ export const Layout = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-12 relative">
             <div className="flex items-center space-x-6">
-              <Link to={user ? "/assets" : "/"} className="font-display font-bold text-2xl tracking-tighter text-primary">
+              <Link to="/" className="font-display font-bold text-2xl tracking-tighter text-primary">
                 <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
               </Link>
               {user && (
@@ -154,7 +154,6 @@ export const Layout = () => {
                 "hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2 transition-all duration-500",
                 (showNavLinks || location.pathname !== '/') ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
               )}>
-                <Link to="/assets" className="text-sm font-bold text-[#05A7E8] hover:text-[#49bee4] transition-colors">{t('nav.marketplace')}</Link>
                 <Link to="/how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</Link>
                 <Link to="/#use-cases" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.useCases')}</Link>
                 <Link to="/faq" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.faq')}</Link>
@@ -170,16 +169,7 @@ export const Layout = () => {
                 <span>{lang === 'EN' ? 'AR' : 'EN'}</span>
               </button>
               
-              {!user ? (
-                <div className="flex items-center space-x-3">
-                  <Link
-                    to="/login"
-                    className="inline-flex items-center justify-center px-5 py-2 text-xs font-bold uppercase tracking-widest text-on-primary bg-primary rounded-full hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/5"
-                  >
-                    {t('nav.signin')}
-                  </Link>
-                </div>
-              ) : (
+              {user && (
                 <div className="relative" ref={menuRef}>
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}

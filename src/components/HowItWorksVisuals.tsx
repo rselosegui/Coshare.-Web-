@@ -92,7 +92,7 @@ export const Visual3 = () => {
       </div>
     </div>
     <div className="grid grid-cols-7 gap-1.5 md:gap-2 flex-1 content-start">
-      {['M','T','W','T','F','S','S'].map((d, i) => (
+      {[t('day.m'), t('day.t'), t('day.w'), t('day.th'), t('day.f'), t('day.s'), t('day.su')].map((d, i) => (
         <div key={i} className="text-center text-[10px] md:text-xs text-gray-400 mb-1 md:mb-2">{d}</div>
       ))}
       {Array.from({ length: 14 }).map((_, i) => (

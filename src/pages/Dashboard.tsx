@@ -249,7 +249,7 @@ export const Dashboard = () => {
                 onClick={seedAssets}
                 className="flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all text-white bg-red-600 hover:bg-red-700 mr-2"
               >
-                <span>Seed Assets</span>
+                <span>{t('dashboard.seedAssets')}</span>
               </button>
             )}
             {[
@@ -639,7 +639,7 @@ export const Dashboard = () => {
                               <Tag className="w-4 h-4 text-[#256ab1]" />
                             </div>
                             <div>
-                              <p className="text-[10px] text-gray-400 uppercase tracking-widest">Seller</p>
+                              <p className="text-[10px] text-gray-400 uppercase tracking-widest">{t('dashboard.resale.seller')}</p>
                               <p className="text-xs font-bold text-[#0b1b34]">{listing.sellerName}</p>
                             </div>
                           </div>
