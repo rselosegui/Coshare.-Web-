@@ -99,60 +99,66 @@ export const Layout = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className={cn(
-                "relative z-50 w-full bg-gradient-to-r from-[#0b1b34] via-[#1a3a5f] to-[#0b1b34] border-b border-white/10 overflow-hidden",
-              )}
+              className="relative z-50 w-full bg-[#000000] border-b border-white/10 overflow-hidden"
             >
-              {/* Animated gradient background */}
+              {/* Shimmer effect */}
               <motion.div 
-                className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(73,190,228,0.2)_50%,transparent_100%)] w-[200%]"
+                className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.1)_50%,transparent_100%)] w-[200%]"
                 animate={{ x: ['-100%', '50%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
               />
               
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Desktop Layout */}
                 <div className="hidden sm:flex items-center justify-between py-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/20">
-                      <Apple className="w-4 h-4 text-white" />
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg">
+                      <Apple className="w-5 h-5 text-white" />
                     </div>
-                    <span className="text-sm font-medium text-white tracking-wide">{t('banner.text')}</span>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-semibold text-white tracking-wide">{t('banner.text')}</span>
+                      <div className="flex items-center gap-1 text-[10px] text-gray-400 mt-0.5">
+                        <span className="flex text-[#F5A623] text-xs">★★★★★</span>
+                        <span>App Store</span>
+                      </div>
+                    </div>
                   </div>
                   <div className="flex items-center gap-4">
                     <a 
                       href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative overflow-hidden group bg-white text-[#0b1b34] text-xs font-bold px-5 py-2 rounded-full hover:scale-105 transition-transform"
+                      className="bg-white text-black text-xs font-bold px-6 py-2 rounded-full hover:scale-105 hover:bg-gray-100 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                     >
-                      <span className="relative z-10">{t('banner.cta')}</span>
-                      <div className="absolute inset-0 bg-[#49bee4] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                      {t('banner.cta')}
                     </a>
-                    <button onClick={() => setIsBannerVisible(false)} className="p-1.5 rounded-full hover:bg-white/10 transition-colors text-white/60 hover:text-white">
+                    <button onClick={() => setIsBannerVisible(false)} className="p-1.5 rounded-full hover:bg-white/20 transition-colors text-gray-400 hover:text-white">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
 
                 {/* Mobile Layout */}
-                <div className="flex sm:hidden flex-col py-3 gap-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
-                        <Apple className="w-3 h-3 text-white" />
-                      </div>
-                      <span className="text-xs font-medium text-white leading-tight">{t('banner.text')}</span>
-                    </div>
-                    <button onClick={() => setIsBannerVisible(false)} className="p-1 rounded-full hover:bg-white/10 transition-colors text-white/60 hover:text-white flex-shrink-0 -mr-1">
+                <div className="flex sm:hidden items-center justify-between py-3 gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <button onClick={() => setIsBannerVisible(false)} className="p-1 rounded-full hover:bg-white/20 transition-colors text-gray-400 hover:text-white flex-shrink-0 -ml-1">
                       <X className="w-4 h-4" />
                     </button>
+                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg flex-shrink-0">
+                      <Apple className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="flex flex-col min-w-0">
+                      <span className="text-xs font-semibold text-white truncate">{t('banner.text')}</span>
+                      <div className="flex items-center gap-1 text-[10px] text-gray-400 mt-0.5">
+                        <span className="flex text-[#F5A623]">★★★★★</span>
+                      </div>
+                    </div>
                   </div>
                   <a 
                     href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full text-center bg-[#49bee4] text-[#0b1b34] text-xs font-bold px-4 py-2.5 rounded-lg active:scale-95 transition-transform shadow-[0_0_15px_rgba(73,190,228,0.3)]"
+                    className="bg-white text-black text-[10px] font-bold px-4 py-1.5 rounded-full active:scale-95 transition-transform flex-shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)]"
                   >
                     {t('banner.cta')}
                   </a>
