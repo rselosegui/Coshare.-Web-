@@ -42,7 +42,7 @@
     },
     "Agreement": {
       "title": "Agreement",
-      "description": "Represents a signed legal agreement for fractional ownership.",
+      "description": "Represents a signed legal agreement for cosharing.",
       "type": "object",
       "properties": {
         "userId": {

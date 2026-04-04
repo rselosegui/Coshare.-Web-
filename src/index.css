@@ -36,6 +36,10 @@
   --color-on-primary: var(--color-on-primary);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--color-surface);

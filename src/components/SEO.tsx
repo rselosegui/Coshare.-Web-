@@ -10,8 +10,8 @@ interface SEOProps {
 }
 
 export const SEO: React.FC<SEOProps> = ({ 
-  title = "Coshare | Fractional Ownership of Assets in UAE", 
-  description = "Join the future of ownership. Co-own cars, yachts, real estate and more in the UAE with Coshare's AI-powered fractional ownership marketplace.",
+  title = "Coshare | Co-own and Share Assets", 
+  description = "Join the future of ownership. Co-own cars, yachts, real estate and more all around the world with Coshare's AI-powered cosharing marketplace.",
   canonical = "https://coshare.ai",
   image = "https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1741689564993_image.png",
   type = 'website'
@@ -22,12 +22,7 @@ export const SEO: React.FC<SEOProps> = ({
     "name": "Coshare",
     "url": "https://coshare.ai",
     "logo": "https://coshare.ai/logo.png",
-    "description": "Premium fractional ownership platform for high-value assets in the UAE.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Dubai",
-      "addressCountry": "AE"
-    },
+    "description": "Cosharing platform for high-value assets all around the world.",
     "sameAs": [
       "https://instagram.com/coshare.ai",
       "https://linkedin.com/company/coshare-ai"
@@ -40,26 +35,26 @@ export const SEO: React.FC<SEOProps> = ({
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "What is fractional ownership?",
+        "name": "What is cosharing?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Fractional ownership allows multiple individuals to share ownership of a high-value asset, such as a premium car or yacht. Each owner is officially registered as an authorized co-owner to ensure legal compliance."
+          "text": "Cosharing allows multiple individuals to share ownership of a high-value asset, such as a car or yacht. Each owner is officially registered as an authorized co-owner to ensure legal compliance."
         }
       },
       {
         "@type": "Question",
-        "name": "How does Coshare work in the UAE?",
+        "name": "How does Coshare work?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Coshare identifies premium assets, protects them under a comprehensive co-ownership agreement, and allows users to buy fractions (from 1/8th). We handle all maintenance, insurance, and storage while you enjoy guaranteed usage days."
+          "text": "Coshare identifies assets, protects them under a comprehensive co-ownership agreement, and allows users to buy shares (from 1/8th). We handle all maintenance, insurance, and storage while you enjoy guaranteed usage days."
         }
       },
       {
         "@type": "Question",
-        "name": "Is fractional ownership legal in Dubai?",
+        "name": "Is cosharing legal?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, Coshare utilizes a streamlined legal structure protected by a comprehensive co-ownership agreement and official RTA registration to ensure strict compliance."
+          "text": "Yes, Coshare utilizes a streamlined legal structure protected by a comprehensive co-ownership agreement and official registration to ensure strict compliance."
         }
       }
     ]

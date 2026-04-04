@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet, FileText } from 'lucide-react';
+import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet, FileText, CheckCircle2 } from 'lucide-react';
+import { useAssets } from '../hooks/useAssets';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
+
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   return (
@@ -56,7 +58,18 @@ const FAQItemDark = ({ question, answer }: { question: string; answer: string })
 export const Home = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
-  const [activeUseCase, setActiveUseCase] = React.useState(0);
+  const { assets } = useAssets();
+  const featuredAssets = assets.filter(asset => asset.category === 'Cars').slice(0, 3);
+  const [activeUseCase, setActiveUseCase] = useState(0);
+  const [isHoveringUseCases, setIsHoveringUseCases] = useState(false);
+  
+  useEffect(() => {
+    if (isHoveringUseCases) return;
+    const interval = setInterval(() => {
+      setActiveUseCase((prev) => (prev + 1) % 4);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isHoveringUseCases]);
   
   const whyRef = useRef<HTMLElement>(null);
   const { scrollYProgress: whyScrollY } = useScroll({
@@ -91,11 +104,13 @@ export const Home = () => {
       />
       {/* Hero Section */}
       <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-[#0b1b34]">
+        <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#49bee4]/20 rounded-full blur-[120px] pointer-events-none z-0" />
         <div className="absolute inset-0 z-0">
           <img
-            src="/coshare-hero-banner.png"
-            alt="Premium Car"
+            src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1742461144186_image.png"
+            alt="Asset Image"
             className="w-full h-full object-cover"
+            referrerPolicy="no-referrer"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34]/90 via-[#0b1b34]/40 to-transparent" />
         </div>
@@ -105,7 +120,7 @@ export const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-5xl md:text-7xl font-display font-bold text-white mb-6 tracking-tight"
+            className="text-5xl md:text-7xl font-display font-bold text-white mb-6 tracking-tight text-balance"
           >
             {t('home.hero.title')}
           </motion.h1>
@@ -113,7 +128,7 @@ export const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto font-light"
+            className="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto font-light text-balance"
           >
             {t('home.hero.subtitle')}
           </motion.p>
@@ -129,7 +144,7 @@ export const Home = () => {
                 href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto px-8 py-4 bg-white text-[#0b1b34] font-bold rounded-full hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-black/5 flex items-center justify-center group"
+                className="w-full sm:w-auto px-8 py-4 bg-white text-[#0b1b34] font-bold rounded-full hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 shadow-[0_8px_20px_rgba(0,0,0,0.1),inset_0_-3px_0_rgba(0,0,0,0.1)] flex items-center justify-center group"
               >
                 {t('home.hero.start')}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -146,26 +161,26 @@ export const Home = () => {
       </section>
 
       {/* Editorial Content: Why coshare. - Bento Grid Redesign */}
-      <section id="why-coshare" ref={whyRef} className="py-16 bg-[#f8f9fa] overflow-hidden">
+      <section id="why-coshare" ref={whyRef} className="py-12 md:py-16 bg-[#f8f9fa] overflow-hidden scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4 text-balance">
               {t('home.why.title').split('coshare.')[0]}
               <span dir="ltr" className="inline-block">coshare<span className="text-[#05A7E8]">.</span></span>
               {t('home.why.title').split('coshare.')[1]}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl">
+            <p className="text-lg text-gray-600 max-w-2xl text-balance">
               {t('home.why.subtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-fr">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
               {
                 icon: PieChart,
                 title: t('home.why.1.title'),
                 description: t('home.why.1.desc'),
-                className: "md:col-span-8 md:row-span-2 min-h-[350px] md:min-h-[500px]",
+                className: "lg:col-span-2 sm:col-span-2 min-h-[220px]",
                 image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.1.badge')
               },
@@ -173,7 +188,7 @@ export const Home = () => {
                 icon: Scale,
                 title: t('home.why.2.title'),
                 description: t('home.why.2.desc'),
-                className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
+                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
                 image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.2.badge')
               },
@@ -181,7 +196,7 @@ export const Home = () => {
                 icon: Sparkles,
                 title: t('home.why.3.title'),
                 description: t('home.why.3.desc'),
-                className: "md:col-span-4 min-h-[200px] md:min-h-[238px]",
+                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
                 image: "https://images.unsplash.com/photo-1582672060624-cdac1654672b?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.3.badge')
               },
@@ -189,7 +204,7 @@ export const Home = () => {
                 icon: Briefcase,
                 title: t('home.why.4.title'),
                 description: t('home.why.4.desc'),
-                className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
+                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
                 image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.4.badge')
               },
@@ -197,7 +212,7 @@ export const Home = () => {
                 icon: Landmark,
                 title: t('home.why.5.title'),
                 description: t('home.why.5.desc'),
-                className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
+                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
                 image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.5.badge')
               },
@@ -205,9 +220,17 @@ export const Home = () => {
                 icon: Users,
                 title: t('home.why.6.title'),
                 description: t('home.why.6.desc'),
-                className: "md:col-span-4 min-h-[200px] md:min-h-[250px]",
+                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
                 image: "https://images.unsplash.com/photo-1526495124232-a04e1849168c?auto=format&fit=crop&q=80&w=1000",
                 badge: t('home.why.6.badge')
+              },
+              {
+                icon: ShieldCheck,
+                title: t('home.why.7.title'),
+                description: t('home.why.7.desc'),
+                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
+                image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=1000",
+                badge: t('home.why.7.badge')
               }
             ].map((feature, index) => (
               <motion.div
@@ -216,7 +239,7 @@ export const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, delay: index * 0.1, ease: "easeOut" }}
-                className={`relative overflow-hidden rounded-3xl bg-white p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group border border-gray-100 hover:border-[#256ab1]/30 flex flex-col justify-between ${feature.className}`}
+                className={`relative overflow-hidden rounded-3xl bg-white p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group border border-gray-100 hover:border-[#256ab1]/30 flex flex-col justify-between ${feature.className}`}
               >
                 {/* Parallax Background Image */}
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 overflow-hidden bg-[#0b1b34]">
@@ -243,10 +266,10 @@ export const Home = () => {
                   </div>
                   
                   <div className="mt-auto">
-                    <h3 className={`font-display font-bold text-[#0b1b34] mb-4 group-hover:text-[#256ab1] transition-colors duration-500 ${index === 0 ? 'text-4xl md:text-6xl tracking-tight' : 'text-2xl md:text-3xl'}`}>
+                    <h3 className={`font-display font-bold text-[#0b1b34] mb-2 group-hover:text-[#256ab1] transition-colors duration-500 ${index === 0 ? 'text-xl md:text-2xl tracking-tight' : 'text-lg md:text-xl'}`}>
                       {feature.title}
                     </h3>
-                    <p className={`text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors duration-500 ${index === 0 ? 'text-lg md:text-xl max-w-xl' : 'text-base'}`}>
+                    <p className={`text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors duration-500 ${index === 0 ? 'text-sm md:text-base max-w-xl' : 'text-xs md:text-sm'}`}>
                       {feature.description}
                     </p>
                   </div>
@@ -258,167 +281,162 @@ export const Home = () => {
       </section>
 
       {/* How it works - Scrolling Version */}
-      <section id="how-it-works" ref={howRef} className="py-24 bg-[#0b1b34] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-16 md:py-24 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-left">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">{t('home.how.title')}</h2>
-            <p className="text-lg text-gray-400 max-w-2xl">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 text-balance">{t('home.how.title')}</h2>
+            <p className="text-lg text-gray-400 max-w-2xl text-balance">
               {t('home.how.subtitle')}
             </p>
           </div>
 
-          <div className="flex flex-col gap-24">
-            {/* Steps */}
-            {[
+          <div className="flex flex-col md:flex-row gap-12 md:gap-24">
+            
+            {/* Left: Sticky Content */}
+            <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col justify-center pt-24 md:pt-0 z-10">
+              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-[#1a2b4c] hidden md:block">
+                <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>
+                  <Visual1 />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}>
+                  <Visual2 />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}>
+                  <Visual3 />
+                </motion.div>
+                <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}>
+                  <Visual4 />
+                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#0b1b34]/60 to-transparent mix-blend-overlay pointer-events-none" />
+              </div>
+            </div>
+
+            {/* Right: Scrolling Steps */}
+            <div className="w-full md:w-1/2 relative pb-16 md:pb-[5vh] md:pt-[5vh]">
+              {/* Progress Line Background */}
+              <div className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-white/10 hidden md:block" />
+              {/* Animated Progress Line */}
+              <motion.div 
+                className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-[#49bee4] origin-top hidden md:block" 
+                style={{ scaleY: howScrollY }} 
+              />
+
+              <div className="flex flex-col gap-24 md:gap-0">
+                {[
                   {
                     icon: Search,
                     title: t('how.step1.title'),
                     description: t('how.step1.desc'),
+                    points: [t('how.step1.point1'), t('how.step1.point2'), t('how.step1.point3')],
                     num: '01',
-                    Mockup: () => (
-                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.browse')}</div>
-                        <div className="bg-white rounded-2xl p-3 shadow-sm mb-4">
-                          <img src="https://images.unsplash.com/photo-1592853625511-85c19280742d?auto=format&fit=crop&q=80&w=600" className="w-full h-32 object-cover rounded-xl mb-3" alt="Ferrari" />
-                          <div className="font-bold text-sm text-[#0b1b34]">{t('home.how.ferrari')}</div>
-                          <div className="text-xs text-gray-500">{t('home.how.price250')}</div>
-                        </div>
-                        <div className="bg-white rounded-2xl p-3 shadow-sm">
-                          <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=600" className="w-full h-32 object-cover rounded-xl mb-3" alt="Porsche" />
-                          <div className="font-bold text-sm text-[#0b1b34]">{t('home.how.porsche')}</div>
-                          <div className="text-xs text-gray-500">{t('home.how.price150')}</div>
-                        </div>
-                      </div>
-                    )
+                    Visual: Visual1
                   },
                   {
                     icon: FileText,
                     title: t('how.step2.title'),
                     description: t('how.step2.desc'),
+                    points: [t('how.step2.point1'), t('how.step2.point2'), t('how.step2.point3')],
                     num: '02',
-                    Mockup: () => (
-                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.checkout')}</div>
-                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
-                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">{t('home.how.asset')}</span><span className="text-sm font-bold text-[#0b1b34]">{t('home.how.ferrari')}</span></div>
-                          <div className="flex justify-between mb-3"><span className="text-sm text-gray-500">{t('home.how.shares')}</span><span className="text-sm font-bold text-[#0b1b34]">{t('home.how.sharesRange')}</span></div>
-                          <div className="flex justify-between pt-3 border-t border-gray-100"><span className="text-sm text-gray-500">{t('home.how.total')}</span><span className="text-sm font-bold text-[#256ab1]">{t('home.how.totalPrice')}</span></div>
-                        </div>
-                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
-                          <div className="flex items-center gap-3">
-                            <FileText className="w-5 h-5 text-[#256ab1]" />
-                            <div className="text-sm font-bold text-[#0b1b34]">{t('home.how.contract')}</div>
-                          </div>
-                        </div>
-                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">{t('home.how.sign')}</div>
-                      </div>
-                    )
+                    Visual: Visual2
                   },
                   {
                     icon: CalendarCheck,
                     title: t('how.step3.title'),
                     description: t('how.step3.desc'),
+                    points: [t('how.step3.point1'), t('how.step3.point2'), t('how.step3.point3')],
                     num: '03',
-                    Mockup: () => (
-                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.selectDates')}</div>
-                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4">
-                          <div className="text-sm font-bold text-[#0b1b34] mb-4">{t('home.visuals.march2026')}</div>
-                          <div className="grid grid-cols-7 gap-2 text-center mb-2">
-                            <div className="text-xs text-gray-400">{t('day.m')}</div><div className="text-xs text-gray-400">{t('day.t')}</div><div className="text-xs text-gray-400">{t('day.w')}</div><div className="text-xs text-gray-400">{t('day.th')}</div><div className="text-xs text-gray-400">{t('day.f')}</div><div className="text-xs text-gray-400">{t('day.s')}</div><div className="text-xs text-gray-400">{t('day.su')}</div>
-                            {Array.from({length: 28}).map((_, i) => (
-                              <div key={i} className={`aspect-square flex items-center justify-center text-xs rounded-full ${i === 14 || i === 15 ? 'bg-[#256ab1] text-white font-bold' : i > 10 && i < 14 ? 'bg-gray-100 text-gray-400 line-through' : 'text-[#0b1b34]'}`}>{i + 1}</div>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm mt-auto mb-8">{t('home.how.confirmBooking')}</div>
-                      </div>
-                    )
+                    Visual: Visual3
                   },
                   {
                     icon: Sparkles,
                     title: t('how.step4.title'),
                     description: t('how.step4.desc'),
+                    points: [t('how.step4.point1'), t('how.step4.point2'), t('how.step4.point3')],
                     num: '04',
-                    Mockup: () => (
-                      <div className="w-full h-full bg-[#f8f9fa] flex flex-col pt-12 px-4">
-                        <div className="text-xl font-bold text-[#0b1b34] mb-4">{t('home.how.digitalKey')}</div>
-                        <div className="bg-white rounded-2xl p-4 shadow-sm mb-4 flex flex-col items-center justify-center py-8">
-                          <div className="w-24 h-24 bg-gray-50 rounded-full flex items-center justify-center mb-4 border-4 border-[#256ab1]/20">
-                            <Sparkles className="w-10 h-10 text-[#256ab1]" />
-                          </div>
-                          <div className="font-bold text-lg mb-1 text-[#0b1b34]">{t('home.how.ferrari')}</div>
-                          <div className="text-sm text-green-500 font-medium">{t('home.how.connected')}</div>
-                        </div>
-                        <div className="flex gap-4 mt-auto mb-8">
-                          <div className="flex-1 bg-gray-100 text-[#0b1b34] text-center py-3 rounded-xl font-bold text-sm">{t('home.how.lock')}</div>
-                          <div className="flex-1 bg-[#256ab1] text-white text-center py-3 rounded-xl font-bold text-sm">{t('home.how.unlock')}</div>
-                        </div>
-                      </div>
-                    )
+                    Visual: Visual4
                   }
                 ].map((step, index) => (
                   <motion.div 
                     key={index}
-                    initial={{ opacity: 0.3, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ margin: "-20% 0px -20% 0px" }}
-                    transition={{ duration: 0.7 }}
-                    className={`flex flex-col md:flex-row items-center gap-12 md:gap-24 ${index % 2 !== 0 ? 'md:flex-row-reverse' : ''}`}
+                    initial={{ opacity: 0.3 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ margin: "-40% 0px -40% 0px" }}
+                    transition={{ duration: 0.5 }}
+                    className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 group"
                   >
-                    {/* Text Content */}
-                    <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 shadow-sm">
-                          <step.icon className="w-8 h-8 text-[#256ab1]" />
-                        </div>
-                        <div className="text-6xl font-display font-bold text-white/10">
-                          {step.num}
-                        </div>
-                      </div>
-                      <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
-                      <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
+                    {/* Mobile Number */}
+                    <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden">
+                      {step.num}
                     </div>
 
-                    {/* Mockup */}
-                    <div className="flex-1 flex justify-center">
-                      <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-800 shadow-2xl overflow-hidden transform hover:scale-105 transition-transform duration-500">
-                        <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-40 mx-auto z-20" />
-                        <div className="w-full h-full bg-white relative">
-                          <step.Mockup />
+                    {/* Desktop Node */}
+                    <div className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#0b1b34] border-2 border-white/20 group-hover:border-[#49bee4] rounded-full items-center justify-center z-10 transition-colors duration-500">
+                      <step.icon className="w-6 h-6 text-white/50 group-hover:text-[#49bee4] transition-colors duration-500" />
+                    </div>
+
+                    <div className="relative">
+                      {/* Desktop Number Background */}
+                      <div className="hidden md:block absolute -left-12 -top-16 text-9xl font-display font-bold text-white/5 select-none pointer-events-none z-0 transition-colors duration-500 group-hover:text-white/10">
+                        {step.num}
+                      </div>
+                      
+                      <div className="relative z-10">
+                        {/* Mobile Image */}
+                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative">
+                          <step.Visual />
                         </div>
+
+                        <div className="w-16 h-16 bg-[#1a2b4c] rounded-2xl flex items-center justify-center mb-6 border border-white/10 md:hidden">
+                          <step.icon className="w-8 h-8 text-[#49bee4]" />
+                        </div>
+                        <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
+                        <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
+                        
+                        <ul className="space-y-3 list-disc pl-4 marker:text-[#49bee4]">
+                          {step.points.map((point, i) => (
+                            <li key={i} className="text-gray-300 pl-1">
+                              {point}
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   </motion.div>
                 ))}
               </div>
             
-              <div className="mt-12 text-left">
+              <div className="mt-12 text-left pl-0 md:pl-20">
                 <Link 
                   to="/how-it-works" 
-                  className="inline-flex items-center text-[#256ab1] font-bold hover:text-white transition-colors"
+                  className="inline-flex items-center text-[#49bee4] font-bold hover:text-white transition-colors"
                 >
                   {t('home.how.learnMore')}
                   <ArrowRight className="ml-1 w-4 h-4" />
                 </Link>
               </div>
             </div>
+          </div>
+        </div>
       </section>
 
       {/* Use Cases */}
-      <section id="use-cases" className="py-24 bg-[#f8f9fa] text-[#0b1b34] relative overflow-hidden">
+      <section id="use-cases" className="py-16 md:py-24 bg-[#f8f9fa] text-[#0b1b34] relative overflow-hidden scroll-mt-20">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">{t('home.useCases.title')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-balance">{t('home.useCases.title')}</h2>
+            <p className="text-lg text-gray-600 max-w-2xl text-balance">
               {t('home.useCases.subtitle')}
             </p>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             {/* Left: Tabs */}
-            <div className="w-full lg:w-1/3 flex flex-col gap-4">
+            <div 
+              className="w-full lg:w-1/3 flex flex-col gap-4"
+              onMouseEnter={() => setIsHoveringUseCases(true)}
+              onMouseLeave={() => setIsHoveringUseCases(false)}
+            >
               {[
                 {
                   icon: Car,
@@ -448,13 +466,13 @@ export const Home = () => {
                 <button
                   key={index}
                   onClick={() => setActiveUseCase(index)}
-                  className={`text-left p-6 rounded-2xl transition-all duration-300 border ${
+                  className={`relative overflow-hidden text-left p-6 rounded-2xl transition-all duration-300 border ${
                     activeUseCase === index 
                       ? 'bg-white border-[#256ab1]/20 shadow-lg' 
                       : 'bg-transparent border-gray-200 hover:bg-gray-50'
                   }`}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-4 relative z-10">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${
                       activeUseCase === index ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-[#256ab1]'
                     }`}>
@@ -466,6 +484,16 @@ export const Home = () => {
                       {useCase.title}
                     </h3>
                   </div>
+                  
+                  {/* Progress Bar */}
+                  {activeUseCase === index && !isHoveringUseCases && (
+                    <motion.div 
+                      className="absolute bottom-0 left-0 h-1 bg-[#256ab1] rounded-b-2xl"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{ duration: 5, ease: "linear" }}
+                    />
+                  )}
                 </button>
               ))}
             </div>
@@ -543,11 +571,12 @@ export const Home = () => {
       </section>
 
       {/* FAQ Section for SEO/GEO */}
-      <section id="faq" className="py-20 bg-[#0b1b34]">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="faq" className="py-16 md:py-24 bg-[#0b1b34] scroll-mt-20 relative overflow-hidden">
+        <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-[#49bee4]/10 rounded-full blur-[120px] translate-y-1/2 translate-x-1/3 pointer-events-none" />
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">{t('home.faq.title')}</h2>
-            <p className="text-gray-400">{t('home.faq.subtitle')}</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 text-balance">{t('home.faq.title')}</h2>
+            <p className="text-gray-400 text-balance">{t('home.faq.subtitle')}</p>
           </div>
           <div className="space-y-2">
             <FAQItemDark 
@@ -566,6 +595,10 @@ export const Home = () => {
               question={t('home.faq.4.q')} 
               answer={t('home.faq.4.a')} 
             />
+            <FAQItemDark 
+              question={t('home.faq.7.q')} 
+              answer={t('home.faq.7.a')} 
+            />
           </div>
           <div className="mt-12 text-center">
             <Link 
@@ -580,7 +613,7 @@ export const Home = () => {
       </section>
 
       {/* App Launch CTA Section */}
-      <section className="py-24 bg-[#f8f9fa] relative overflow-hidden">
+      <section className="py-16 md:py-24 bg-[#f8f9fa] relative overflow-hidden">
         {/* Background Elements */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#05A7E8]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#49bee4]/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
@@ -594,11 +627,11 @@ export const Home = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#0b1b34] mb-6 leading-tight">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#0b1b34] mb-6 leading-tight text-balance">
                 {t('home.cta.title1')} <br/>
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">{t('home.cta.title2')}</span>
               </h2>
-              <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg font-light leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg font-light leading-relaxed text-balance">
                 {t('home.cta.desc')}
               </p>
               
@@ -616,20 +649,16 @@ export const Home = () => {
                   </div>
                 </a>
                 
-                <a 
-                  href="https://play.google.com/store/apps/details?id=com.coshare.app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-white border border-gray-200 text-[#0b1b34] rounded-full font-bold hover:bg-gray-50 transition-all hover:scale-105 active:scale-95 group"
+                <div 
+                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-gray-100 border border-gray-200 text-gray-400 rounded-full font-bold cursor-not-allowed group"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mr-3">
                     <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.22-.28.15-.4.54-.22.85L6.4 9.48C2.84 11.58.52 15.41.05 19.81h23.9c-.47-4.4-2.79-8.23-6.35-10.33zm-10.4 7.14c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15zm9.6 0c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15z"/>
                   </svg>
                   <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wider text-gray-500 font-medium">{t('home.cta.getItOn')}</div>
-                    <div className="text-sm leading-none mt-0.5">{t('home.cta.googlePlay')}</div>
+                    <div className="text-sm font-bold leading-none">{t('home.cta.getItOn')}</div>
                   </div>
-                </a>
+                </div>
               </div>
               
               <div className="mt-12 flex items-center gap-4">
@@ -690,12 +719,12 @@ export const Home = () => {
               </motion.div>
 
               {/* Phone Frame */}
-              <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden z-10">
+              <div className="relative w-[240px] md:w-[280px] h-[500px] md:h-[580px] bg-black rounded-[2.5rem] md:rounded-[3rem] border-[6px] md:border-[8px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden z-10 mx-auto">
                 {/* Notch */}
-                <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-40 mx-auto z-20" />
+                <div className="absolute top-0 inset-x-0 h-5 md:h-6 bg-black rounded-b-2xl md:rounded-b-3xl w-32 md:w-40 mx-auto z-20" />
                 
                 {/* Screen Content (Simulated App) */}
-                <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
+                <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative scale-[0.85] md:scale-100 origin-top">
                   {/* App Header */}
                   <div className="pt-12 pb-4 px-6 bg-white border-b border-gray-100">
                     <div className="flex justify-between items-center mb-6">
@@ -719,7 +748,7 @@ export const Home = () => {
                         </div>
                       </div>
                       <h4 className="font-bold text-[#0b1b34] text-sm">{t('home.how.ferrariStradale')}</h4>
-                      <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.dubai')}</p>
+                      <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.location1')}</p>
                       <div className="flex justify-between items-center pt-2 border-t border-gray-50">
                         <span className="text-[10px] font-bold text-[#256ab1]">{t('home.cta.bookTime')}</span>
                         <span className="text-[10px] font-bold text-gray-400">{t('home.cta.tradeShares')}</span>
@@ -734,7 +763,7 @@ export const Home = () => {
                         </div>
                       </div>
                       <h4 className="font-bold text-[#0b1b34] text-sm">{t('home.how.lamborghini')}</h4>
-                      <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.abuDhabi')}</p>
+                      <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.location2')}</p>
                     </div>
                   </div>
                   

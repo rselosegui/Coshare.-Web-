@@ -23,7 +23,7 @@ export const HowItWorks = () => {
     <div className="min-h-screen bg-[#0b1b34] pt-24 pb-20">
       <SEO 
         title="How It Works | Coshare"
-        description="Learn how fractional ownership works with Coshare. Discover how we make owning premium assets accessible, hassle-free, and financially smart."
+        description="Learn how cosharing works with Coshare. Discover how we make enjoying assets accessible, hassle-free, and smart."
       />
 
       {/* Hero Section */}

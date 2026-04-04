@@ -2,9 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import { useLanguage } from '../store/language';
-import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple, HelpCircle, ChevronRight, X } from 'lucide-react';
+import { Globe, User, LogOut, Settings, LayoutDashboard, Calendar, ChevronDown, Instagram, Linkedin, Twitter, Apple, HelpCircle, ChevronRight, X, Menu } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { Dock } from './Dock';
 import { motion, AnimatePresence } from 'motion/react';
 
 export function cn(...inputs: ClassValue[]) {
@@ -17,6 +18,7 @@ export const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showNavLinks, setShowNavLinks] = useState(false);
   const [isBannerVisible, setIsBannerVisible] = useState(true);
@@ -47,7 +49,14 @@ export const Layout = () => {
       const element = document.getElementById(id);
       if (element) {
         setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
+          const headerOffset = 100; // Adjust this value based on your header height
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
         }, 100);
       }
     } else {
@@ -87,36 +96,68 @@ export const Layout = () => {
         <AnimatePresence>
           {isBannerVisible && (
             <motion.div 
-              initial={{ height: 'auto', opacity: 1 }}
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className={cn(
-                "relative overflow-hidden bg-[#0b1b34] text-white py-2 px-4 text-center text-sm font-medium flex items-center justify-center space-x-4 group transition-all duration-500",
-                isScrolled ? "shadow-[0_4px_15px_rgba(0,0,0,0.15)] z-20" : "z-20"
+                "relative z-50 w-full bg-gradient-to-r from-[#0b1b34] via-[#1a3a5f] to-[#0b1b34] border-b border-white/10 overflow-hidden",
               )}
             >
-              {/* Enhanced shimmer effect */}
+              {/* Animated gradient background */}
               <motion.div 
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-[-45deg] w-1/3"
-                animate={{ x: ['-200%', '400%'] }}
-                transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1, ease: "linear" }}
+                className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(73,190,228,0.2)_50%,transparent_100%)] w-[200%]"
+                animate={{ x: ['-100%', '50%'] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
               />
-              <span className="relative z-10">{t('banner.text')}</span>
-              <a 
-                href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative z-10 inline-flex items-center bg-[#49bee4] text-[#0b1b34] px-4 py-1 rounded-full hover:bg-white transition-all hover:scale-105 active:scale-95 font-bold ml-3 shadow-[0_0_20px_rgba(73,190,228,0.6)] ring-2 ring-[#49bee4]/30 ring-offset-2 ring-offset-[#0b1b34] animate-pulse"
-              >
-                {t('banner.cta')}
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </a>
-              <button 
-                onClick={() => setIsBannerVisible(false)}
-                className="absolute right-4 z-10 p-1 rounded-full hover:bg-white/10 transition-colors"
-                aria-label="Close banner"
-              >
-                <X className="w-4 h-4 text-white/80 hover:text-white" />
-              </button>
+              
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                {/* Desktop Layout */}
+                <div className="hidden sm:flex items-center justify-between py-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-md border border-white/20">
+                      <Apple className="w-4 h-4 text-white" />
+                    </div>
+                    <span className="text-sm font-medium text-white tracking-wide">{t('banner.text')}</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <a 
+                      href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative overflow-hidden group bg-white text-[#0b1b34] text-xs font-bold px-5 py-2 rounded-full hover:scale-105 transition-transform"
+                    >
+                      <span className="relative z-10">{t('banner.cta')}</span>
+                      <div className="absolute inset-0 bg-[#49bee4] translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                    </a>
+                    <button onClick={() => setIsBannerVisible(false)} className="p-1.5 rounded-full hover:bg-white/10 transition-colors text-white/60 hover:text-white">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Mobile Layout */}
+                <div className="flex sm:hidden flex-col py-3 gap-3">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                        <Apple className="w-3 h-3 text-white" />
+                      </div>
+                      <span className="text-xs font-medium text-white leading-tight">{t('banner.text')}</span>
+                    </div>
+                    <button onClick={() => setIsBannerVisible(false)} className="p-1 rounded-full hover:bg-white/10 transition-colors text-white/60 hover:text-white flex-shrink-0 -mr-1">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                  <a 
+                    href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full text-center bg-[#49bee4] text-[#0b1b34] text-xs font-bold px-4 py-2.5 rounded-lg active:scale-95 transition-transform shadow-[0_0_15px_rgba(73,190,228,0.3)]"
+                  >
+                    {t('banner.cta')}
+                  </a>
+                </div>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -153,20 +194,30 @@ export const Layout = () => {
                 "hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2 transition-all duration-500",
                 (showNavLinks || location.pathname !== '/') ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
               )}>
-                <Link to="/how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</Link>
+                <Link to="/#how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</Link>
                 <Link to="/#use-cases" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.useCases')}</Link>
                 <Link to="/faq" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.faq')}</Link>
               </div>
             )}
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <button 
                 onClick={toggleLang}
-                className="flex items-center space-x-1 text-xs font-bold text-gray-500 hover:text-primary transition-colors uppercase tracking-wider"
+                className="flex items-center space-x-1 text-xs font-bold text-gray-500 hover:text-primary transition-colors uppercase tracking-wider px-2 py-1.5"
               >
                 <Globe className="w-3.5 h-3.5" />
                 <span>{lang === 'EN' ? 'AR' : 'EN'}</span>
               </button>
+
+              {!user && (
+                <Link
+                  to="/login"
+                  className="flex items-center space-x-1 text-xs font-bold text-gray-500 hover:text-primary transition-colors uppercase tracking-wider px-2 py-1.5"
+                >
+                  <User className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">{t('nav.signin')}</span>
+                </Link>
+              )}
               
               {user && (
                 <div className="relative" ref={menuRef}>
@@ -217,9 +268,37 @@ export const Layout = () => {
                   </AnimatePresence>
                 </div>
               )}
+
+              {/* Mobile Menu Toggle */}
+              {(location.pathname === '/' || location.pathname === '/how-it-works' || location.pathname === '/faq') && (
+                <button 
+                  className="md:hidden p-1.5 text-gray-600 hover:text-primary transition-colors"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                  {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                </button>
+              )}
             </div>
           </div>
         </div>
+
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden overflow-hidden bg-surface border-t border-gray-100 dark:border-white/10 absolute top-full left-0 w-full shadow-lg z-40"
+            >
+              <div className="px-4 py-4 flex flex-col space-y-4">
+                <Link to="/#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.howItWorks')}</Link>
+                <Link to="/#use-cases" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.useCases')}</Link>
+                <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.faq')}</Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
       </div>
 
@@ -240,7 +319,8 @@ export const Layout = () => {
         </main>
       </div>
 
-
+      {/* Floating Dock (Post-login) */}
+      {user && <Dock />}
 
       {/* Footer */}
       <footer className="bg-[#0b1b34] border-t border-white/10 py-12 mt-auto">
@@ -300,7 +380,7 @@ export const Layout = () => {
                 </div>
               </a>
               <div className="flex space-x-6 text-[10px] font-bold uppercase tracking-widest text-gray-500">
-                <Link to="/how-it-works" className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link>
+                <Link to="/#how-it-works" className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link>
                 <Link to="/faq" className="hover:text-white transition-colors">{t('nav.faq')}</Link>
                 <a href="#" className="hover:text-white transition-colors">{t('footer.terms')}</a>
                 <a href="#" className="hover:text-white transition-colors">{t('footer.privacy')}</a>

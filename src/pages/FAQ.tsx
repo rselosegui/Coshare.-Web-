@@ -76,6 +76,14 @@ export const FAQ = () => {
               question={t('home.faq.8.q')} 
               answer={t('home.faq.8.a')} 
             />
+            <FAQItem 
+              question={t('home.faq.9.q')} 
+              answer={t('home.faq.9.a')} 
+            />
+            <FAQItem 
+              question={t('home.faq.10.q')} 
+              answer={t('home.faq.10.a')} 
+            />
           </div>
         </div>
       </div>
