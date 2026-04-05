@@ -104,7 +104,7 @@ export const Home = () => {
         <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#49bee4]/20 rounded-full blur-[120px] pointer-events-none z-0" />
         <div className="absolute inset-0 z-0">
           <img
-            src="https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1742461144186_image.png"
+            src="/assets/coshare-hero-banner.png"
             alt="Asset Image"
             className="w-full h-full object-cover"
             referrerPolicy="no-referrer"
