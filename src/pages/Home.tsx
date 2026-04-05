@@ -4,7 +4,6 @@ import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform } from 'motion/react';
 import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet, FileText, CheckCircle2 } from 'lucide-react';
-import { useAssets } from '../hooks/useAssets';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
@@ -58,8 +57,6 @@ const FAQItemDark = ({ question, answer }: { question: string; answer: string })
 export const Home = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
-  const { assets } = useAssets();
-  const featuredAssets = assets.filter(asset => asset.category === 'Cars').slice(0, 3);
   const [activeUseCase, setActiveUseCase] = useState(0);
   const [isHoveringUseCases, setIsHoveringUseCases] = useState(false);
   
