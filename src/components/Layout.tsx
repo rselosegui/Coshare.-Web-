@@ -101,19 +101,24 @@ export const Layout = () => {
               exit={{ height: 0, opacity: 0 }}
               className="relative z-50 w-full bg-[#000000] border-b border-white/10 overflow-hidden"
             >
-              {/* Shimmer effect */}
+              {/* Sweeping Light Ray Effect */}
               <motion.div 
-                className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.1)_50%,transparent_100%)] w-[200%]"
-                animate={{ x: ['-100%', '50%'] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 w-[200%] bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
               />
               
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Desktop Layout */}
                 <div className="hidden sm:flex items-center justify-between py-3">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg">
-                      <Apple className="w-5 h-5 text-white" />
+                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg overflow-hidden">
+                      <motion.div 
+                        className="absolute inset-0 bg-white/10"
+                        animate={{ opacity: [0, 1, 0] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <Apple className="w-5 h-5 text-white relative z-10" />
                     </div>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold text-white tracking-wide">{t('banner.text')}</span>
@@ -128,9 +133,14 @@ export const Layout = () => {
                       href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-white text-black text-xs font-bold px-6 py-2 rounded-full hover:scale-105 hover:bg-gray-100 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                      className="relative overflow-hidden bg-white text-black text-xs font-bold px-6 py-2 rounded-full hover:scale-105 hover:bg-gray-100 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] group"
                     >
-                      {t('banner.cta')}
+                      <motion.div 
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-transparent"
+                        animate={{ x: ['-100%', '100%'] }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                      />
+                      <span className="relative z-10">{t('banner.cta')}</span>
                     </a>
                     <button onClick={() => setIsBannerVisible(false)} className="p-1.5 rounded-full hover:bg-white/20 transition-colors text-gray-400 hover:text-white">
                       <X className="w-4 h-4" />
@@ -139,18 +149,24 @@ export const Layout = () => {
                 </div>
 
                 {/* Mobile Layout */}
-                <div className="flex sm:hidden items-center justify-between py-3 gap-3">
-                  <div className="flex items-center gap-3 min-w-0">
+                <div className="flex sm:hidden items-center justify-between py-3 gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
                     <button onClick={() => setIsBannerVisible(false)} className="p-1 rounded-full hover:bg-white/20 transition-colors text-gray-400 hover:text-white flex-shrink-0 -ml-1">
                       <X className="w-4 h-4" />
                     </button>
-                    <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg flex-shrink-0">
-                      <Apple className="w-4 h-4 text-white" />
+                    <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg flex-shrink-0 overflow-hidden">
+                      <motion.div 
+                        className="absolute inset-0 bg-white/10"
+                        animate={{ opacity: [0, 1, 0] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      />
+                      <Apple className="w-4 h-4 text-white relative z-10" />
                     </div>
                     <div className="flex flex-col min-w-0">
-                      <span className="text-xs font-semibold text-white truncate">{t('banner.text')}</span>
-                      <div className="flex items-center gap-1 text-[10px] text-gray-400 mt-0.5">
+                      <span className="text-[11px] font-semibold text-white leading-tight line-clamp-2">{t('banner.text')}</span>
+                      <div className="flex items-center gap-1 text-[9px] text-gray-400 mt-0.5">
                         <span className="flex text-[#F5A623]">★★★★★</span>
+                        <span>App Store</span>
                       </div>
                     </div>
                   </div>
@@ -158,9 +174,14 @@ export const Layout = () => {
                     href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-white text-black text-[10px] font-bold px-4 py-1.5 rounded-full active:scale-95 transition-transform flex-shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                    className="relative overflow-hidden bg-white text-black text-[10px] font-bold px-4 py-1.5 rounded-full active:scale-95 transition-transform flex-shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)]"
                   >
-                    {t('banner.cta')}
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-transparent"
+                      animate={{ x: ['-100%', '100%'] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    />
+                    <span className="relative z-10">{t('banner.cta')}</span>
                   </a>
                 </div>
               </div>
