@@ -10,7 +10,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <div className="border-b border-gray-200 py-4">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex justify-between items-center w-full text-left group"
       >
@@ -18,7 +18,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
         {isOpen ? <Minus className="w-5 h-5 text-[#256ab1]" /> : <Plus className="w-5 h-5 text-gray-400" />}
       </button>
       {isOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           className="mt-2 text-gray-600 leading-relaxed"
@@ -34,7 +34,7 @@ const FAQItemDark = ({ question, answer }: { question: string; answer: string })
   const [isOpen, setIsOpen] = React.useState(false);
   return (
     <div className="border-b border-gray-800 py-4">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex justify-between items-center w-full text-left group"
       >
@@ -42,7 +42,7 @@ const FAQItemDark = ({ question, answer }: { question: string; answer: string })
         {isOpen ? <Minus className="w-5 h-5 text-[#49bee4]" /> : <Plus className="w-5 h-5 text-gray-500" />}
       </button>
       {isOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           className="mt-2 text-gray-400 leading-relaxed"
@@ -59,7 +59,7 @@ export const Home = () => {
   const navigate = useNavigate();
   const [activeUseCase, setActiveUseCase] = useState(0);
   const [isHoveringUseCases, setIsHoveringUseCases] = useState(false);
-  
+
   useEffect(() => {
     if (isHoveringUseCases) return;
     const interval = setInterval(() => {
@@ -67,7 +67,7 @@ export const Home = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, [isHoveringUseCases]);
-  
+
   const whyRef = useRef<HTMLElement>(null);
   const { scrollYProgress: whyScrollY } = useScroll({
     target: whyRef,
@@ -94,7 +94,7 @@ export const Home = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <SEO 
+      <SEO
         title={t('home.seo.title')}
         description={t('home.seo.description')}
         canonical="https://coshare.ai"
@@ -129,7 +129,7 @@ export const Home = () => {
           >
             {t('home.hero.subtitle')}
           </motion.p>
-          
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -240,15 +240,15 @@ export const Home = () => {
               >
                 {/* Parallax Background Image */}
                 <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 overflow-hidden bg-[#0b1b34]">
-                  <motion.img 
-                    src={feature.image} 
-                    alt="" 
+                  <motion.img
+                    src={feature.image}
+                    alt=""
                     className="w-full h-full object-cover opacity-60 mix-blend-luminosity scale-125 group-hover:scale-110 transition-transform duration-1000"
                     style={{ y: yTransforms[index] }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34] via-transparent to-transparent" />
                 </div>
-                
+
                 {/* Content */}
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-6">
@@ -261,7 +261,7 @@ export const Home = () => {
                       </span>
                     )}
                   </div>
-                  
+
                   <div className="mt-auto">
                     <h3 className={`font-display font-bold text-[#0b1b34] mb-2 group-hover:text-[#256ab1] transition-colors duration-500 ${index === 0 ? 'text-xl md:text-2xl tracking-tight' : 'text-lg md:text-xl'}`}>
                       {feature.title}
@@ -288,34 +288,34 @@ export const Home = () => {
           </div>
 
           <div className="flex flex-col md:flex-row gap-12 md:gap-24">
-            
+
             {/* Left: Sticky Content */}
             <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col justify-center pt-24 md:pt-0 z-10">
-              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-[#1a2b4c] hidden md:block">
-                <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>
+              <div className="relative w-full hidden md:flex items-center justify-center" style={{ height: '75vh', overflow: 'hidden' }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img1Opacity }}>
                   <Visual1 />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img2Opacity }}>
                   <Visual2 />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img3Opacity }}>
                   <Visual3 />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img4Opacity }}>
                   <Visual4 />
                 </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#0b1b34]/60 to-transparent mix-blend-overlay pointer-events-none" />
+
               </div>
             </div>
 
             {/* Right: Scrolling Steps */}
             <div className="w-full md:w-1/2 relative pb-16 md:pb-[5vh] md:pt-[5vh]">
               {/* Progress Line Background */}
-              <div className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-white/10 hidden md:block" />
+              <div className="absolute left-[27px] rtl:left-auto rtl:right-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-white/10 hidden md:block" />
               {/* Animated Progress Line */}
-              <motion.div 
-                className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-[#49bee4] origin-top hidden md:block" 
-                style={{ scaleY: howScrollY }} 
+              <motion.div
+                className="absolute left-[27px] rtl:left-auto rtl:right-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-[#49bee4] origin-top hidden md:block"
+                style={{ scaleY: howScrollY }}
               />
 
               <div className="flex flex-col gap-24 md:gap-0">
@@ -353,16 +353,16 @@ export const Home = () => {
                     Visual: Visual4
                   }
                 ].map((step, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     initial={{ opacity: 0.3 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ margin: "-40% 0px -40% 0px" }}
                     transition={{ duration: 0.5 }}
-                    className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 group"
+                    className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 rtl:pr-20 group"
                   >
                     {/* Mobile Number */}
-                    <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden">
+                    <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden -mt-4">
                       {step.num}
                     </div>
 
@@ -376,10 +376,10 @@ export const Home = () => {
                       <div className="hidden md:block absolute -left-12 -top-16 text-9xl font-display font-bold text-white/5 select-none pointer-events-none z-0 transition-colors duration-500 group-hover:text-white/10">
                         {step.num}
                       </div>
-                      
+
                       <div className="relative z-10">
                         {/* Mobile Image */}
-                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative">
+                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative [&_img]:!object-cover [&_img]:!w-full [&_img]:!h-full [&_img]:!transform-none">
                           <step.Visual />
                         </div>
 
@@ -388,7 +388,7 @@ export const Home = () => {
                         </div>
                         <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
                         <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
-                        
+
                         <ul className="space-y-3 list-disc pl-4 marker:text-[#49bee4]">
                           {step.points.map((point, i) => (
                             <li key={i} className="text-gray-300 pl-1">
@@ -401,10 +401,10 @@ export const Home = () => {
                   </motion.div>
                 ))}
               </div>
-            
+
               <div className="mt-12 text-left pl-0 md:pl-20">
-                <Link 
-                  to="/how-it-works" 
+                <Link
+                  to="/how-it-works"
                   className="inline-flex items-center text-[#49bee4] font-bold hover:text-white transition-colors"
                 >
                   {t('home.how.learnMore')}
@@ -429,7 +429,7 @@ export const Home = () => {
 
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
             {/* Left: Tabs */}
-            <div 
+            <div
               className="w-full lg:w-1/3 flex flex-col gap-4"
               onMouseEnter={() => setIsHoveringUseCases(true)}
               onMouseLeave={() => setIsHoveringUseCases(false)}
@@ -463,28 +463,25 @@ export const Home = () => {
                 <button
                   key={index}
                   onClick={() => setActiveUseCase(index)}
-                  className={`relative overflow-hidden text-left p-6 rounded-2xl transition-all duration-300 border ${
-                    activeUseCase === index 
-                      ? 'bg-white border-[#256ab1]/20 shadow-lg' 
+                  className={`relative overflow-hidden text-left p-6 rounded-2xl transition-all duration-300 border ${activeUseCase === index
+                      ? 'bg-white border-[#256ab1]/20 shadow-lg'
                       : 'bg-transparent border-gray-200 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-4 relative z-10">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${
-                      activeUseCase === index ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-[#256ab1]'
-                    }`}>
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${activeUseCase === index ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-[#256ab1]'
+                      }`}>
                       <useCase.icon className="w-6 h-6" />
                     </div>
-                    <h3 className={`text-xl font-bold transition-colors duration-300 ${
-                      activeUseCase === index ? 'text-[#0b1b34]' : 'text-gray-500'
-                    }`}>
+                    <h3 className={`text-xl font-bold transition-colors duration-300 ${activeUseCase === index ? 'text-[#0b1b34]' : 'text-gray-500'
+                      }`}>
                       {useCase.title}
                     </h3>
                   </div>
-                  
+
                   {/* Progress Bar */}
                   {activeUseCase === index && !isHoveringUseCases && (
-                    <motion.div 
+                    <motion.div
                       className="absolute bottom-0 left-0 h-1 bg-[#256ab1] rounded-b-2xl"
                       initial={{ width: "0%" }}
                       animate={{ width: "100%" }}
@@ -526,7 +523,7 @@ export const Home = () => {
                 <motion.div
                   key={index}
                   initial={false}
-                  animate={{ 
+                  animate={{
                     opacity: activeUseCase === index ? 1 : 0,
                     scale: activeUseCase === index ? 1 : 1.05,
                     zIndex: activeUseCase === index ? 10 : 0
@@ -534,19 +531,19 @@ export const Home = () => {
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                   className="absolute inset-0 pointer-events-none"
                 >
-                  <img 
-                    src={useCase.image} 
+                  <img
+                    src={useCase.image}
                     alt={useCase.title}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34] via-[#0b1b34]/40 to-transparent" />
-                  
+
                   <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
-                      animate={{ 
+                      animate={{
                         opacity: activeUseCase === index ? 1 : 0,
-                        y: activeUseCase === index ? 0 : 20 
+                        y: activeUseCase === index ? 0 : 20
                       }}
                       transition={{ duration: 0.5, delay: 0.2 }}
                       className="max-w-2xl"
@@ -576,30 +573,30 @@ export const Home = () => {
             <p className="text-gray-400 text-balance">{t('home.faq.subtitle')}</p>
           </div>
           <div className="space-y-2">
-            <FAQItemDark 
-              question={t('home.faq.1.q')} 
-              answer={t('home.faq.1.a')} 
+            <FAQItemDark
+              question={t('home.faq.1.q')}
+              answer={t('home.faq.1.a')}
             />
-            <FAQItemDark 
-              question={t('home.faq.2.q')} 
-              answer={t('home.faq.2.a')} 
+            <FAQItemDark
+              question={t('home.faq.2.q')}
+              answer={t('home.faq.2.a')}
             />
-            <FAQItemDark 
-              question={t('home.faq.3.q')} 
-              answer={t('home.faq.3.a')} 
+            <FAQItemDark
+              question={t('home.faq.3.q')}
+              answer={t('home.faq.3.a')}
             />
-            <FAQItemDark 
-              question={t('home.faq.4.q')} 
-              answer={t('home.faq.4.a')} 
+            <FAQItemDark
+              question={t('home.faq.4.q')}
+              answer={t('home.faq.4.a')}
             />
-            <FAQItemDark 
-              question={t('home.faq.7.q')} 
-              answer={t('home.faq.7.a')} 
+            <FAQItemDark
+              question={t('home.faq.7.q')}
+              answer={t('home.faq.7.a')}
             />
           </div>
           <div className="mt-12 text-center">
-            <Link 
-              to="/faq" 
+            <Link
+              to="/faq"
               className="inline-flex items-center px-8 py-4 bg-[#256ab1] border border-transparent text-white font-bold rounded-full hover:bg-[#1a4b82] transition-all hover:scale-105 active:scale-95 shadow-sm group"
             >
               {t('home.faq.viewAll')}
@@ -614,28 +611,28 @@ export const Home = () => {
         {/* Background Elements */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#05A7E8]/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#49bee4]/5 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/3" />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Left: Copy & CTA */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#0b1b34] mb-6 leading-tight text-balance">
-                {t('home.cta.title1')} <br/>
+                {t('home.cta.title1')} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">{t('home.cta.title2')}</span>
               </h2>
               <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg font-light leading-relaxed text-balance">
                 {t('home.cta.desc')}
               </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <a 
-                  href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791" 
-                  target="_blank" 
+                <a
+                  href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-[#0b1b34] text-white rounded-full font-bold hover:bg-[#1a2b4c] transition-all hover:scale-105 active:scale-95 group shadow-xl shadow-[#0b1b34]/10 animate-pulse"
                 >
@@ -645,19 +642,19 @@ export const Home = () => {
                     <div className="text-sm leading-none mt-0.5">{t('home.cta.appStore')}</div>
                   </div>
                 </a>
-                
-                <div 
+
+                <div
                   className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-gray-100 border border-gray-200 text-gray-400 rounded-full font-bold cursor-not-allowed group"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mr-3">
-                    <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.22-.28.15-.4.54-.22.85L6.4 9.48C2.84 11.58.52 15.41.05 19.81h23.9c-.47-4.4-2.79-8.23-6.35-10.33zm-10.4 7.14c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15zm9.6 0c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15z"/>
+                    <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.22-.28.15-.4.54-.22.85L6.4 9.48C2.84 11.58.52 15.41.05 19.81h23.9c-.47-4.4-2.79-8.23-6.35-10.33zm-10.4 7.14c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15zm9.6 0c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15z" />
                   </svg>
                   <div className="text-left">
                     <div className="text-sm font-bold leading-none">{t('home.cta.getItOn')}</div>
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-12 flex items-center gap-4">
                 <div className="flex -space-x-3">
                   <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="User" className="w-10 h-10 rounded-full border-2 border-white object-cover" />
@@ -668,14 +665,14 @@ export const Home = () => {
                   </div>
                 </div>
                 <div className="text-sm text-gray-500">
-                  <span className="text-[#0b1b34] font-bold">{t('home.cta.earlyAdopters')}</span><br/>
+                  <span className="text-[#0b1b34] font-bold">{t('home.cta.earlyAdopters')}</span><br />
                   {t('home.cta.alreadyCoOwning')}
                 </div>
               </div>
             </motion.div>
-            
+
             {/* Right: Phone Mockup */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -683,7 +680,7 @@ export const Home = () => {
               className="relative flex justify-center lg:justify-end"
             >
               {/* Floating Elements behind phone */}
-              <motion.div 
+              <motion.div
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute top-20 -left-4 md:-left-12 bg-white/80 backdrop-blur-xl border border-gray-200 p-4 rounded-2xl shadow-xl z-0 hidden sm:block"
@@ -698,8 +695,8 @@ export const Home = () => {
                   </div>
                 </div>
               </motion.div>
-              
-              <motion.div 
+
+              <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute bottom-32 -right-4 md:-right-8 bg-white/80 backdrop-blur-xl border border-gray-200 p-4 rounded-2xl shadow-xl z-20 hidden sm:block"
@@ -719,7 +716,7 @@ export const Home = () => {
               <div className="relative w-[240px] md:w-[280px] h-[500px] md:h-[580px] bg-black rounded-[2.5rem] md:rounded-[3rem] border-[6px] md:border-[8px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden z-10 mx-auto">
                 {/* Notch */}
                 <div className="absolute top-0 inset-x-0 h-5 md:h-6 bg-black rounded-b-2xl md:rounded-b-3xl w-32 md:w-40 mx-auto z-20" />
-                
+
                 {/* Screen Content (Simulated App) */}
                 <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative scale-[0.85] md:scale-100 origin-top">
                   {/* App Header */}
@@ -734,7 +731,7 @@ export const Home = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* App Body */}
                   <div className="flex-1 p-4 space-y-4 overflow-y-auto no-scrollbar pb-20">
                     <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
@@ -751,7 +748,7 @@ export const Home = () => {
                         <span className="text-[10px] font-bold text-gray-400">{t('home.cta.tradeShares')}</span>
                       </div>
                     </div>
-                    
+
                     <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
                       <div className="w-full h-32 rounded-xl overflow-hidden mb-3 relative">
                         <img src="https://images.unsplash.com/photo-1669023030485-573b6a75ab64?auto=format&fit=crop&q=80&w=600" alt="Lambo" className="w-full h-full object-cover" />
@@ -763,7 +760,7 @@ export const Home = () => {
                       <p className="text-[10px] text-gray-500 mb-2">{t('home.cta.location2')}</p>
                     </div>
                   </div>
-                  
+
                   {/* App Bottom Nav */}
                   <div className="h-16 bg-white border-t border-gray-100 flex justify-around items-center px-6 absolute bottom-0 w-full z-20">
                     <div className="flex flex-col items-center gap-1">

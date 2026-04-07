@@ -8,7 +8,7 @@ import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisu
 
 export const HowItWorks = () => {
   const { t } = useLanguage();
-  
+
   const howRef = useRef<HTMLElement>(null);
   const { scrollYProgress: howScrollY } = useScroll({
     target: howRef,
@@ -21,7 +21,7 @@ export const HowItWorks = () => {
 
   return (
     <div className="min-h-screen bg-[#0b1b34] pt-24 pb-20">
-      <SEO 
+      <SEO
         title="How It Works | Coshare"
         description="Learn how cosharing works with Coshare. Discover how we make enjoying assets accessible, hassle-free, and smart."
       />
@@ -30,14 +30,14 @@ export const HowItWorks = () => {
       <section className="relative py-20 overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-6"
           >
             {t('how.hero.title')}
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -52,23 +52,23 @@ export const HowItWorks = () => {
       <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row gap-12 md:gap-24">
-            
+
             {/* Left: Sticky Content */}
-            <div className="w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex flex-col justify-center pt-24 md:pt-0 z-10">
-              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-[#1a2b4c] hidden md:block">
-                <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>
+            <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col items-center justify-center z-10">
+              <div className="relative w-full hidden md:flex items-center justify-center" style={{ height: '75vh', overflow: 'hidden' }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img1Opacity, width: '100%', height: '100%' }}>
                   <Visual1 />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img2Opacity }}>
                   <Visual2 />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img3Opacity }}>
                   <Visual3 />
                 </motion.div>
-                <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}>
+                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img4Opacity }}>
                   <Visual4 />
                 </motion.div>
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#0b1b34]/60 to-transparent mix-blend-overlay pointer-events-none" />
+
               </div>
             </div>
 
@@ -77,12 +77,12 @@ export const HowItWorks = () => {
               {/* Progress Line Background */}
               <div className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-white/10 hidden md:block" />
               {/* Animated Progress Line */}
-              <motion.div 
-                className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-[#49bee4] origin-top hidden md:block" 
-                style={{ scaleY: howScrollY }} 
+              <motion.div
+                className="absolute left-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-[#49bee4] origin-top hidden md:block"
+                style={{ scaleY: howScrollY }}
               />
 
-              <div className="flex flex-col gap-24 md:gap-0">
+              <div className="flex flex-col gap-16 md:gap-0">
                 {[
                   {
                     icon: Search,
@@ -117,7 +117,7 @@ export const HowItWorks = () => {
                     Visual: Visual4
                   }
                 ].map((step, index) => (
-                  <motion.div 
+                  <motion.div
                     key={index}
                     initial={{ opacity: 0.3 }}
                     whileInView={{ opacity: 1 }}
@@ -140,19 +140,20 @@ export const HowItWorks = () => {
                       <div className="hidden md:block absolute -left-12 -top-16 text-9xl font-display font-bold text-white/5 select-none pointer-events-none z-0 transition-colors duration-500 group-hover:text-white/10">
                         {step.num}
                       </div>
-                      
+
                       <div className="relative z-10">
                         {/* Mobile Image */}
-                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative">
-                          <step.Visual />
-                        </div>
-
-                        <div className="w-16 h-16 bg-[#1a2b4c] rounded-2xl flex items-center justify-center mb-6 border border-white/10 md:hidden">
-                          <step.icon className="w-8 h-8 text-[#49bee4]" />
+                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative ">
+                          <div className="absolute inset-0 flex items-center justify-center [&_img]:!h-full [&_img]:!w-full [&_img]:!object-cover [&_img]:!transform-none">
+                            <step.Visual />
+                          </div>
+                          <div className="absolute bottom-3 left-3 w-10 h-10 bg-[#0b1b34]/80 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/10">
+                            <step.icon className="w-5 h-5 text-[#49bee4]" />
+                          </div>
                         </div>
                         <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
                         <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
-                        
+
                         <ul className="space-y-3">
                           {step.points.map((point, i) => (
                             <li key={i} className="flex items-start text-gray-300">
@@ -262,7 +263,7 @@ export const HowItWorks = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.cta.title')}</h2>
           <p className="text-xl text-gray-400 mb-10 font-light">{t('how.cta.desc')}</p>
-          <a 
+          <a
             href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
             target="_blank"
             rel="noopener noreferrer"
