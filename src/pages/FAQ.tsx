@@ -39,8 +39,8 @@ export const FAQ = () => {
       />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h1>
-          <p className="text-lg text-gray-600">{t('home.faq.subtitle')}</p>
+          <h1 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h1>
+          <p className="text-base md:text-lg text-gray-600">{t('home.faq.subtitle')}</p>
         </div>
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
           <div className="space-y-2">

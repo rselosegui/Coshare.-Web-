@@ -41,7 +41,7 @@ export const HowItWorks = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-xl text-gray-400 max-w-3xl mx-auto font-light leading-relaxed"
+            className="text-base md:text-lg text-gray-400 max-w-3xl mx-auto font-light leading-relaxed"
           >
             {t('how.hero.subtitle')}
           </motion.p>
@@ -151,8 +151,8 @@ export const HowItWorks = () => {
                             <step.icon className="w-5 h-5 text-[#49bee4]" />
                           </div>
                         </div>
-                        <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
-                        <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
+                        <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">{step.title}</h3>
+                        <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
 
                         <ul className="space-y-3">
                           {step.points.map((point, i) => (
@@ -176,8 +176,8 @@ export const HowItWorks = () => {
       <section className="py-24 bg-[#1a2b4c] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.math.title')}</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">{t('how.math.subtitle')}</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">{t('how.math.title')}</h2>
+            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto font-light">{t('how.math.subtitle')}</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -235,8 +235,8 @@ export const HowItWorks = () => {
       <section className="py-24 bg-[#0b1b34] relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.concierge.title')}</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light">{t('how.concierge.subtitle')}</p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">{t('how.concierge.title')}</h2>
+            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto font-light">{t('how.concierge.subtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -261,8 +261,8 @@ export const HowItWorks = () => {
       {/* CTA Section */}
       <section className="py-24 bg-gradient-to-b from-[#1a2b4c] to-[#0b1b34]">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6">{t('how.cta.title')}</h2>
-          <p className="text-xl text-gray-400 mb-10 font-light">{t('how.cta.desc')}</p>
+          <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">{t('how.cta.title')}</h2>
+          <p className="text-base md:text-lg text-gray-400 mb-10 font-light">{t('how.cta.desc')}</p>
           <a
             href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
             target="_blank"
