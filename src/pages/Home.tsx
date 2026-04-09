@@ -163,7 +163,7 @@ export const Home = () => {
           <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4 text-balance">
               {t('home.why.title').split('coshare.')[0]}
-              <span dir="ltr" className="inline-block">coshare<span className="text-[#05A7E8]">.</span></span>
+              <span dir="ltr" className="inline-block">Coshare<span className="text-[#05A7E8]">.</span></span>
               {t('home.why.title').split('coshare.')[1]}
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl text-balance">
@@ -464,8 +464,8 @@ export const Home = () => {
                   key={index}
                   onClick={() => setActiveUseCase(index)}
                   className={`relative overflow-hidden text-left p-6 rounded-2xl transition-all duration-300 border ${activeUseCase === index
-                      ? 'bg-white border-[#256ab1]/20 shadow-lg'
-                      : 'bg-transparent border-gray-200 hover:bg-gray-50'
+                    ? 'bg-white border-[#256ab1]/20 shadow-lg'
+                    : 'bg-transparent border-gray-200 hover:bg-gray-50'
                     }`}
                 >
                   <div className="flex items-center gap-4 relative z-10">
@@ -621,11 +621,11 @@ export const Home = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-[#0b1b34] mb-6 leading-tight text-balance">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-6 leading-tight text-balance">
                 {t('home.cta.title1')} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#05A7E8] to-[#49bee4]">{t('home.cta.title2')}</span>
               </h2>
-              <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-lg font-light leading-relaxed text-balance">
+              <p className="text-base md:text-lg text-gray-600 mb-10 max-w-lg font-light leading-relaxed text-balance">
                 {t('home.cta.desc')}
               </p>
 
@@ -636,10 +636,22 @@ export const Home = () => {
                   rel="noopener noreferrer"
                   className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-[#0b1b34] text-white rounded-full font-bold hover:bg-[#1a2b4c] transition-all hover:scale-105 active:scale-95 group shadow-xl shadow-[#0b1b34]/10 animate-pulse"
                 >
-                  <Apple className="w-6 h-6 mr-3" />
+                  <svg
+                    viewBox="0 0 24 24"
+                    className="w-6 h-6 mr-3 flex-shrink-0"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.51 12.09 1.002 1.459 2.196 3.1 3.775 3.046 1.522-.06 2.093-1.001 3.93-1.001 1.838 0 2.365.998 3.96.96 1.62-.027 2.667-1.48 3.662-2.928 1.147-1.676 1.612-3.3 1.638-3.385-.034-.015-3.149-1.205-3.184-4.81-.026-3.003 2.454-4.444 2.568-4.512-1.404-2.059-3.57-2.285-4.33-2.342-1.89-.161-3.112 1.003-3.608 1.003-.497 0-1.666-.889-3.01-.889h.01zm2.32-4.144c.854-1.034 1.43-2.473 1.272-3.911-1.235.05-2.732.823-3.618 1.853-.793.916-1.484 2.387-1.296 3.788 1.378.107 2.788-.696 3.642-1.73z" />
+                  </svg>
+
                   <div className="text-left">
-                    <div className="text-[10px] uppercase tracking-wider text-gray-300 font-medium">{t('home.cta.downloadOn')}</div>
-                    <div className="text-sm leading-none mt-0.5">{t('home.cta.appStore')}</div>
+                    <div className="text-[10px] uppercase tracking-wider text-gray-300 font-medium leading-none">
+                      {t('home.cta.downloadOn')}
+                    </div>
+                    <div className="text-sm font-bold leading-tight mt-1">
+                      {t('home.cta.appStore')}
+                    </div>
                   </div>
                 </a>
 

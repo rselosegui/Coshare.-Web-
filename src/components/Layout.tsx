@@ -83,7 +83,15 @@ export const Layout = () => {
                         animate={{ opacity: [0, 1, 0] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />
-                      <Apple className="w-5 h-5 text-white relative z-10" />
+                      <svg
+                        viewBox="0 0 24 24"
+                        style={{ width: '20px', height: '20px' }}
+                        className="text-white relative z-10 flex-shrink-0"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.51 12.09 1.002 1.459 2.196 3.1 3.775 3.046 1.522-.06 2.093-1.001 3.93-1.001 1.838 0 2.365.998 3.96.96 1.62-.027 2.667-1.48 3.662-2.928 1.147-1.676 1.612-3.3 1.638-3.385-.034-.015-3.149-1.205-3.184-4.81-.026-3.003 2.454-4.444 2.568-4.512-1.404-2.059-3.57-2.285-4.33-2.342-1.89-.161-3.112 1.003-3.608 1.003-.497 0-1.666-.889-3.01-.889h.01zm2.32-4.144c.854-1.034 1.43-2.473 1.272-3.911-1.235.05-2.732.823-3.618 1.853-.793.916-1.484 2.387-1.296 3.788 1.378.107 2.788-.696 3.642-1.73z" />
+                      </svg>
                     </div>
                     <div className="flex flex-col">
                       <span className="text-sm font-semibold text-white tracking-wide">{t('banner.text')}</span>
@@ -125,7 +133,15 @@ export const Layout = () => {
                         animate={{ opacity: [0, 1, 0] }}
                         transition={{ duration: 2, repeat: Infinity }}
                       />
-                      <Apple className="w-4 h-4 text-white relative z-10" />
+                      <svg
+                        viewBox="0 0 24 24"
+                        style={{ width: '16px', height: '16px' }}
+                        className="text-white relative z-10 flex-shrink-0"
+                        fill="currentColor"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.51 12.09 1.002 1.459 2.196 3.1 3.775 3.046 1.522-.06 2.093-1.001 3.93-1.001 1.838 0 2.365.998 3.96.96 1.62-.027 2.667-1.48 3.662-2.928 1.147-1.676 1.612-3.3 1.638-3.385-.034-.015-3.149-1.205-3.184-4.81-.026-3.003 2.454-4.444 2.568-4.512-1.404-2.059-3.57-2.285-4.33-2.342-1.89-.161-3.112 1.003-3.608 1.003-.497 0-1.666-.889-3.01-.889h.01zm2.32-4.144c.854-1.034 1.43-2.473 1.272-3.911-1.235.05-2.732.823-3.618 1.853-.793.916-1.484 2.387-1.296 3.788 1.378.107 2.788-.696 3.642-1.73z" />
+                      </svg>
                     </div>
                     <div className="flex flex-col min-w-0">
                       <span className="text-[11px] font-semibold text-white leading-tight line-clamp-2">{t('banner.text')}</span>
@@ -165,7 +181,7 @@ export const Layout = () => {
             <div className="flex justify-between items-center h-12 relative">
               <div className="flex items-center space-x-6">
                 <Link to="/" className="font-display font-bold text-2xl tracking-tighter text-primary">
-                  <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
+                  <span dir="ltr">Coshare<span className="text-[#05A7E8]">.</span></span>
                 </Link>
 
               </div>
@@ -242,7 +258,7 @@ export const Layout = () => {
             {/* Brand & Tagline */}
             <div className="flex flex-col items-center md:items-start">
               <h3 className="font-display font-bold text-2xl text-white mb-2">
-                <span dir="ltr">coshare<span className="text-[#05A7E8]">.</span></span>
+                <span dir="ltr">Coshare<span className="text-[#05A7E8]">.</span></span>
               </h3>
               <p className="text-sm text-gray-400 text-center md:text-left max-w-xs">{t('footer.tagline')}</p>
             </div>
@@ -286,7 +302,15 @@ export const Layout = () => {
                 rel="noopener noreferrer"
                 className="flex items-center bg-white text-[#0b1b34] px-5 py-2.5 rounded-full border border-white/10 hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 mb-8 group"
               >
-                <Apple className="w-7 h-7 mr-3 group-hover:scale-110 transition-transform" />
+                <svg
+                  viewBox="0 0 24 24"
+                  style={{ width: '24px', height: '24px' }}
+                  className="mr-3 group-hover:scale-110 transition-transform flex-shrink-0"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.51 12.09 1.002 1.459 2.196 3.1 3.775 3.046 1.522-.06 2.093-1.001 3.93-1.001 1.838 0 2.365.998 3.96.96 1.62-.027 2.667-1.48 3.662-2.928 1.147-1.676 1.612-3.3 1.638-3.385-.034-.015-3.149-1.205-3.184-4.81-.026-3.003 2.454-4.444 2.568-4.512-1.404-2.059-3.57-2.285-4.33-2.342-1.89-.161-3.112 1.003-3.608 1.003-.497 0-1.666-.889-3.01-.889h.01zm2.32-4.144c.854-1.034 1.43-2.473 1.272-3.911-1.235.05-2.732.823-3.618 1.853-.793.916-1.484 2.387-1.296 3.788 1.378.107 2.788-.696 3.642-1.73z" />
+                </svg>
                 <div className="text-left">
                   <p className="text-[9px] font-bold uppercase leading-none tracking-wider opacity-60">{t('footer.download')}</p>
                   <p className="text-base font-bold leading-tight">{t('footer.appStore')}</p>
