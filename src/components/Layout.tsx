@@ -192,13 +192,14 @@ export const Layout = () => {
                   "hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2 transition-all duration-500",
                   (showNavLinks || location.pathname !== '/') ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-4 pointer-events-none"
                 )}>
-                  <Link to="/#how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</Link>
+                  <Link to="/how-it-works" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.howItWorks')}</Link>
                   <Link to="/#use-cases" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.useCases')}</Link>
                   <Link to="/faq" className="text-sm font-medium text-gray-600 hover:text-[#0b1b34] transition-colors">{t('nav.faq')}</Link>
                 </div>
               )}
 
               <div className="flex items-center space-x-2 sm:space-x-4">
+                {/* 1. The Language Button */}
                 <button
                   onClick={toggleLang}
                   className="flex items-center space-x-1 text-xs font-bold text-gray-500 hover:text-primary transition-colors uppercase tracking-wider px-2 py-1.5"
@@ -207,7 +208,13 @@ export const Layout = () => {
                   <span>{lang === 'EN' ? 'AR' : 'EN'}</span>
                 </button>
 
-
+                {/* 2. The Menu Button (Sits NEXT to language, not inside it) */}
+                <button
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  className="md:hidden p-2 text-gray-500 hover:text-primary transition-colors"
+                >
+                  {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                </button>
               </div>
             </div>
           </div>
@@ -222,7 +229,7 @@ export const Layout = () => {
                 className="md:hidden overflow-hidden bg-surface border-t border-gray-100 dark:border-white/10 absolute top-full left-0 w-full shadow-lg z-40"
               >
                 <div className="px-4 py-4 flex flex-col space-y-4">
-                  <Link to="/#how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.howItWorks')}</Link>
+                  <Link to="/how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.howItWorks')}</Link>
                   <Link to="/#use-cases" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.useCases')}</Link>
                   <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.faq')}</Link>
                 </div>

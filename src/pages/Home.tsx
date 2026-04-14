@@ -2,8 +2,8 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
-import { motion, useScroll, useTransform } from 'motion/react';
-import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet, FileText, CheckCircle2 } from 'lucide-react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles, Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard, Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet, FileText, CheckCircle2, ChevronDown } from 'lucide-react';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
@@ -58,15 +58,21 @@ export const Home = () => {
   const { t, lang } = useLanguage();
   const navigate = useNavigate();
   const [activeUseCase, setActiveUseCase] = useState(0);
-  const [isHoveringUseCases, setIsHoveringUseCases] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<number | null>(0);
 
-  useEffect(() => {
-    if (isHoveringUseCases) return;
-    const interval = setInterval(() => {
-      setActiveUseCase((prev) => (prev + 1) % 4);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isHoveringUseCases]);
+  const useCasesData = [
+    { icon: Car, title: t('home.useCases.1.title'), description: t('home.useCases.1.desc'), image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000" },
+    { icon: Wallet, title: t('home.useCases.2.title'), description: t('home.useCases.2.desc'), image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000" },
+    { icon: Plane, title: t('home.useCases.3.title'), description: t('home.useCases.3.desc'), image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000" },
+    { icon: HomeIcon, title: t('home.useCases.4.title'), description: t('home.useCases.4.desc'), image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000" }
+  ];
+
+  const handleUseCaseClick = (index: number) => {
+    setActiveUseCase(index); // Desktop image updates
+    setMobileExpanded(mobileExpanded === index ? null : index); // Mobile toggle
+  };
+
+
 
   const whyRef = useRef<HTMLElement>(null);
   const { scrollYProgress: whyScrollY } = useScroll({
@@ -290,21 +296,19 @@ export const Home = () => {
           <div className="flex flex-col md:flex-row gap-12 md:gap-24">
 
             {/* Left: Sticky Content */}
-            <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col justify-center pt-24 md:pt-0 z-10">
-              <div className="relative w-full hidden md:flex items-center justify-center" style={{ height: '75vh', overflow: 'hidden' }}>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img1Opacity }}>
-                  <Visual1 />
-                </motion.div>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img2Opacity }}>
-                  <Visual2 />
-                </motion.div>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img3Opacity }}>
-                  <Visual3 />
-                </motion.div>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img4Opacity }}>
-                  <Visual4 />
-                </motion.div>
+            <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col justify-center z-10">
 
+              <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mx-auto">
+                {/* Notch */}
+                <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-40 mx-auto z-20" />
+
+                {/* The App Screen Content */}
+                <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
+                  <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}><Visual1 /></motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}><Visual2 /></motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}><Visual3 /></motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}><Visual4 /></motion.div>
+                </div>
               </div>
             </div>
 
@@ -379,8 +383,13 @@ export const Home = () => {
 
                       <div className="relative z-10">
                         {/* Mobile Image */}
-                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative [&_img]:!object-cover [&_img]:!w-full [&_img]:!h-full [&_img]:!transform-none">
-                          <step.Visual />
+                        <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mb-8 md:hidden relative mx-auto">
+                          {/* Notch */}
+                          <div className="absolute top-0 inset-x-0 h-5 bg-black rounded-b-2xl w-32 mx-auto z-20" />
+
+                          <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
+                            <step.Visual />
+                          </div>
                         </div>
 
                         <div className="w-16 h-16 bg-[#1a2b4c] rounded-2xl flex items-center justify-center mb-6 border border-white/10 md:hidden">
@@ -418,148 +427,85 @@ export const Home = () => {
 
       {/* Use Cases */}
       <section id="use-cases" className="py-16 md:py-24 bg-[#f8f9fa] text-[#0b1b34] relative overflow-hidden scroll-mt-20">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#05A7E8]/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+          {/* Header */}
           <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-balance">{t('home.useCases.title')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl text-balance">
-              {t('home.useCases.subtitle')}
-            </p>
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">{t('home.useCases.title')}</h2>
+            <p className="text-lg text-gray-600 max-w-2xl">{t('home.useCases.subtitle')}</p>
           </div>
 
           <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
-            {/* Left: Tabs */}
-            <div
-              className="w-full lg:w-1/3 flex flex-col gap-4"
-              onMouseEnter={() => setIsHoveringUseCases(true)}
-              onMouseLeave={() => setIsHoveringUseCases(false)}
-            >
-              {[
-                {
-                  icon: Car,
-                  title: t('home.useCases.1.title'),
-                  description: t('home.useCases.1.desc'),
-                  image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  icon: Wallet,
-                  title: t('home.useCases.2.title'),
-                  description: t('home.useCases.2.desc'),
-                  image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  icon: Plane,
-                  title: t('home.useCases.3.title'),
-                  description: t('home.useCases.3.desc'),
-                  image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  icon: HomeIcon,
-                  title: t('home.useCases.4.title'),
-                  description: t('home.useCases.4.desc'),
-                  image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
-                }
-              ].map((useCase, index) => (
-                <button
-                  key={index}
-                  onClick={() => setActiveUseCase(index)}
-                  className={`relative overflow-hidden text-left p-6 rounded-2xl transition-all duration-300 border ${activeUseCase === index
-                    ? 'bg-white border-[#256ab1]/20 shadow-lg'
-                    : 'bg-transparent border-gray-200 hover:bg-gray-50'
-                    }`}
-                >
-                  <div className="flex items-center gap-4 relative z-10">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-300 ${activeUseCase === index ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-[#256ab1]'
-                      }`}>
-                      <useCase.icon className="w-6 h-6" />
-                    </div>
-                    <h3 className={`text-xl font-bold transition-colors duration-300 ${activeUseCase === index ? 'text-[#0b1b34]' : 'text-gray-500'
-                      }`}>
-                      {useCase.title}
-                    </h3>
-                  </div>
 
-                  {/* Progress Bar */}
-                  {activeUseCase === index && !isHoveringUseCases && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-1 bg-[#256ab1] rounded-b-2xl"
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 5, ease: "linear" }}
-                    />
-                  )}
-                </button>
+            {/* Left Column: Buttons */}
+            <div className="w-full lg:w-1/3 flex flex-col gap-4">
+              {useCasesData.map((useCase, index) => (
+                <div key={index} className="flex flex-col">
+                  <button
+                    onClick={() => handleUseCaseClick(index)}
+                    className={`relative text-left p-6 rounded-2xl transition-all duration-300 border flex items-center justify-between ${activeUseCase === index ? 'bg-white border-[#256ab1]/20 shadow-lg' : 'bg-transparent border-gray-200 hover:bg-gray-50'
+                      }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${activeUseCase === index ? 'bg-[#256ab1] text-white' : 'bg-gray-100 text-[#256ab1]'
+                        }`}>
+                        <useCase.icon className="w-6 h-6" />
+                      </div>
+                      <h3 className={`text-xl font-bold ${activeUseCase === index ? 'text-[#0b1b34]' : 'text-gray-500'}`}>
+                        {useCase.title}
+                      </h3>
+                    </div>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 lg:hidden ${mobileExpanded === index ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {/* Mobile-Only Accordion */}
+                  <AnimatePresence>
+                    {mobileExpanded === index && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="lg:hidden overflow-hidden mt-2"
+                      >
+                        <div className="rounded-2xl overflow-hidden border border-gray-100 bg-white">
+                          <img src={useCase.image} className="w-full h-48 object-cover" alt="" />
+                          <div className="p-5 bg-[#0b1b34] text-white">
+                            <p className="text-sm leading-relaxed">{useCase.description}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               ))}
             </div>
 
-            {/* Right: Content */}
-            <div className="w-full lg:w-2/3 relative min-h-[400px] lg:min-h-[500px] rounded-3xl overflow-hidden border border-gray-200 bg-white shadow-xl">
-              {[
-                {
-                  icon: Car,
-                  title: t('home.useCases.1.title'),
-                  description: t('home.useCases.1.desc'),
-                  image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  icon: Wallet,
-                  title: t('home.useCases.2.title'),
-                  description: t('home.useCases.2.desc'),
-                  image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  icon: Plane,
-                  title: t('home.useCases.3.title'),
-                  description: t('home.useCases.3.desc'),
-                  image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
-                },
-                {
-                  icon: HomeIcon,
-                  title: t('home.useCases.4.title'),
-                  description: t('home.useCases.4.desc'),
-                  image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
-                }
-              ].map((useCase, index) => (
+            {/* Right Column: Desktop View (Always shows an image) */}
+            <div className="hidden lg:block w-full lg:w-2/3 relative min-h-[500px] rounded-3xl overflow-hidden border border-gray-200 bg-white shadow-xl">
+              <AnimatePresence mode="wait">
                 <motion.div
-                  key={index}
-                  initial={false}
-                  animate={{
-                    opacity: activeUseCase === index ? 1 : 0,
-                    scale: activeUseCase === index ? 1 : 1.05,
-                    zIndex: activeUseCase === index ? 10 : 0
-                  }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="absolute inset-0 pointer-events-none"
+                  key={activeUseCase} // This triggers the animation when the index changes
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="absolute inset-0"
                 >
-                  <img
-                    src={useCase.image}
-                    alt={useCase.title}
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
+                  <img src={useCasesData[activeUseCase].image} className="w-full h-full object-cover" alt="" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34] via-[#0b1b34]/40 to-transparent" />
-
-                  <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{
-                        opacity: activeUseCase === index ? 1 : 0,
-                        y: activeUseCase === index ? 0 : 20
-                      }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                      className="max-w-2xl"
-                    >
-                      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#49bee4]/20 border border-[#49bee4]/30 text-[#49bee4] text-sm font-bold mb-4 backdrop-blur-md">
-                        <useCase.icon className="w-4 h-4" />
-                        {useCase.title}
-                      </div>
-                      <p className="text-xl md:text-2xl text-white leading-relaxed font-light">
-                        {useCase.description}
-                      </p>
-                    </motion.div>
+                  <div className="absolute bottom-0 p-12">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#49bee4]/20 border border-[#49bee4]/30 text-[#49bee4] text-sm font-bold mb-4 backdrop-blur-md">
+                      {React.createElement(useCasesData[activeUseCase].icon, { className: "w-4 h-4" })}
+                      {useCasesData[activeUseCase].title}
+                    </div>
+                    <p className="text-2xl text-white font-light leading-relaxed">
+                      {useCasesData[activeUseCase].description}
+                    </p>
                   </div>
                 </motion.div>
-              ))}
+              </AnimatePresence>
             </div>
+
           </div>
         </div>
       </section>

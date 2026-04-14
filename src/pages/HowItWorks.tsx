@@ -55,20 +55,31 @@ export const HowItWorks = () => {
 
             {/* Left: Sticky Content */}
             <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col items-center justify-center z-10">
-              <div className="relative w-full hidden md:flex items-center justify-center" style={{ height: '75vh', overflow: 'hidden' }}>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img1Opacity, width: '100%', height: '100%' }}>
-                  <Visual1 />
-                </motion.div>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img2Opacity }}>
-                  <Visual2 />
-                </motion.div>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img3Opacity }}>
-                  <Visual3 />
-                </motion.div>
-                <motion.div className="absolute inset-0 flex items-center justify-center" style={{ opacity: img4Opacity }}>
-                  <Visual4 />
-                </motion.div>
+              {/* The iPhone Frame */}
+              <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-900 shadow-2xl overflow-hidden">
+                {/* The Notch */}
+                <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-36 mx-auto z-50" />
 
+                {/* The Screen Content */}
+                <div className="w-full h-full bg-white relative">
+                  <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>
+                    <Visual1 />
+                  </motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}>
+                    <Visual2 />
+                  </motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}>
+                    <Visual3 />
+                  </motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}>
+                    <Visual4 />
+                  </motion.div>
+                </div>
+
+                {/* Side Buttons for extra realism */}
+                <div className="absolute -left-[10px] top-24 w-[2px] h-10 bg-gray-800 rounded-l-lg" />
+                <div className="absolute -left-[10px] top-36 w-[2px] h-16 bg-gray-800 rounded-l-lg" />
+                <div className="absolute -right-[10px] top-32 w-[2px] h-20 bg-gray-800 rounded-r-lg" />
               </div>
             </div>
 
@@ -143,13 +154,14 @@ export const HowItWorks = () => {
 
                       <div className="relative z-10">
                         {/* Mobile Image */}
-                        <div className="w-full aspect-video rounded-2xl overflow-hidden mb-6 md:hidden border border-white/10 relative ">
-                          <div className="absolute inset-0 flex items-center justify-center [&_img]:!h-full [&_img]:!w-full [&_img]:!object-cover [&_img]:!transform-none">
-                            <step.Visual />
-                          </div>
-                          <div className="absolute bottom-3 left-3 w-10 h-10 bg-[#0b1b34]/80 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/10">
-                            <step.icon className="w-5 h-5 text-[#49bee4]" />
-                          </div>
+                        <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mb-8 md:hidden relative mx-auto">
+                          <div className="absolute top-0 inset-x-0 h-5 bg-black rounded-b-2xl w-32 mx-auto z-20" />
+                          <div className="w-full h-full bg-[#f8f9fa] relative"><step.Visual /></div>
+                        </div>
+
+                        {/* Mobile Icon Badge */}
+                        <div className="w-16 h-16 bg-[#1a2b4c] rounded-2xl flex items-center justify-center mb-6 border border-white/10 md:hidden">
+                          <step.icon className="w-8 h-8 text-[#49bee4]" />
                         </div>
                         <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">{step.title}</h3>
                         <p className="text-lg md:text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
@@ -170,10 +182,10 @@ export const HowItWorks = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* The Financial Advantage Section */}
-      <section className="py-24 bg-[#1a2b4c] relative overflow-hidden">
+      < section className="py-24 bg-[#1a2b4c] relative overflow-hidden" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">{t('how.math.title')}</h2>
@@ -229,10 +241,10 @@ export const HowItWorks = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       {/* Concierge Section */}
-      <section className="py-24 bg-[#0b1b34] relative">
+      < section className="py-24 bg-[#0b1b34] relative" >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">{t('how.concierge.title')}</h2>
@@ -256,10 +268,10 @@ export const HowItWorks = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section >
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-b from-[#1a2b4c] to-[#0b1b34]">
+      < section className="py-24 bg-gradient-to-b from-[#1a2b4c] to-[#0b1b34]" >
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">{t('how.cta.title')}</h2>
           <p className="text-base md:text-lg text-gray-400 mb-10 font-light">{t('how.cta.desc')}</p>
@@ -273,8 +285,8 @@ export const HowItWorks = () => {
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
-      </section>
+      </section >
 
-    </div>
+    </div >
   );
 };
