@@ -64,107 +64,58 @@ export const Layout = () => {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="relative z-50 w-full bg-[#000000] border-b border-white/10 overflow-hidden"
+              className="relative z-50 w-full bg-[#0b1b34] overflow-hidden shadow-lg border-b border-white/10"
             >
-              {/* Sweeping Light Ray Effect */}
-              <motion.div
-                className="absolute inset-0 w-[200%] bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12"
-                animate={{ x: ['-100%', '100%'] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
-              />
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-16 sm:h-20 flex items-center justify-between gap-2">
 
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                {/* Desktop Layout */}
-                <div className="hidden sm:flex items-center justify-between py-3">
-                  <div className="flex items-center gap-4">
-                    <div className="relative w-10 h-10 rounded-xl bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg overflow-hidden">
-                      <motion.div
-                        className="absolute inset-0 bg-white/10"
-                        animate={{ opacity: [0, 1, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      <svg
-                        viewBox="0 0 24 24"
-                        style={{ width: '20px', height: '20px' }}
-                        className="text-white relative z-10 flex-shrink-0"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.51 12.09 1.002 1.459 2.196 3.1 3.775 3.046 1.522-.06 2.093-1.001 3.93-1.001 1.838 0 2.365.998 3.96.96 1.62-.027 2.667-1.48 3.662-2.928 1.147-1.676 1.612-3.3 1.638-3.385-.034-.015-3.149-1.205-3.184-4.81-.026-3.003 2.454-4.444 2.568-4.512-1.404-2.059-3.57-2.285-4.33-2.342-1.89-.161-3.112 1.003-3.608 1.003-.497 0-1.666-.889-3.01-.889h.01zm2.32-4.144c.854-1.034 1.43-2.473 1.272-3.911-1.235.05-2.732.823-3.618 1.853-.793.916-1.484 2.387-1.296 3.788 1.378.107 2.788-.696 3.642-1.73z" />
-                      </svg>
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-white tracking-wide">{t('banner.text')}</span>
-                      <div className="flex items-center gap-1 text-[10px] text-gray-400 mt-0.5">
-                        <span className="flex text-[#F5A623] text-xs">★★★★★</span>
-                        <span>App Store</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <a
-                      href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="relative overflow-hidden bg-white text-black text-xs font-bold px-6 py-2 rounded-full hover:scale-105 hover:bg-gray-100 transition-all shadow-[0_0_15px_rgba(255,255,255,0.2)] group"
-                    >
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-transparent"
-                        animate={{ x: ['-100%', '100%'] }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                      />
-                      <span className="relative z-10">{t('banner.cta')}</span>
-                    </a>
-                    <button onClick={() => setIsBannerVisible(false)} className="p-1.5 rounded-full hover:bg-white/20 transition-colors text-gray-400 hover:text-white">
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
+                {/* Left: Text */}
+                <div className="flex items-center z-20 w-1/3">
+                  <span className="text-[10px] sm:text-base font-bold text-white tracking-wide leading-tight line-clamp-2">
+                    {t('banner.text')}
+                  </span>
                 </div>
 
-                {/* Mobile Layout */}
-                <div className="flex sm:hidden items-center justify-between py-3 gap-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <button onClick={() => setIsBannerVisible(false)} className="p-1 rounded-full hover:bg-white/20 transition-colors text-gray-400 hover:text-white flex-shrink-0 -ml-1">
-                      <X className="w-4 h-4" />
-                    </button>
-                    <div className="relative w-9 h-9 rounded-xl bg-gradient-to-br from-gray-800 to-black border border-gray-700 flex items-center justify-center shadow-lg flex-shrink-0 overflow-hidden">
-                      <motion.div
-                        className="absolute inset-0 bg-white/10"
-                        animate={{ opacity: [0, 1, 0] }}
-                        transition={{ duration: 2, repeat: Infinity }}
+                {/* Middle: The Peeking Phone (Always Centered) */}
+                <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-20 sm:w-36 md:w-40 z-10 pointer-events-none">
+                  <motion.div
+                    className="w-full aspect-[9/18] bg-black rounded-t-[1rem] sm:rounded-t-[2rem] border-[2px] sm:border-[6px] border-gray-800 shadow-2xl origin-bottom"
+                    initial={{ y: 20, rotate: 15 }}
+                    animate={{ y: [0, -5, 0], rotate: [12, 10, 12] }}
+                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                    style={{ marginBottom: '-10%' }}
+                  >
+                    {/* Notch */}
+                    <div className="absolute top-0 inset-x-0 h-1.5 sm:h-4 bg-black rounded-b-md sm:rounded-b-xl w-6 sm:w-16 mx-auto z-20" />
+
+                    <div className="w-full h-full rounded-t-[0.8rem] sm:rounded-t-[1.5rem] overflow-hidden">
+                      <img
+                        src="/assets/step-1.png"
+                        alt="App Preview"
+                        className="w-full h-full object-cover"
                       />
-                      <svg
-                        viewBox="0 0 24 24"
-                        style={{ width: '16px', height: '16px' }}
-                        className="text-white relative z-10 flex-shrink-0"
-                        fill="currentColor"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.54 9.103 1.51 12.09 1.002 1.459 2.196 3.1 3.775 3.046 1.522-.06 2.093-1.001 3.93-1.001 1.838 0 2.365.998 3.96.96 1.62-.027 2.667-1.48 3.662-2.928 1.147-1.676 1.612-3.3 1.638-3.385-.034-.015-3.149-1.205-3.184-4.81-.026-3.003 2.454-4.444 2.568-4.512-1.404-2.059-3.57-2.285-4.33-2.342-1.89-.161-3.112 1.003-3.608 1.003-.497 0-1.666-.889-3.01-.889h.01zm2.32-4.144c.854-1.034 1.43-2.473 1.272-3.911-1.235.05-2.732.823-3.618 1.853-.793.916-1.484 2.387-1.296 3.788 1.378.107 2.788-.696 3.642-1.73z" />
-                      </svg>
                     </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[11px] font-semibold text-white leading-tight line-clamp-2">{t('banner.text')}</span>
-                      <div className="flex items-center gap-1 text-[9px] text-gray-400 mt-0.5">
-                        <span className="flex text-[#F5A623]">★★★★★</span>
-                        <span>App Store</span>
-                      </div>
-                    </div>
-                  </div>
+                  </motion.div>
+                </div>
+
+                {/* Right: CTA + Close */}
+                <div className="flex items-center justify-end gap-2 sm:gap-4 z-20 w-1/3">
                   <a
                     href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative overflow-hidden bg-white text-black text-[10px] font-bold px-4 py-1.5 rounded-full active:scale-95 transition-transform flex-shrink-0 shadow-[0_0_10px_rgba(255,255,255,0.2)]"
+                    className="relative overflow-hidden bg-[#49bee4] text-[#0b1b34] text-[9px] sm:text-sm font-bold px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-full active:scale-95 whitespace-nowrap"
                   >
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-transparent"
-                      animate={{ x: ['-100%', '100%'] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    />
                     <span className="relative z-10">{t('banner.cta')}</span>
                   </a>
+
+                  <button
+                    onClick={() => setIsBannerVisible(false)}
+                    className="p-1 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+                  >
+                    <X className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+                  </button>
                 </div>
+
               </div>
             </motion.div>
           )}
