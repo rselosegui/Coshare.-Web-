@@ -66,23 +66,24 @@ export const Layout = () => {
               exit={{ height: 0, opacity: 0 }}
               className="relative z-50 w-full bg-[#0b1b34] overflow-hidden shadow-lg border-b border-white/10"
             >
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-16 sm:h-20 flex items-center justify-between gap-2">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-16 sm:h-28 flex items-center justify-between gap-2">
 
                 {/* Left: Text */}
-                <div className="flex items-center z-20 w-1/3">
+                <div className="flex items-center z-20 w-1/3 pr-2"> {/* Added pr-2 */}
                   <span className="text-[10px] sm:text-base font-bold text-white tracking-wide leading-tight line-clamp-2">
                     {t('banner.text')}
                   </span>
                 </div>
 
                 {/* Middle: The Peeking Phone (Always Centered) */}
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-20 sm:w-36 md:w-40 z-10 pointer-events-none">
+                {/* Change: Set a smaller width for mobile (w-24) and keep sm:w-36 for desktop */}
+                <div className="absolute left-[40%] sm:left-1/2 -translate-x-1/2 bottom-0 w-28 sm:w-36 md:w-40 z-10 pointer-events-none">
                   <motion.div
                     className="w-full aspect-[9/18] bg-black rounded-t-[1rem] sm:rounded-t-[2rem] border-[2px] sm:border-[6px] border-gray-800 shadow-2xl origin-bottom"
-                    initial={{ y: 20, rotate: 15 }}
-                    animate={{ y: [0, -5, 0], rotate: [12, 10, 12] }}
+                    initial={{ y: -10, rotate: 15 }}
+                    animate={{ y: [0, -15, 0], rotate: [12, 10, 12] }}
                     transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    style={{ marginBottom: '-10%' }}
+                    style={{ marginBottom: '-110%' }}
                   >
                     {/* Notch */}
                     <div className="absolute top-0 inset-x-0 h-1.5 sm:h-4 bg-black rounded-b-md sm:rounded-b-xl w-6 sm:w-16 mx-auto z-20" />
@@ -91,11 +92,12 @@ export const Layout = () => {
                       <img
                         src="/assets/step-1.png"
                         alt="App Preview"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover object-top"
                       />
                     </div>
                   </motion.div>
                 </div>
+
 
                 {/* Right: CTA + Close */}
                 <div className="flex items-center justify-end gap-2 sm:gap-4 z-20 w-1/3">
@@ -129,15 +131,17 @@ export const Layout = () => {
             : "bg-surface py-4"
         )}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* This "flex justify-between" is the engine that keeps everything in place */}
             <div className="flex justify-between items-center h-12 relative">
-              <div className="flex items-center space-x-6">
+
+              {/* LEFT: Logo */}
+              <div className="flex items-center min-w-[100px]">
                 <Link to="/" className="font-display font-bold text-2xl tracking-tighter text-primary">
                   <span dir="ltr">Coshare<span className="text-[#05A7E8]">.</span></span>
                 </Link>
-
               </div>
 
-              {/* Centered Navigation Links (Desktop) */}
+              {/* MIDDLE: Links (Desktop Only) */}
               {(location.pathname === '/' || location.pathname === '/how-it-works' || location.pathname === '/faq') && (
                 <div className={cn(
                   "hidden md:flex items-center space-x-8 absolute left-1/2 -translate-x-1/2 transition-all duration-500",
@@ -149,8 +153,8 @@ export const Layout = () => {
                 </div>
               )}
 
-              <div className="flex items-center space-x-2 sm:space-x-4">
-                {/* 1. The Language Button */}
+              {/* RIGHT: Language + Menu (This is the fix) */}
+              <div className="flex items-center justify-end flex-1 md:flex-none space-x-2 sm:space-x-4">
                 <button
                   onClick={toggleLang}
                   className="flex items-center space-x-1 text-xs font-bold text-gray-500 hover:text-primary transition-colors uppercase tracking-wider px-2 py-1.5"
@@ -159,7 +163,6 @@ export const Layout = () => {
                   <span>{lang === 'EN' ? 'AR' : 'EN'}</span>
                 </button>
 
-                {/* 2. The Menu Button (Sits NEXT to language, not inside it) */}
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   className="md:hidden p-2 text-gray-500 hover:text-primary transition-colors"
@@ -167,32 +170,51 @@ export const Layout = () => {
                   {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
                 </button>
               </div>
+
             </div>
           </div>
-
-          {/* Mobile Menu Overlay */}
-          <AnimatePresence>
-            {isMobileMenuOpen && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                className="md:hidden overflow-hidden bg-surface border-t border-gray-100 dark:border-white/10 absolute top-full left-0 w-full shadow-lg z-40"
-              >
-                <div className="px-4 py-4 flex flex-col space-y-4">
-                  <Link to="/how-it-works" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.howItWorks')}</Link>
-                  <Link to="/#use-cases" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.useCases')}</Link>
-                  <Link to="/faq" onClick={() => setIsMobileMenuOpen(false)} className="text-sm font-bold text-primary">{t('nav.faq')}</Link>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </header>
+        {/* Mobile Menu Overlay */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              // Using top-full ensures it starts exactly where the header ends
+              className="md:hidden overflow-hidden bg-surface border-t border-gray-100 dark:border-white/10 absolute top-full left-0 w-full shadow-lg z-50"
+            >
+              <div className="px-4 py-6 flex flex-col space-y-4 bg-white/95 backdrop-blur-md">
+                <Link
+                  to="/how-it-works"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-sm font-bold text-primary"
+                >
+                  {t('nav.howItWorks')}
+                </Link>
+                <Link
+                  to="/#use-cases"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-sm font-bold text-primary"
+                >
+                  {t('nav.useCases')}
+                </Link>
+                <Link
+                  to="/faq"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="text-sm font-bold text-primary"
+                >
+                  {t('nav.faq')}
+                </Link>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       <div className="flex-1 flex flex-col">
         {/* Main Content */}
-        <main className="flex-1 pb-40 lg:pb-32">
+        <main className="flex-1 pt-4 sm:pt-8 pb-40 lg:pb-32">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
