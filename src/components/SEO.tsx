@@ -11,7 +11,7 @@ interface SEOProps {
 
 export const SEO: React.FC<SEOProps> = ({ 
   title = "Coshare | Co-own and Share Assets", 
-  description = "Join the future of ownership. Co-own cars, yachts, real estate and more all around the world with Coshare's AI-powered cosharing marketplace.",
+  description = "Join the future of ownership. Co-own cars, boats, real estate and more all around the world with Coshare's AI-powered cosharing marketplace.",
   canonical = "https://coshare.ai",
   image = "https://storage.googleapis.com/aistudio-user-uploads/6117622839446220/1741689564993_image.png",
   type = 'website'

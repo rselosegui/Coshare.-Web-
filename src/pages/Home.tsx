@@ -721,7 +721,7 @@ export const Home = () => {
                 <div className="absolute top-0 inset-x-0 h-5 md:h-6 bg-black rounded-b-2xl md:rounded-b-3xl w-32 md:w-40 mx-auto z-20" />
                 <div className="w-full h-full bg-white relative">
                   <img
-                    src="/assets/footer.png"
+                    src="/assets/footer-modified.jpg"
                     alt="Coshare App Preview"
                     className="w-full h-full object-cover object-top"
                     style={{

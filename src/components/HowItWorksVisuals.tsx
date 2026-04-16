@@ -22,7 +22,7 @@ const ScreenImage = ({ src, alt }: { src: string; alt: string }) => (
 
 export const Visual1 = () => (
   <ScreenImage 
-    src="/assets/step-1.png" 
+    src="/assets/step-1-modified.jpg" 
     alt="step 1 browse assets" 
   />
 );
