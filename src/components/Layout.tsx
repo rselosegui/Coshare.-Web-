@@ -128,11 +128,11 @@ export const Layout = () => {
           "transition-all duration-500 relative z-0",
           isScrolled
             ? "bg-surface/80 backdrop-blur-2xl border-b border-white/10 py-1"
-            : "bg-surface py-2"
+            : "bg-surface py-0.5"
         )}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* This "flex justify-between" is the engine that keeps everything in place */}
-            <div className="flex justify-between items-center h-8 relative">
+            <div className="flex justify-between items-center h-6 relative">
 
               {/* LEFT: Logo */}
               <div className="flex items-center min-w-[100px]">
