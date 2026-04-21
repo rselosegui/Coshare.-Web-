@@ -12,7 +12,7 @@ const FAQItem = ({ question, answer }: { question: string; answer: string }) => 
         onClick={() => setIsOpen(!isOpen)}
         className="flex justify-between items-center w-full text-left group"
       >
-        <h4 className="text-lg font-bold text-[#0b1b34] group-hover:text-[#256ab1] transition-colors">{question}</h4>
+        <h3 className="text-lg font-bold text-[#0b1b34] group-hover:text-[#256ab1] transition-colors">{question}</h3>
         {isOpen ? <Minus className="w-5 h-5 text-[#256ab1]" /> : <Plus className="w-5 h-5 text-gray-400" />}
       </button>
       {isOpen && (
@@ -44,6 +44,9 @@ export const FAQ = () => {
           <p className="text-base md:text-lg text-gray-600">{t('home.faq.subtitle')}</p>
         </div>
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+          <h2 className="text-2xl md:text-3xl font-display font-bold text-[#0b1b34] mb-6">
+            General Questions
+          </h2>
           <div className="space-y-2">
             <FAQItem 
               question={t('home.faq.1.q')} 
