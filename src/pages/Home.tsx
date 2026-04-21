@@ -148,8 +148,8 @@ export const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <SEO
-        title={t('home.seo.title')}
-        description={t('home.seo.description')}
+        title="Coshare: My Hub | Share, Swap & Co-own Cars, Boats, Property & More"
+        description="Coshare is the platform to share, swap, and co-own assets — cars, boats, properties and more. List what you own. Access what you want. AI manages everything."
         canonical="https://coshare.ai"
       />
       {/* Hero Section */}

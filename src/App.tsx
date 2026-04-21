@@ -12,7 +12,6 @@ import { Home } from './pages/Home';
 import { HowItWorks } from './pages/HowItWorks';
 import { FAQ } from './pages/FAQ';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { SEO } from './components/SEO';
 import { ScrollToTop } from './components/ScrollToTop';
 
 export default function App() {
@@ -20,7 +19,6 @@ export default function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <LanguageProvider>
-          <SEO />
           <BrowserRouter>
             <ScrollToTop />
             <Routes>

@@ -22,8 +22,9 @@ export const HowItWorks = () => {
   return (
     <div className="min-h-screen bg-[#0b1b34] pt-24 pb-20">
       <SEO
-        title="How It Works | Coshare"
-        description="Learn how cosharing works with Coshare. Discover how we make enjoying assets accessible, hassle-free, and smart."
+        title="How Coshare Works | Co-ownership, Sharing & Asset Management"
+        description="Learn how Coshare lets you co-own and share high-value assets like cars, boats, and property. AI manages scheduling, usage, payments, and agreements automatically."
+        canonical="https://coshare.ai/how-it-works"
       />
 
       {/* Hero Section */}

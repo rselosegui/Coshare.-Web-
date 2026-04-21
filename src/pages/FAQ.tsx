@@ -33,9 +33,10 @@ export const FAQ = () => {
 
   return (
     <div className="min-h-screen bg-surface pt-24 pb-20">
-      <SEO 
-        title="FAQ | Coshare"
-        description="Frequently asked questions about Coshare."
+      <SEO
+        title="Coshare FAQ | Co-ownership, Sharing & Platform Questions"
+        description="Find answers about how Coshare works, co-ownership structure, safety, usage, and payments."
+        canonical="https://coshare.ai/faq"
       />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
