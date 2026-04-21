@@ -44,9 +44,6 @@ export const FAQ = () => {
           <p className="text-base md:text-lg text-gray-600">{t('home.faq.subtitle')}</p>
         </div>
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-          <h2 className="text-2xl md:text-3xl font-display font-bold text-[#0b1b34] mb-6">
-            General Questions
-          </h2>
           <div className="space-y-2">
             <FAQItem 
               question={t('home.faq.1.q')} 
