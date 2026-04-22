@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
 
@@ -38,6 +39,17 @@ export const FAQ = () => {
         description="Find answers about how Coshare works, co-ownership structure, safety, usage, and payments."
         canonical="https://coshare.ai/faq"
       />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "What is cosharing?", "acceptedAnswer": { "@type": "Answer", "text": "Cosharing allows multiple individuals to share ownership of a high-value asset, such as a car or yacht. Each owner is officially registered as an authorized co-owner to ensure legal compliance." } },
+            { "@type": "Question", "name": "How does Coshare work?", "acceptedAnswer": { "@type": "Answer", "text": "Coshare identifies assets, protects them under a comprehensive co-ownership agreement, and allows users to buy shares (from 1/8th). We handle all maintenance, insurance, and storage while you enjoy guaranteed usage days." } },
+            { "@type": "Question", "name": "Is cosharing legal?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, Coshare utilizes a streamlined legal structure protected by a comprehensive co-ownership agreement and official registration to ensure strict compliance." } }
+          ]
+        })}</script>
+      </Helmet>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h1 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h1>

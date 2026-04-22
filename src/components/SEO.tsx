@@ -29,37 +29,6 @@ export const SEO: React.FC<SEOProps> = ({
     ]
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is cosharing?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Cosharing allows multiple individuals to share ownership of a high-value asset, such as a car or yacht. Each owner is officially registered as an authorized co-owner to ensure legal compliance."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does Coshare work?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Coshare identifies assets, protects them under a comprehensive co-ownership agreement, and allows users to buy shares (from 1/8th). We handle all maintenance, insurance, and storage while you enjoy guaranteed usage days."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is cosharing legal?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes, Coshare utilizes a streamlined legal structure protected by a comprehensive co-ownership agreement and official registration to ensure strict compliance."
-        }
-      }
-    ]
-  };
-
   return (
     <>
       <Helmet>
@@ -81,7 +50,7 @@ export const SEO: React.FC<SEOProps> = ({
         <meta name="twitter:image" content={image} />
       </Helmet>
       <script type="application/ld+json">
-        {JSON.stringify([organizationSchema, faqSchema])}
+        {JSON.stringify(organizationSchema)}
       </script>
     </>
   );
