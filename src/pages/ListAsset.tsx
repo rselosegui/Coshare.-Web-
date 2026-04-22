@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { Upload, ShieldCheck, FileText, Rocket, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 import { ListVisual1, ListVisual2, ListVisual3, ListVisual4 } from '../components/ListAssetVisuals';
 
 export const ListAsset = () => {
@@ -26,6 +27,17 @@ export const ListAsset = () => {
         description="List your supercar, yacht, or property on Coshare. Sell fractional shares, unlock liquidity, and join a global network of co-owners."
         canonical="https://coshare.ai/list-asset"
       />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Service",
+          "name": "List Your Asset on Coshare",
+          "url": "https://coshare.ai/list-asset",
+          "provider": { "@type": "Organization", "name": "Coshare", "url": "https://coshare.ai" },
+          "description": "List your supercar, yacht, or property on Coshare. Sell fractional shares, unlock liquidity, and join a global network of co-owners.",
+          "serviceType": "Fractional Asset Co-Ownership"
+        })}</script>
+      </Helmet>
 
       {/* Hero */}
       <section className="relative py-20 overflow-hidden">
