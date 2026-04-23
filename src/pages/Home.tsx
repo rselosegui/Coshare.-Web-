@@ -1,15 +1,16 @@
-import React, { useRef, useState, useEffect, useMemo } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import {
-  ArrowRight, PieChart, Coffee, CalendarCheck, Search, CreditCard, Sparkles,
-  Plus, Minus, ShieldCheck, Users, Zap, ChevronRight, Apple, LayoutDashboard,
-  Scale, Store, Landmark, Briefcase, Car, Plane, Home as HomeIcon, Wallet,
-  FileText, CheckCircle2, ChevronDown
+  ArrowRight, CalendarCheck, Search, Sparkles,
+  Plus, Minus, ChevronRight, Apple, ShieldCheck,
+  Car, Plane, Home as HomeIcon, Wallet,
+  FileText, ChevronDown
 } from 'lucide-react';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
+import { WhyCoshare } from '../components/WhyCoshare';
 import { cn } from '../utils/cn';
 
 const FAQItem = ({ question, answer }: { question: string; answer: string }) => {
@@ -115,23 +116,7 @@ export const Home = () => {
     setMobileExpanded(mobileExpanded === index ? null : index);
   };
 
-  // 1. WHY SECTION (Bento Grid Parallax)
-  const whyRef = useRef<HTMLDivElement>(null); // Use HTMLDivElement for better compatibility
-  const { scrollYProgress: whyScrollY } = useScroll({
-    target: whyRef,
-    offset: ["start end", "end start"]
-  });
-
-  // Parallax shifts: Higher numbers = more "floaty" feel
-  const y1 = useTransform(whyScrollY, [0, 1], [40, -40]);
-  const y2 = useTransform(whyScrollY, [0, 1], [80, -80]);
-  const y3 = useTransform(whyScrollY, [0, 1], [120, -120]);
-  const y4 = useTransform(whyScrollY, [0, 1], [60, -60]);
-  const y5 = useTransform(whyScrollY, [0, 1], [100, -100]);
-  const y6 = useTransform(whyScrollY, [0, 1], [70, -70]);
-  const yTransforms = [y1, y2, y3, y4, y5, y6];
-
-  // 2. HOW IT WORKS (Sticky Phone Logic)
+  // HOW IT WORKS (Sticky Phone Logic)
   const howRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: howScrollY } = useScroll({
     target: howRef,
@@ -223,125 +208,7 @@ export const Home = () => {
         </div>
       </section>
 
-      {/* Editorial Content: Why coshare. - Bento Grid Redesign */}
-      <section id="why-coshare" ref={whyRef} className="py-12 md:py-16 bg-[#f8f9fa] overflow-hidden scroll-mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4 text-balance">
-              {t('home.why.title').split('coshare.')[0]}
-              <span dir="ltr" className="inline-block">Coshare<span className="text-[#05A7E8]">.</span></span>
-              {t('home.why.title').split('coshare.')[1]}
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl text-balance">
-              {t('home.why.subtitle')}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              {
-                icon: PieChart,
-                title: t('home.why.1.title'),
-                description: t('home.why.1.desc'),
-                className: "lg:col-span-2 sm:col-span-2 min-h-[220px]",
-                image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000",
-                badge: t('home.why.1.badge')
-              },
-              {
-                icon: Scale,
-                title: t('home.why.2.title'),
-                description: t('home.why.2.desc'),
-                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
-                image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000",
-                badge: t('home.why.2.badge')
-              },
-              {
-                icon: Sparkles,
-                title: t('home.why.3.title'),
-                description: t('home.why.3.desc'),
-                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
-                image: "https://images.unsplash.com/photo-1582672060624-cdac1654672b?auto=format&fit=crop&q=80&w=1000",
-                badge: t('home.why.3.badge')
-              },
-              {
-                icon: Briefcase,
-                title: t('home.why.4.title'),
-                description: t('home.why.4.desc'),
-                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
-                image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000",
-                badge: t('home.why.4.badge')
-              },
-              {
-                icon: Landmark,
-                title: t('home.why.5.title'),
-                description: t('home.why.5.desc'),
-                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
-                image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000",
-                badge: t('home.why.5.badge')
-              },
-              {
-                icon: Users,
-                title: t('home.why.6.title'),
-                description: t('home.why.6.desc'),
-                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
-                image: "https://images.unsplash.com/photo-1526495124232-a04e1849168c?auto=format&fit=crop&q=80&w=1000",
-                badge: t('home.why.6.badge')
-              },
-              {
-                icon: ShieldCheck,
-                title: t('home.why.7.title'),
-                description: t('home.why.7.desc'),
-                className: "lg:col-span-1 sm:col-span-1 min-h-[220px]",
-                image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=1000",
-                badge: t('home.why.7.badge')
-              }
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.7, delay: index * 0.1, ease: "easeOut" }}
-                className={`relative overflow-hidden rounded-3xl bg-white p-6 md:p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group border border-gray-100 hover:border-[#256ab1]/30 flex flex-col justify-between ${feature.className}`}
-              >
-                {/* Parallax Background Image */}
-                <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-20 transition-opacity duration-700 overflow-hidden bg-[#0b1b34]">
-                  <motion.img
-                    src={feature.image}
-                    alt=""
-                    className="w-full h-full object-cover opacity-60 mix-blend-luminosity scale-125 group-hover:scale-110 transition-transform duration-1000"
-                    style={{ y: yTransforms[index] }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34] via-transparent to-transparent" />
-                </div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex justify-between items-start mb-6">
-                    <div className="w-14 h-14 bg-[#f8f9fa] rounded-2xl flex items-center justify-center group-hover:bg-[#256ab1] transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
-                      <feature.icon className="w-7 h-7 text-[#256ab1] group-hover:text-white transition-colors duration-500" />
-                    </div>
-                    {feature.badge && (
-                      <span className="px-4 py-1.5 bg-[#256ab1]/5 text-[#256ab1] text-[10px] font-bold uppercase tracking-widest rounded-full border border-[#256ab1]/10 group-hover:bg-[#256ab1] group-hover:text-white group-hover:border-transparent transition-all duration-500">
-                        {feature.badge}
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="mt-auto">
-                    <h3 className={`font-display font-bold text-[#0b1b34] mb-2 group-hover:text-[#256ab1] transition-colors duration-500 ${index === 0 ? 'text-xl md:text-2xl tracking-tight' : 'text-lg md:text-xl'}`}>
-                      {feature.title}
-                    </h3>
-                    <p className={`text-gray-600 leading-relaxed group-hover:text-gray-900 transition-colors duration-500 ${index === 0 ? 'text-sm md:text-base max-w-xl' : 'text-xs md:text-sm'}`}>
-                      {feature.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <WhyCoshare />
 
       {/* How it works - Scrolling Version */}
       <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-16 md:py-24 scroll-mt-20">
