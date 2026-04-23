@@ -227,7 +227,7 @@ export const Layout = () => {
 
       <div className="flex-1 flex flex-col">
         {/* Main Content */}
-        <main className="flex-1 pt-4 sm:pt-8 pb-40 lg:pb-32">
+        <main className="flex-1 pt-4 sm:pt-8">
           <AnimatePresence mode="wait">
             <motion.div
               key={location.pathname}
