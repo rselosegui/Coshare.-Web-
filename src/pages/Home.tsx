@@ -5,9 +5,9 @@ import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import {
   ArrowRight, CalendarCheck, Search, Sparkles,
-  Plus, Minus, ChevronRight, Apple, ShieldCheck,
+  Plus, Minus, ShieldCheck,
   Car, Plane, Home as HomeIcon, Wallet,
-  FileText, ChevronDown
+  ChevronDown, Key, Users, PieChart, ArrowLeftRight
 } from 'lucide-react';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 import { WhyCoshare } from '../components/WhyCoshare';
@@ -116,19 +116,46 @@ export const Home = () => {
     setMobileExpanded(mobileExpanded === index ? null : index);
   };
 
+  const [activeTab, setActiveTab] = useState<'share' | 'own'>('share');
+
   // HOW IT WORKS (Sticky Phone Logic)
   const howRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: howScrollY } = useScroll({
     target: howRef,
-    offset: ["start start", "end end"] // Key for sticky behavior
+    offset: ["start start", "end end"]
   });
 
-  // Opacity transforms for the 4 visuals
-  // Optimized to ensure seamless cross-fading
   const img1Opacity = useTransform(howScrollY, [0, 0.22, 0.25], [1, 1, 0]);
   const img2Opacity = useTransform(howScrollY, [0.22, 0.25, 0.47, 0.5], [0, 1, 1, 0]);
   const img3Opacity = useTransform(howScrollY, [0.47, 0.5, 0.72, 0.75], [0, 1, 1, 0]);
   const img4Opacity = useTransform(howScrollY, [0.72, 0.75, 1], [0, 1, 1]);
+
+  const scrollToStep = (index: number) => {
+    const element = document.getElementById(`step-${activeTab}-${index}`);
+    if (element) {
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - (window.innerHeight / 2) + (element.clientHeight / 2);
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
+  const shareSteps = [
+    { icon: Key, title: t('how.share.step1.title'), description: t('how.share.step1.desc'), points: [t('how.share.step1.point1'), t('how.share.step1.point2'), t('how.share.step1.point3')], num: '01', Visual: Visual1 },
+    { icon: Sparkles, title: t('how.share.step2.title'), description: t('how.share.step2.desc'), points: [t('how.share.step2.point1'), t('how.share.step2.point2'), t('how.share.step2.point3')], num: '02', Visual: Visual2 },
+    { icon: Search, title: t('how.share.step3.title'), description: t('how.share.step3.desc'), points: [t('how.share.step3.point1'), t('how.share.step3.point2'), t('how.share.step3.point3')], num: '03', Visual: Visual3 },
+    { icon: CalendarCheck, title: t('how.share.step4.title'), description: t('how.share.step4.desc'), points: [t('how.share.step4.point1'), t('how.share.step4.point2'), t('how.share.step4.point3')], num: '04', Visual: Visual4 }
+  ];
+
+  const ownSteps = [
+    { icon: PieChart, title: t('how.own.step1.title'), description: t('how.own.step1.desc'), points: [t('how.own.step1.point1'), t('how.own.step1.point2'), t('how.own.step1.point3')], num: '01', Visual: Visual1 },
+    { icon: Users, title: t('how.own.step2.title'), description: t('how.own.step2.desc'), points: [t('how.own.step2.point1'), t('how.own.step2.point2'), t('how.own.step2.point3')], num: '02', Visual: Visual2 },
+    { icon: ShieldCheck, title: t('how.own.step3.title'), description: t('how.own.step3.desc'), points: [t('how.own.step3.point1'), t('how.own.step3.point2'), t('how.own.step3.point3')], num: '03', Visual: Visual3 },
+    { icon: Key, title: t('how.own.step4.title'), description: t('how.own.step4.desc'), points: [t('how.own.step4.point1'), t('how.own.step4.point2'), t('how.own.step4.point3')], num: '04', Visual: Visual4 }
+  ];
+
+  const currentSteps = activeTab === 'share' ? shareSteps : ownSteps;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -212,12 +239,60 @@ export const Home = () => {
 
       {/* How it works - Scrolling Version */}
       <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-16 md:py-24 scroll-mt-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-16 text-left">
+        <motion.div
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.05}
+          onDragEnd={(_, info) => {
+            const threshold = 50;
+            if (info.offset.x > threshold && activeTab === 'own') setActiveTab('share');
+            else if (info.offset.x < -threshold && activeTab === 'share') setActiveTab('own');
+          }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 touch-pan-y"
+        >
+          {/* Swipe Hint Badge (Mobile) */}
+          <div className="md:hidden flex justify-center mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#49bee4]/10 border border-[#49bee4]/20 rounded-full">
+              <ArrowLeftRight className="w-3 h-3 text-[#49bee4]" />
+              <span className="text-[10px] font-bold text-[#49bee4] uppercase tracking-widest">Swipe to switch journey</span>
+            </div>
+          </div>
+
+          <div className="mb-8 md:mb-16 text-left">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 text-balance">{t('home.how.title')}</h2>
-            <p className="text-lg text-gray-400 max-w-2xl text-balance">
+            <p className="text-lg text-gray-400 max-w-2xl text-balance mb-8">
               {t('home.how.subtitle')}
             </p>
+
+            {/* Toggle Switch */}
+            <div className="inline-flex bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full relative z-20">
+              <button
+                onClick={() => setActiveTab('share')}
+                className={`relative px-5 sm:px-7 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === 'share' ? 'text-white' : 'text-gray-400 hover:text-white/80'}`}
+              >
+                {activeTab === 'share' && (
+                  <motion.div
+                    layoutId="activeTabIndicator"
+                    className="absolute inset-0 bg-[#256ab1] rounded-full shadow-md"
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  />
+                )}
+                <span className="relative z-10">{t('how.toggle.share')}</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('own')}
+                className={`relative px-5 sm:px-7 py-2.5 rounded-full text-sm font-bold transition-all duration-300 ${activeTab === 'own' ? 'text-white' : 'text-gray-400 hover:text-white/80'}`}
+              >
+                {activeTab === 'own' && (
+                  <motion.div
+                    layoutId="activeTabIndicator"
+                    className="absolute inset-0 bg-[#256ab1] rounded-full shadow-md"
+                    transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                  />
+                )}
+                <span className="relative z-10">{t('how.toggle.own')}</span>
+              </button>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row gap-12 md:gap-24">
@@ -225,7 +300,8 @@ export const Home = () => {
             {/* Left: Sticky Content (DESKTOP ONLY) */}
             <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col justify-center z-10">
               <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mx-auto">
-                <div className="absolute top-0 inset-x-0 h-6 bg-black rounded-b-3xl w-40 mx-auto z-20" />
+                {/* Dynamic Island Notch */}
+                <div className="absolute top-2 inset-x-0 h-6 bg-black/40 backdrop-blur-md rounded-full w-28 mx-auto z-20 border border-white/5" />
                 <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
                   <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}><Visual1 /></motion.div>
                   <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}><Visual2 /></motion.div>
@@ -240,70 +316,79 @@ export const Home = () => {
               {/* Progress Line Background */}
               <div className="absolute left-[27px] rtl:left-auto rtl:right-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-white/10 hidden md:block" />
 
-              {/* Animated Progress Line - ONLY calculates if MD or larger */}
+              {/* Animated Gradient Progress Rail */}
               <motion.div
-                className="absolute left-[27px] rtl:left-auto rtl:right-[27px] top-[5vh] bottom-[5vh] w-0.5 bg-[#49bee4] origin-top hidden md:block"
+                className="absolute left-[27px] rtl:left-auto rtl:right-[27px] top-[5vh] bottom-[5vh] w-[4px] bg-gradient-to-b from-[#49bee4] via-[#256ab1] to-[#49bee4] origin-top hidden md:block rounded-full shadow-[0_0_15px_rgba(73,190,228,0.3)]"
                 style={{ scaleY: typeof window !== 'undefined' && window.innerWidth < 768 ? 0 : howScrollY }}
               />
 
               <div className="flex flex-col gap-24 md:gap-0">
-                {[
-                  { icon: Search, title: t('how.step1.title'), description: t('how.step1.desc'), points: [t('how.step1.point1'), t('how.step1.point2'), t('how.step1.point3')], num: '01', Visual: Visual1 },
-                  { icon: FileText, title: t('how.step2.title'), description: t('how.step2.desc'), points: [t('how.step2.point1'), t('how.step2.point2'), t('how.step2.point3')], num: '02', Visual: Visual2 },
-                  { icon: CalendarCheck, title: t('how.step3.title'), description: t('how.step3.desc'), points: [t('how.step3.point1'), t('how.step3.point2'), t('how.step3.point3')], num: '03', Visual: Visual3 },
-                  { icon: Sparkles, title: t('how.step4.title'), description: t('how.step4.desc'), points: [t('how.step4.point1'), t('how.step4.point2'), t('how.step4.point3')], num: '04', Visual: Visual4 }
-                ].map((step, index) => (
+                <AnimatePresence mode="wait">
                   <motion.div
-                    key={index}
-                    // No opacity/transform math on mobile for performance
-                    initial={{ opacity: typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 0.3 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: "-20% 0px" }}
+                    key={`content-${activeTab}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.4 }}
-                    className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 rtl:pr-20 group"
                   >
-                    {/* Mobile Number */}
-                    <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden -mt-4">
-                      {step.num}
-                    </div>
+                    {currentSteps.map((step, index) => (
+                      <motion.div
+                        key={`${activeTab}-${index}`}
+                        id={`step-${activeTab}-${index}`}
+                        initial={{ opacity: typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 0.3 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-20% 0px" }}
+                        transition={{ duration: 0.4 }}
+                        className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 rtl:pr-20 group"
+                      >
+                        {/* Mobile Number */}
+                        <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden -mt-4">
+                          {step.num}
+                        </div>
 
-                    {/* Desktop Node */}
-                    <div className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#0b1b34] border-2 border-white/20 group-hover:border-[#49bee4] rounded-full items-center justify-center z-10 transition-colors duration-500">
-                      <step.icon className="w-6 h-6 text-white/50 group-hover:text-[#49bee4] transition-colors duration-500" />
-                    </div>
+                        {/* Desktop Node */}
+                        <div className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#0b1b34] border-2 border-white/20 group-hover:border-[#49bee4] rounded-full items-center justify-center z-10 transition-colors duration-500">
+                          <step.icon className="w-6 h-6 text-white/50 group-hover:text-[#49bee4] transition-colors duration-500" />
+                        </div>
 
-                    <div className="relative">
-                      {/* Desktop Number Background */}
-                      <div className="hidden md:block absolute -left-12 -top-16 text-9xl font-display font-bold text-white/5 select-none pointer-events-none z-0 transition-colors duration-500 group-hover:text-white/10">
-                        {step.num}
-                      </div>
+                        <div className="relative">
+                          {/* Clickable Giant Step Number (Desktop) */}
+                          <button
+                            onClick={() => scrollToStep(index)}
+                            className="hidden md:block absolute -left-12 rtl:-left-auto rtl:-right-12 -top-16 text-9xl font-display font-bold text-white/5 select-none z-0 transition-all duration-500 group-hover:text-[#49bee4]/20 hover:!text-[#49bee4]/40 hover:scale-110 active:scale-95 cursor-pointer outline-none bg-transparent border-none"
+                          >
+                            {step.num}
+                          </button>
 
-                      <div className="relative z-10">
-                        {/* Mobile Image: Static & Fast */}
-                        <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mb-8 md:hidden relative mx-auto">
-                          <div className="absolute top-0 inset-x-0 h-5 bg-black rounded-b-2xl w-32 mx-auto z-20" />
-                          <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
-                            <step.Visual />
+                          <div className="relative z-10">
+                            {/* Mobile Image */}
+                            <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mb-12 md:hidden relative mx-auto">
+                              {/* Dynamic Island Notch */}
+                              <div className="absolute top-1.5 inset-x-0 h-5 bg-black/40 backdrop-blur-md rounded-full w-24 mx-auto z-20 border border-white/5" />
+                              <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative rounded-[2.5rem] overflow-hidden">
+                                <step.Visual />
+                              </div>
+                            </div>
+
+                            <div className="w-16 h-16 bg-[#1a2b4c] rounded-2xl flex items-center justify-center mb-6 border border-white/10 md:hidden">
+                              <step.icon className="w-8 h-8 text-[#49bee4]" />
+                            </div>
+                            <h3 className="text-3xl font-bold mb-4 text-white md:pt-8">{step.title}</h3>
+                            <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
+
+                            <ul className="space-y-3 list-disc pl-4 marker:text-[#49bee4]">
+                              {step.points.map((point, i) => (
+                                <li key={i} className="text-gray-300 pl-1">
+                                  {point}
+                                </li>
+                              ))}
+                            </ul>
                           </div>
                         </div>
-
-                        <div className="w-16 h-16 bg-[#1a2b4c] rounded-2xl flex items-center justify-center mb-6 border border-white/10 md:hidden">
-                          <step.icon className="w-8 h-8 text-[#49bee4]" />
-                        </div>
-                        <h3 className="text-3xl font-bold mb-4 text-white">{step.title}</h3>
-                        <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
-
-                        <ul className="space-y-3 list-disc pl-4 marker:text-[#49bee4]">
-                          {step.points.map((point, i) => (
-                            <li key={i} className="text-gray-300 pl-1">
-                              {point}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
+                      </motion.div>
+                    ))}
                   </motion.div>
-                ))}
+                </AnimatePresence>
               </div>
 
               <div className="mt-12 text-left pl-0 md:pl-20">
@@ -317,7 +402,7 @@ export const Home = () => {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Use Cases */}
