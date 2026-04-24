@@ -243,6 +243,8 @@ export const Home = () => {
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.05}
+          dragMomentum={false}
+          style={{ touchAction: 'pan-y' }}
           onDragEnd={(_, info) => {
             const threshold = 50;
             if (info.offset.x > threshold && activeTab === 'own') setActiveTab('share');
@@ -323,7 +325,7 @@ export const Home = () => {
               />
 
               <div className="flex flex-col gap-24 md:gap-0">
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   <motion.div
                     key={`content-${activeTab}`}
                     initial={{ opacity: 0, x: 20 }}
@@ -337,7 +339,7 @@ export const Home = () => {
                         id={`step-${activeTab}-${index}`}
                         initial={{ opacity: typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 0.3 }}
                         whileInView={{ opacity: 1 }}
-                        viewport={{ once: true, margin: "-20% 0px" }}
+                        viewport={{ once: false, margin: "-20% 0px" }}
                         transition={{ duration: 0.4 }}
                         className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 rtl:pr-20 group"
                       >

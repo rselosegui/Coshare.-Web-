@@ -132,7 +132,7 @@ export const ListAsset = () => {
                     key={index}
                     initial={{ opacity: typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 0.3 }}
                     whileInView={{ opacity: 1 }}
-                    viewport={{ once: true, margin: "-20% 0px" }}
+                    viewport={{ once: false, margin: "-20% 0px" }}
                     transition={{ duration: 0.4 }}
                     className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 group"
                   >

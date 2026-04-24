@@ -182,6 +182,8 @@ export const HowItWorks = () => {
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.05}
+          dragMomentum={false}
+          style={{ touchAction: 'pan-y' }}
           onDragEnd={(_, info) => {
             const threshold = 50;
             if (info.offset.x > threshold && journey === 'own') setJourney('share');
@@ -258,7 +260,7 @@ export const HowItWorks = () => {
               />
 
               <div className="flex flex-col gap-24 md:gap-0">
-                <AnimatePresence mode="wait">
+                <AnimatePresence>
                   <motion.div
                     key={`content-${journey}`}
                     initial={{ opacity: 0, x: 20 }}

@@ -33,7 +33,7 @@ export const Layout = () => {
       const id = location.hash.replace('#', '');
       const element = document.getElementById(id);
       if (element) {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           const headerOffset = 100;
           const elementPosition = element.getBoundingClientRect().top;
           const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
@@ -43,9 +43,8 @@ export const Layout = () => {
             behavior: 'smooth'
           });
         }, 100);
+        return () => clearTimeout(timer);
       }
-    } else {
-      window.scrollTo(0, 0);
     }
   }, [location]);
 
@@ -228,17 +227,14 @@ export const Layout = () => {
       <div className="flex-1 flex flex-col">
         {/* Main Content */}
         <main className="flex-1 pt-4 sm:pt-8">
-          <AnimatePresence>
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+          >
+            <Outlet />
+          </motion.div>
         </main>
       </div>
 
