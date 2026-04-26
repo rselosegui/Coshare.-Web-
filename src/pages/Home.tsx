@@ -1,13 +1,13 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'motion/react';
 import {
   ArrowRight, CalendarCheck, Search, Sparkles,
   Plus, Minus, ShieldCheck,
   Car, Plane, Home as HomeIcon, Wallet,
-  ChevronDown, Key, Users, PieChart, ArrowLeftRight
+  ChevronDown, Key, Users, PieChart, ArrowLeftRight, CheckCircle2
 } from 'lucide-react';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 import { WhyCoshare } from '../components/WhyCoshare';
@@ -89,25 +89,25 @@ export const Home = () => {
       icon: Car,
       title: t('home.useCases.1.title'),
       description: t('home.useCases.1.desc'),
-      image: "https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?auto=format&fit=crop&q=80&w=1000"
+      image: "/assets/the-smart-sharer.jpeg"
     },
     {
       icon: Wallet,
       title: t('home.useCases.2.title'),
       description: t('home.useCases.2.desc'),
-      image: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&q=80&w=1000"
+      image: "/assets/the-swap-explorer.jpeg"
     },
     {
       icon: Plane,
       title: t('home.useCases.3.title'),
       description: t('home.useCases.3.desc'),
-      image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000"
+      image: "/assets/the-fractional-owner.jpeg"
     },
     {
       icon: HomeIcon,
       title: t('home.useCases.4.title'),
       description: t('home.useCases.4.desc'),
-      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&q=80&w=1000"
+      image: "/assets/the-everday-optimizer.jpeg"
     }
   ], [t]); // Only recalculate if translations change
 
@@ -117,6 +117,51 @@ export const Home = () => {
   };
 
   const [activeTab, setActiveTab] = useState<'share' | 'own'>('share');
+
+  const [heroSlide, setHeroSlide] = useState(0);
+  const prevHeroSlideRef = useRef(-1);
+  const slideTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const heroSlides = useMemo(() => [
+    { image: '/assets/yacht-slide1.jpeg',       text: t('home.hero.owner1.text'),   type: 'owner'   as const, pos: '65% 35%'  },
+    { image: '/assets/4x4-slide2.jpeg',         text: t('home.hero.dreamer1.text'), type: 'dreamer' as const, pos: '65% 50%'  },
+    { image: '/assets/gt3-slide3.jpeg',         text: t('home.hero.owner2.text'),   type: 'owner'   as const, pos: '70% 35%'  },
+    { image: '/assets/efoil-slide4.jpeg',       text: t('home.hero.dreamer2.text'), type: 'dreamer' as const, pos: '35% 50%'  },
+    { image: '/assets/harley-slide5.jpeg',      text: t('home.hero.owner3.text'),   type: 'owner'   as const, pos: '50% 35%'  },
+    { image: '/assets/convertible-slide6.jpeg', text: t('home.hero.dreamer3.text'), type: 'dreamer' as const, pos: '40% 50%'  },
+    { image: '/assets/beach-house-slide7.jpeg', text: t('home.hero.owner4.text'),   type: 'owner'   as const, pos: '45% 50%'  },
+    { image: '/assets/speedBoat-slide8.jpeg',   text: t('home.hero.dreamer4.text'), type: 'dreamer' as const, pos: '65% 50%'  },
+  ], [t]);
+
+  // Preload remaining slides via <link rel="preload"> — shares browser fetch cache with <img>
+  useEffect(() => {
+    const links: HTMLLinkElement[] = [];
+    heroSlides.slice(1).forEach(({ image }) => {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = image;
+      document.head.appendChild(link);
+      links.push(link);
+    });
+    return () => links.forEach(l => l.remove());
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Restartable auto-advance — called on mount and on every manual dot click
+  const startSlideTimer = useCallback(() => {
+    if (slideTimerRef.current) clearInterval(slideTimerRef.current);
+    slideTimerRef.current = setInterval(() => {
+      setHeroSlide(prev => {
+        prevHeroSlideRef.current = prev;
+        return (prev + 1) % heroSlides.length;
+      });
+    }, 6000);
+  }, [heroSlides.length]);
+
+  useEffect(() => {
+    startSlideTimer();
+    return () => { if (slideTimerRef.current) clearInterval(slideTimerRef.current); };
+  }, [startSlideTimer]);
 
   // HOW IT WORKS (Sticky Phone Logic)
   const howRef = useRef<HTMLDivElement>(null);
@@ -129,6 +174,63 @@ export const Home = () => {
   const img2Opacity = useTransform(howScrollY, [0.22, 0.25, 0.47, 0.5], [0, 1, 1, 0]);
   const img3Opacity = useTransform(howScrollY, [0.47, 0.5, 0.72, 0.75], [0, 1, 1, 0]);
   const img4Opacity = useTransform(howScrollY, [0.72, 0.75, 1], [0, 1, 1]);
+
+  const step1Active = useTransform(howScrollY, [0, 0.10, 0.22, 0.25], [0.5, 1, 1, 0.5]);
+  const step2Active = useTransform(howScrollY, [0.10, 0.25, 0.47, 0.50], [0.5, 1, 1, 0.5]);
+  const step3Active = useTransform(howScrollY, [0.25, 0.50, 0.72, 0.75], [0.5, 1, 1, 0.5]);
+  const step4Active = useTransform(howScrollY, [0.50, 0.75, 1], [0.5, 1, 1]);
+
+  const node1Border = useTransform(step1Active, [0.5, 1], ["rgba(255,255,255,0.1)", "rgba(73,190,228,1)"]);
+  const node2Border = useTransform(step2Active, [0.5, 1], ["rgba(255,255,255,0.1)", "rgba(73,190,228,1)"]);
+  const node3Border = useTransform(step3Active, [0.5, 1], ["rgba(255,255,255,0.1)", "rgba(73,190,228,1)"]);
+  const node4Border = useTransform(step4Active, [0.5, 1], ["rgba(255,255,255,0.1)", "rgba(73,190,228,1)"]);
+  const nodeBorders = [node1Border, node2Border, node3Border, node4Border];
+
+  const node1Scale = useTransform(step1Active, [0.5, 1], [0.9, 1.1]);
+  const node2Scale = useTransform(step2Active, [0.5, 1], [0.9, 1.1]);
+  const node3Scale = useTransform(step3Active, [0.5, 1], [0.9, 1.1]);
+  const node4Scale = useTransform(step4Active, [0.5, 1], [0.9, 1.1]);
+  const nodeScales = [node1Scale, node2Scale, node3Scale, node4Scale];
+
+  const node1Shadow = useTransform(step1Active, [0.5, 1], ["0px 0px 0px rgba(73,190,228,0)", "0px 0px 20px rgba(73,190,228,0.4)"]);
+  const node2Shadow = useTransform(step2Active, [0.5, 1], ["0px 0px 0px rgba(73,190,228,0)", "0px 0px 20px rgba(73,190,228,0.4)"]);
+  const node3Shadow = useTransform(step3Active, [0.5, 1], ["0px 0px 0px rgba(73,190,228,0)", "0px 0px 20px rgba(73,190,228,0.4)"]);
+  const node4Shadow = useTransform(step4Active, [0.5, 1], ["0px 0px 0px rgba(73,190,228,0)", "0px 0px 20px rgba(73,190,228,0.4)"]);
+  const nodeShadows = [node1Shadow, node2Shadow, node3Shadow, node4Shadow];
+
+  const icon1Color = useTransform(step1Active, [0.5, 1], ["#4b5563", "#49bee4"]);
+  const icon2Color = useTransform(step2Active, [0.5, 1], ["#4b5563", "#49bee4"]);
+  const icon3Color = useTransform(step3Active, [0.5, 1], ["#4b5563", "#49bee4"]);
+  const icon4Color = useTransform(step4Active, [0.5, 1], ["#4b5563", "#49bee4"]);
+  const iconColors = [icon1Color, icon2Color, icon3Color, icon4Color];
+
+  const pulse1Opacity = useTransform(step1Active, [0.8, 1], [0, 0.4]);
+  const pulse2Opacity = useTransform(step2Active, [0.8, 1], [0, 0.4]);
+  const pulse3Opacity = useTransform(step3Active, [0.8, 1], [0, 0.4]);
+  const pulse4Opacity = useTransform(step4Active, [0.8, 1], [0, 0.4]);
+  const pulseOpacities = [pulse1Opacity, pulse2Opacity, pulse3Opacity, pulse4Opacity];
+
+  const homeStepIndex = useTransform(howScrollY, [0, 0.10, 0.25, 0.50, 0.75, 1], [0, 0, 1, 2, 3, 3]);
+
+  const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  const formatStepNum = (n: number) => {
+    const raw = `0${n + 1}`;
+    return lang === 'AR' ? raw.replace(/[0-9]/g, d => arabicDigits[parseInt(d)]) : raw;
+  };
+
+  const shareStepLabels = [t('how.steps.share.label1'), t('how.steps.share.label2'), t('how.steps.share.label3'), t('how.steps.share.label4')];
+  const ownStepLabels = [t('how.steps.own.label1'), t('how.steps.own.label2'), t('how.steps.own.label3'), t('how.steps.own.label4')];
+
+  const currentStepNum = useTransform(homeStepIndex, v => formatStepNum(Math.floor(v)));
+  const currentStepTitle = useTransform(homeStepIndex, v => {
+    const idx = Math.floor(v);
+    const labels = activeTab === 'share' ? shareStepLabels : ownStepLabels;
+    return labels[idx] || labels[0];
+  });
+  const stickyHeaderOpacity = useTransform(howScrollY, [0, 0.10, 0.90, 1], [0, 1, 1, 0]);
+
+  const [activeStepIdx, setActiveStepIdx] = useState(0);
+  useMotionValueEvent(homeStepIndex, 'change', v => setActiveStepIdx(Math.floor(v)));
 
   const scrollToStep = (index: number) => {
     const element = document.getElementById(`step-${activeTab}-${index}`);
@@ -165,80 +267,140 @@ export const Home = () => {
         canonical="https://coshare.ai"
       />
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center overflow-hidden bg-[#0b1b34]">
-        {/* Glow Effect - GPU Optimized */}
-        <div
-          className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#49bee4]/20 rounded-full blur-[120px] pointer-events-none z-0"
-          style={{ transform: 'translateX(-50%)', willChange: 'transform' }}
-        />
+      <section className="relative h-[100svh] overflow-hidden">
+        <style>{`@keyframes heroIn { from { opacity: 0; } to { opacity: 1; } }`}</style>
 
-        <div className="absolute inset-0 z-0">
+        {/* Previous slide */}
+        {prevHeroSlideRef.current >= 0 && (
+          <div key={`prev-${heroSlide}`} className="absolute inset-0 z-0">
+            <img src={heroSlides[prevHeroSlideRef.current].image} alt="" className="w-full h-full object-cover" style={{ objectPosition: heroSlides[prevHeroSlideRef.current].pos }} loading="lazy" decoding="async" />
+          </div>
+        )}
+
+        {/* Current slide */}
+        <div
+          key={`curr-${heroSlide}`}
+          className="absolute inset-0 z-10"
+          style={{ animation: prevHeroSlideRef.current < 0 ? 'none' : 'heroIn 1.2s ease-in-out forwards' }}
+        >
           <img
-            src="/assets/coshare-hero-banner.jpeg"
+            src={heroSlides[heroSlide].image}
             alt=""
             className="w-full h-full object-cover"
+            style={{ objectPosition: heroSlides[heroSlide].pos }}
             loading="eager"
-            fetchPriority="high"
+            fetchPriority={heroSlide === 0 ? 'high' : 'auto'}
             decoding="async"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1b34]/90 via-[#0b1b34]/40 to-[#0b1b34]/20" />
         </div>
 
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-5xl md:text-7xl font-display font-bold text-white mb-6 tracking-tight text-balance"
-          >
-            {t('home.hero.title')}
-          </motion.h1>
+        {/* Content */}
+        <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-40 md:pb-20 flex flex-col items-center text-center">
+          {/* Quote */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`quote-${heroSlide}`}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.4 }}
+              className="mb-3 sm:mb-5"
+            >
+              <p
+                className="text-base sm:text-xl md:text-3xl lg:text-5xl font-display font-semibold text-white leading-snug max-w-3xl"
+                style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}
+              >
+                "{heroSlides[heroSlide].text}"
+              </p>
+            </motion.div>
+          </AnimatePresence>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-            className="text-xl md:text-2xl text-gray-200 mb-10 max-w-2xl mx-auto font-light text-balance"
+          {/* Progress dots */}
+          <div className="flex gap-1.5 mb-3 sm:mb-5" dir="ltr">
+            {heroSlides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => { prevHeroSlideRef.current = heroSlide; setHeroSlide(i); startSlideTimer(); }}
+                className={`h-[3px] rounded-full transition-all duration-500 ${
+                  i === heroSlide ? 'w-8 bg-[#49bee4]' : 'w-3 bg-white/40'
+                }`}
+              />
+            ))}
+          </div>
+
+          {/* Resolution */}
+          <div className="mb-4 sm:mb-5">
+            <p
+              className="text-[9px] sm:text-xs font-bold tracking-[0.4em] text-white/70 uppercase mb-1 sm:mb-2"
+              style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}
+            >
+              {t('home.hero.resolution.row1')}
+            </p>
+            <h1
+              className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-none"
+              style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}
+            >
+              {t('home.hero.resolution.row2')}
+            </h1>
+          </div>
+
+          {/* Subtitle hidden on mobile — saves space so buttons always fit */}
+          <p
+            className="hidden sm:block text-sm md:text-lg text-white/80 mb-5 sm:mb-6 max-w-2xl font-light leading-relaxed"
+            style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}
           >
             {t('home.hero.subtitle')}
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
-            {/* PRIMARY CTA: Get Started / Download */}
+          {/* CTAs */}
+          <div className="flex flex-row gap-2 w-full max-w-md">
             <a
               href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center px-8 py-4 bg-[#256ab1] text-white font-bold rounded-full transition-all hover:bg-[#1a4b82] active:scale-95 shadow-lg w-full sm:w-auto"
+              className="group flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-3 sm:px-7 sm:py-3.5 bg-[#256ab1] text-white text-sm sm:text-base font-bold rounded-full hover:bg-[#1a4b82] active:scale-95 transition-all shadow-lg"
             >
-              <span className="flex items-center gap-2">
-                {t('home.hero.start')}
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </span>
+              {t('home.hero.start')}
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
             </a>
-
-            {/* SECONDARY CTA: How It Works */}
             <button
               onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-full transition-all hover:bg-white/20 active:scale-95 w-full sm:w-auto"
+              className="flex-1 inline-flex items-center justify-center px-4 py-3 sm:px-7 sm:py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/30 active:scale-95 transition-all"
             >
               {t('nav.howItWorks')}
             </button>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <WhyCoshare />
 
+      {/* Sticky Mobile Step Header */}
+      <motion.div
+        style={{ opacity: stickyHeaderOpacity }}
+        className="sticky top-20 left-0 right-0 z-40 py-4 px-6 md:hidden border-b border-white/5 bg-[#0b1b34]/80 backdrop-blur-md pointer-events-none"
+      >
+        <div className="flex items-center gap-4">
+          <motion.span className="text-2xl font-display font-bold text-[#49bee4]">
+            {currentStepNum}
+          </motion.span>
+          <div className="w-px h-4 bg-white/20" />
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1.5 mb-1">
+              {(() => { const Icon = currentSteps[activeStepIdx]?.icon; return Icon ? <Icon className="w-3 h-3 text-[#49bee4] shrink-0" /> : null; })()}
+              <motion.span className="text-[10px] font-bold text-[#49bee4] uppercase tracking-widest leading-none">
+                {currentStepTitle}
+              </motion.span>
+            </div>
+            <span className="text-[9px] font-medium text-white/40 uppercase tracking-[0.2em] leading-none">
+              {t(activeTab === 'share' ? 'how.steps.journey.share' : 'how.steps.journey.own')}
+            </span>
+          </div>
+        </div>
+      </motion.div>
+
       {/* How it works - Scrolling Version */}
-      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-16 md:py-24 scroll-mt-20">
+      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-10 md:py-24">
         <motion.div
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
@@ -246,9 +408,11 @@ export const Home = () => {
           dragMomentum={false}
           style={{ touchAction: 'pan-y' }}
           onDragEnd={(_, info) => {
-            const threshold = 50;
-            if (info.offset.x > threshold && activeTab === 'own') setActiveTab('share');
-            else if (info.offset.x < -threshold && activeTab === 'share') setActiveTab('own');
+            const dist = Math.abs(info.offset.x);
+            const vel = Math.abs(info.velocity.x);
+            if (dist < 60 && vel < 300) return;
+            if (info.offset.x > 0 && activeTab === 'own') setActiveTab('share');
+            else if (info.offset.x < 0 && activeTab === 'share') setActiveTab('own');
           }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 touch-pan-y"
         >
@@ -301,6 +465,39 @@ export const Home = () => {
 
             {/* Left: Sticky Content (DESKTOP ONLY) */}
             <div className="hidden md:flex w-full md:w-1/2 md:h-screen md:sticky md:top-0 flex-col justify-center z-10">
+
+              {/* Vertical Blueprint Label — large desktops */}
+              <motion.div
+                style={{ opacity: stickyHeaderOpacity }}
+                className="absolute -left-16 top-1/2 -translate-y-1/2 -rotate-90 origin-center hidden lg:block pointer-events-none"
+              >
+                <div className="flex items-center gap-6 whitespace-nowrap">
+                  <motion.span className="text-7xl font-display font-bold text-[#49bee4]/20 italic">{currentStepNum}</motion.span>
+                  <div className="flex flex-col">
+                    <motion.span className="text-sm font-bold text-[#49bee4] uppercase tracking-[0.4em] leading-none mb-2">
+                      {currentStepTitle}
+                    </motion.span>
+                    <span className="text-[10px] font-medium text-white/30 uppercase tracking-[0.3em] leading-none">
+                      {t(activeTab === 'share' ? 'how.steps.mode.share' : 'how.steps.mode.own')}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Vertical Blueprint Label — medium desktops */}
+              <motion.div
+                style={{ opacity: stickyHeaderOpacity }}
+                className="mb-8 lg:hidden hidden md:block"
+              >
+                <div className="inline-flex items-center gap-4 border-l-2 border-[#49bee4] pl-4 py-1">
+                  <motion.span className="text-3xl font-display font-bold text-[#49bee4]">{currentStepNum}</motion.span>
+                  <div className="flex flex-col">
+                    <motion.span className="text-[10px] font-bold text-white uppercase tracking-widest">{currentStepTitle}</motion.span>
+                    <span className="text-[8px] font-medium text-gray-500 uppercase tracking-wider">{t(activeTab === 'share' ? 'how.steps.journey.share' : 'how.steps.journey.own')}</span>
+                  </div>
+                </div>
+              </motion.div>
+
               <div className="relative w-[280px] h-[580px] bg-black rounded-[3rem] border-[8px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mx-auto">
                 {/* Dynamic Island Notch */}
                 <div className="absolute top-2 inset-x-0 h-6 bg-black/40 backdrop-blur-md rounded-full w-28 mx-auto z-20 border border-white/5" />
@@ -324,7 +521,7 @@ export const Home = () => {
                 style={{ scaleY: typeof window !== 'undefined' && window.innerWidth < 768 ? 0 : howScrollY }}
               />
 
-              <div className="flex flex-col gap-24 md:gap-0">
+              <div className="flex flex-col gap-10 md:gap-0">
                 <AnimatePresence>
                   <motion.div
                     key={`content-${activeTab}`}
@@ -345,22 +542,32 @@ export const Home = () => {
                       >
                         {/* Mobile Number */}
                         <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden -mt-4">
-                          {step.num}
+                          {formatStepNum(index)}
                         </div>
 
-                        {/* Desktop Node */}
-                        <div className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#0b1b34] border-2 border-white/20 group-hover:border-[#49bee4] rounded-full items-center justify-center z-10 transition-colors duration-500">
-                          <step.icon className="w-6 h-6 text-white/50 group-hover:text-[#49bee4] transition-colors duration-500" />
-                        </div>
+                        {/* Scroll-Animated Desktop Node */}
+                        <motion.div
+                          style={{
+                            borderColor: nodeBorders[index],
+                            scale: nodeScales[index],
+                            boxShadow: nodeShadows[index]
+                          }}
+                          className="hidden md:flex absolute left-0 rtl:left-auto rtl:right-0 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#0b1b34] border-2 rounded-full items-center justify-center z-10"
+                        >
+                          <motion.div style={{ color: iconColors[index] }}>
+                            <step.icon className="w-6 h-6" />
+                          </motion.div>
+                          <motion.div
+                            style={{ opacity: pulseOpacities[index] }}
+                            className="absolute inset-0 rounded-full border-4 border-[#49bee4] animate-pulse"
+                          />
+                        </motion.div>
 
                         <div className="relative">
-                          {/* Clickable Giant Step Number (Desktop) */}
-                          <button
-                            onClick={() => scrollToStep(index)}
-                            className="hidden md:block absolute -left-12 rtl:-left-auto rtl:-right-12 -top-16 text-9xl font-display font-bold text-white/5 select-none z-0 transition-all duration-500 group-hover:text-[#49bee4]/20 hover:!text-[#49bee4]/40 hover:scale-110 active:scale-95 cursor-pointer outline-none bg-transparent border-none"
-                          >
-                            {step.num}
-                          </button>
+                          {/* Desktop Number Background */}
+                          <div className="hidden md:block absolute -left-12 -top-16 text-9xl font-display font-bold text-white/5 select-none pointer-events-none z-0 transition-colors duration-500 group-hover:text-white/10">
+                            {formatStepNum(index)}
+                          </div>
 
                           <div className="relative z-10">
                             {/* Mobile Image */}
@@ -378,9 +585,10 @@ export const Home = () => {
                             <h3 className="text-3xl font-bold mb-4 text-white md:pt-8">{step.title}</h3>
                             <p className="text-xl text-gray-400 leading-relaxed mb-6">{step.description}</p>
 
-                            <ul className="space-y-3 list-disc pl-4 marker:text-[#49bee4]">
+                            <ul className="space-y-3 list-none pl-0">
                               {step.points.map((point, i) => (
-                                <li key={i} className="text-gray-300 pl-1">
+                                <li key={i} className="text-sm md:text-base text-gray-300 flex items-start gap-2">
+                                  <CheckCircle2 className="w-4 h-4 text-[#49bee4] mt-1 shrink-0" />
                                   {point}
                                 </li>
                               ))}
@@ -408,7 +616,7 @@ export const Home = () => {
       </section>
 
       {/* Use Cases */}
-      <section id="use-cases" className="py-12 md:py-24 bg-[#f8f9fa] text-[#0b1b34] scroll-mt-20">
+      <section id="use-cases" className="py-12 md:py-24 bg-[#f8f9fa] text-[#0b1b34]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">{t('home.useCases.title')}</h2>
@@ -449,7 +657,7 @@ export const Home = () => {
                       <div className="lg:hidden mt-2 bg-white rounded-2xl border border-gray-100 shadow-inner overflow-hidden">
                         <div className="bg-gray-200 w-full h-48 relative">
                           <img
-                            src={`${useCase.image}&w=600&q=65`} // Force mobile optimization
+                            src={useCase.image.startsWith('http') ? `${useCase.image}&w=600&q=65` : useCase.image}
                             className="w-full h-full object-cover"
                             alt=""
                             loading="eager"
@@ -470,13 +678,19 @@ export const Home = () => {
             <div className="hidden lg:block w-full lg:w-2/3 relative h-[500px] rounded-3xl overflow-hidden bg-gray-100 border border-gray-200">
               <img
                 key={activeUseCase}
-                src={`${useCasesData[activeUseCase].image}&w=1200&q=80`}
+                src={useCasesData[activeUseCase].image.startsWith('http') ? `${useCasesData[activeUseCase].image}&w=1200&q=80` : useCasesData[activeUseCase].image}
                 className="w-full h-full object-cover"
                 alt=""
                 decoding="async"
               />
-              <div className="absolute inset-0 bg-black/40 p-12 flex flex-col justify-end">
-                <p className="text-2xl text-white font-medium max-w-xl">
+              {/* Subtle top-to-mid gradient so image stays visible */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+              {/* Frosted glass text panel */}
+              <div className="absolute bottom-0 left-0 right-0 px-8 py-6 bg-[#0b1b34]/70 backdrop-blur-md border-t border-white/10">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#49bee4] mb-2">
+                  {useCasesData[activeUseCase].title}
+                </p>
+                <p className="text-base md:text-lg text-white font-medium leading-relaxed">
                   {useCasesData[activeUseCase].description}
                 </p>
               </div>
