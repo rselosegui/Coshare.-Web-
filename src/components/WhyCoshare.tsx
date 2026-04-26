@@ -67,7 +67,7 @@ export const WhyCoshare = () => {
   ];
 
   return (
-    <section id="why-coshare" ref={whyRef} className="relative py-12 md:py-16 bg-[#f8f9fa] overflow-hidden scroll-mt-20">
+    <section id="why-coshare" ref={whyRef} className="relative py-12 md:py-16 bg-[#f8f9fa] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="mb-12">
           <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4 text-balance">
@@ -101,10 +101,6 @@ export const WhyCoshare = () => {
             ].map((feature, index) => (
               <motion.div
                 key={`top-${index}`}
-                initial={isMobile ? false : { opacity: 0, y: 40 }}
-                whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
-                viewport={isMobile ? undefined : { once: true, margin: "-100px" }}
-                transition={isMobile ? undefined : { duration: 0.7, delay: index * 0.1, ease: "easeOut" }}
                 className="col-span-1 relative overflow-hidden rounded-3xl bg-[#256ab1] p-8 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.1)] hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group border border-white/5 hover:border-white/20 flex flex-col justify-between min-h-[350px] md:min-h-[420px]"
               >
                 {/* Parallax Background Image */}
@@ -152,10 +148,6 @@ export const WhyCoshare = () => {
               return (
                 <motion.div
                   key={`bottom-${index}`}
-                  initial={isMobile ? false : { opacity: 0, y: 40 }}
-                  whileInView={isMobile ? undefined : { opacity: 1, y: 0 }}
-                  viewport={isMobile ? undefined : { once: true, margin: "-100px" }}
-                  transition={isMobile ? undefined : { duration: 0.7, delay: (index + 2) * 0.1, ease: "easeOut" }}
                   className={`col-span-1 relative overflow-hidden rounded-3xl transition-all duration-500 group flex flex-col
                     ${isOpen ? 'bg-[#256ab1]/5 shadow-lg border-[#256ab1]/30' : 'bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border-gray-100'}
                     border hover:shadow-xl hover:-translate-y-1 sm:min-h-[220px]`}

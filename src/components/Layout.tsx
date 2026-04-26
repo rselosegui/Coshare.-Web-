@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useLanguage } from '../store/language';
-import { Globe, Apple, X, Menu } from 'lucide-react';
+import { Globe, Menu, X } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -12,19 +12,6 @@ export const Layout = () => {
   const { lang, toggleLang, t } = useLanguage();
   const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [showNavLinks, setShowNavLinks] = useState(false);
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
-
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-      setShowNavLinks(window.scrollY > 50);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
 
 
@@ -52,77 +39,8 @@ export const Layout = () => {
     <div className="min-h-screen flex flex-col bg-surface font-sans">
       {/* Sticky Header Container */}
       <div className="sticky top-0 z-50 flex flex-col">
-        {/* Announcement Banner */}
-        <AnimatePresence>
-          {isBannerVisible && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="relative z-50 w-full bg-[#0b1b34] overflow-hidden shadow-lg border-b border-white/10"
-            >
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 h-20 sm:h-24 flex items-center justify-between gap-2">
-
-                {/* Left: Text */}
-                <div className="flex items-center z-20 w-1/3 pr-2">
-                  <span className="text-[10px] sm:text-sm font-bold text-white tracking-wide leading-tight line-clamp-2">
-                    {t('banner.text')}
-                  </span>
-                </div>
-
-                {/* Middle: The Peeking Phone (Always Centered) */}
-                <div className="absolute left-[40%] sm:left-1/2 -translate-x-1/2 bottom-0 w-28 sm:w-36 md:w-40 z-10 pointer-events-none">
-                  <motion.div
-                    className="w-full aspect-[9/18] bg-black rounded-t-[1rem] sm:rounded-t-[2rem] border-[2px] sm:border-[6px] border-gray-800 shadow-2xl origin-bottom"
-                    initial={{ y: -10, rotate: 15 }}
-                    animate={{ y: [0, -15, 0], rotate: [12, 10, 12] }}
-                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                    style={{ marginBottom: '-110%' }}
-                  >
-                    {/* Notch */}
-                    <div className="absolute top-0 inset-x-0 h-1.5 sm:h-4 bg-black rounded-b-md sm:rounded-b-xl w-6 sm:w-16 mx-auto z-20" />
-
-                    <div className="w-full h-full rounded-t-[0.8rem] sm:rounded-t-[1.5rem] overflow-hidden">
-                      <img
-                        src="/assets/step-1.png"
-                        alt="App Preview"
-                        className="w-full h-full object-cover object-top"
-                      />
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Right: CTA + Close */}
-                <div className="flex items-center justify-end gap-2 sm:gap-4 z-20 w-1/3">
-                  <a
-                    href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative overflow-hidden bg-[#49bee4] text-[#0b1b34] text-[9px] sm:text-sm font-bold px-3 sm:px-6 py-1.5 sm:py-2.5 rounded-full active:scale-95 whitespace-nowrap"
-                  >
-                    <span className="relative z-10">{t('banner.cta')}</span>
-                  </a>
-
-                  <button
-                    onClick={() => setIsBannerVisible(false)}
-                    className="p-1 rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
-                  >
-                    <X className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
-                  </button>
-                </div>
-
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
         {/* Contextual Header — height is always h-14, never changes */}
-        <header className={cn(
-          "transition-[background-color,border-color,box-shadow] duration-300 relative z-0",
-          isScrolled
-            ? "bg-white/80 backdrop-blur-2xl border-b border-black/[0.06] shadow-[0_1px_16px_rgba(0,0,0,0.05)]"
-            : "bg-surface"
-        )}>
+        <header className="bg-white/80 backdrop-blur-2xl border-b border-black/[0.06] shadow-[0_1px_16px_rgba(0,0,0,0.05)] relative z-0">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="h-14 flex items-center justify-between relative">
 
@@ -226,7 +144,7 @@ export const Layout = () => {
 
       <div className="flex-1 flex flex-col">
         {/* Main Content */}
-        <main className="flex-1 pt-4 sm:pt-8">
+        <main className="flex-1">
           <motion.div
             key={location.pathname}
             initial={{ opacity: 0, y: 10 }}

@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'motion/react';
 import { ArrowLeftRight, CalendarCheck, Sparkles, ShieldCheck, FileText, Wrench, ArrowRight, CheckCircle2, Search, Users, PieChart, Key } from 'lucide-react';
 import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
 
 export const HowItWorks = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [journey, setJourney] = useState<'share' | 'own'>('share');
 
   const howRef = useRef<HTMLElement>(null);
@@ -61,16 +61,26 @@ export const HowItWorks = () => {
   // Sticky header (B)
   const thresholds = [0, 0.15, 0.32, 0.57, 0.82, 1];
   const stepIndex = useTransform(howScrollY, thresholds, [0, 0, 1, 2, 3, 3]);
-  const currentStepNum = useTransform(stepIndex, v => `0${Math.floor(v) + 1}`);
+
+  const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  const formatStepNum = (n: number) => {
+    const raw = `0${n + 1}`;
+    return lang === 'AR' ? raw.replace(/[0-9]/g, d => arabicDigits[parseInt(d)]) : raw;
+  };
+
+  const shareStepLabels = [t('how.steps.share.label1'), t('how.steps.share.label2'), t('how.steps.share.label3'), t('how.steps.share.label4')];
+  const ownStepLabels = [t('how.steps.own.label1'), t('how.steps.own.label2'), t('how.steps.own.label3'), t('how.steps.own.label4')];
+
+  const currentStepNum = useTransform(stepIndex, v => formatStepNum(Math.floor(v)));
   const currentStepTitle = useTransform(stepIndex, v => {
     const idx = Math.floor(v);
-    const titles = {
-      share: ['LIST', 'CREDITS', 'BROWSE', 'BOOK'],
-      own: ['FIND', 'TEAM', 'AI', 'ENJOY']
-    };
-    return titles[journey][idx] || titles[journey][0];
+    const labels = journey === 'share' ? shareStepLabels : ownStepLabels;
+    return labels[idx] || labels[0];
   });
   const stickyHeaderOpacity = useTransform(howScrollY, [0, 0.15, 0.95, 1], [0, 1, 1, 0]);
+
+  const [activeStepIdx, setActiveStepIdx] = useState(0);
+  useMotionValueEvent(stepIndex, 'change', v => setActiveStepIdx(Math.floor(v)));
 
   const shareSteps = [
     { icon: Key, title: t('how.share.step1.title'), description: t('how.share.step1.desc'), points: [t('how.share.step1.point1'), t('how.share.step1.point2'), t('how.share.step1.point3')], num: '01', Visual: Visual1 },
@@ -161,11 +171,14 @@ export const HowItWorks = () => {
           </motion.span>
           <div className="w-px h-4 bg-white/20" />
           <div className="flex flex-col">
-            <motion.span className="text-[10px] font-bold text-[#49bee4] uppercase tracking-widest leading-none mb-1">
-              {currentStepTitle}
-            </motion.span>
+            <div className="flex items-center gap-1.5 mb-1">
+              {(() => { const Icon = currentSteps[activeStepIdx]?.icon; return Icon ? <Icon className="w-3 h-3 text-[#49bee4] shrink-0" /> : null; })()}
+              <motion.span className="text-[10px] font-bold text-[#49bee4] uppercase tracking-widest leading-none">
+                {currentStepTitle}
+              </motion.span>
+            </div>
             <span className="text-[9px] font-medium text-white/40 uppercase tracking-[0.2em] leading-none">
-              {journey === 'share' ? 'CO-SHARE JOURNEY' : 'CO-OWN JOURNEY'}
+              {t(journey === 'share' ? 'how.steps.journey.share' : 'how.steps.journey.own')}
             </span>
           </div>
         </div>
@@ -216,7 +229,7 @@ export const HowItWorks = () => {
                       {currentStepTitle}
                     </motion.span>
                     <span className="text-[10px] font-medium text-white/30 uppercase tracking-[0.3em] leading-none">
-                      {journey === 'share' ? 'MODE: CO-SHARE' : 'MODE: CO-OWN'}
+                      {t(journey === 'share' ? 'how.steps.mode.share' : 'how.steps.mode.own')}
                     </span>
                   </div>
                 </div>
@@ -231,7 +244,7 @@ export const HowItWorks = () => {
                   <motion.span className="text-3xl font-display font-bold text-[#49bee4]">{currentStepNum}</motion.span>
                   <div className="flex flex-col">
                     <motion.span className="text-[10px] font-bold text-white uppercase tracking-widest">{currentStepTitle}</motion.span>
-                    <span className="text-[8px] font-medium text-gray-500 uppercase tracking-wider">{journey === 'share' ? 'CO-SHARE' : 'CO-OWN'}</span>
+                    <span className="text-[8px] font-medium text-gray-500 uppercase tracking-wider">{t(journey === 'share' ? 'how.steps.journey.share' : 'how.steps.journey.own')}</span>
                   </div>
                 </div>
               </motion.div>
@@ -285,7 +298,7 @@ export const HowItWorks = () => {
                             scale: nodeScales[index],
                             boxShadow: nodeShadows[index]
                           }}
-                          className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#0b1b34] border-2 rounded-full items-center justify-center z-10"
+                          className="hidden md:flex absolute left-0 rtl:left-auto rtl:right-0 top-1/2 -translate-y-1/2 w-14 h-14 bg-[#0b1b34] border-2 rounded-full items-center justify-center z-10"
                         >
                           <motion.div style={{ color: iconColors[index] }}>
                             <step.icon className="w-6 h-6" />
@@ -299,13 +312,13 @@ export const HowItWorks = () => {
 
                         {/* Mobile Number */}
                         <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden -mt-4">
-                          {step.num}
+                          {formatStepNum(index)}
                         </div>
 
                         <div className="relative">
                           {/* Desktop Number Background */}
                           <div className="hidden md:block absolute -left-12 -top-16 text-9xl font-display font-bold text-white/5 select-none pointer-events-none z-0 transition-colors duration-500 group-hover:text-white/10">
-                            {step.num}
+                            {formatStepNum(index)}
                           </div>
 
                           <div className="relative z-10">
