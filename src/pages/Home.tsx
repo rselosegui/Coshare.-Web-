@@ -361,14 +361,14 @@ export const Home = () => {
               href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex-1 inline-flex items-center justify-center gap-1.5 px-5 py-3.5 sm:px-7 bg-[#256ab1] text-white text-base font-bold rounded-full hover:bg-[#1a4b82] active:scale-95 transition-all shadow-lg"
+              className="group flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-3 sm:px-7 sm:py-3.5 bg-[#256ab1] text-white text-sm sm:text-base font-bold rounded-full hover:bg-[#1a4b82] active:scale-95 transition-all shadow-lg"
             >
               {t('home.hero.start')}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
             </a>
             <button
               onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex-1 inline-flex items-center justify-center px-5 py-3.5 sm:px-7 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-base font-bold rounded-full hover:bg-white/30 active:scale-95 transition-all"
+              className="flex-1 inline-flex items-center justify-center px-4 py-3 sm:px-7 sm:py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/30 active:scale-95 transition-all"
             >
               {t('nav.howItWorks')}
             </button>
