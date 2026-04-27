@@ -207,7 +207,7 @@ export const Layout = () => {
                 href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center bg-white text-[#0b1b34] px-5 py-2.5 rounded-full border border-white/10 hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 mb-8 group"
+                className="w-full max-w-[240px] sm:w-[240px] flex items-center justify-center px-8 py-4 bg-white text-[#0b1b34] rounded-full border border-white/10 hover:bg-gray-100 transition-all hover:scale-105 active:scale-95 mb-8 group"
               >
                 <svg
                   viewBox="0 0 24 24"

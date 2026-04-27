@@ -352,13 +352,13 @@ export const Home = () => {
           {/* Resolution */}
           <div className="mb-8">
             <p
-              className="text-xs font-bold tracking-[0.4em] text-white/70 uppercase mb-2"
+              className={`font-bold text-white/70 uppercase mb-2 ${lang === 'AR' ? 'text-sm tracking-normal' : 'text-xs tracking-[0.4em]'}`}
               style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}
             >
               {t('home.hero.resolution.row1')}
             </p>
             <h1
-              className="text-xl md:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-none"
+              className={`font-display font-bold text-white leading-none ${lang === 'AR' ? 'text-2xl md:text-3xl lg:text-4xl tracking-normal' : 'text-xl md:text-3xl lg:text-4xl tracking-tight'}`}
               style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}
             >
               {t('home.hero.resolution.row2')}
@@ -366,19 +366,19 @@ export const Home = () => {
           </div>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-2 w-full max-w-md">
+          <div className="flex flex-col sm:flex-row gap-3 items-center">
             <a
               href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-3 sm:px-7 sm:py-3.5 bg-[#256ab1] text-white text-sm sm:text-base font-bold rounded-full hover:bg-[#1a4b82] active:scale-95 transition-all shadow-lg"
+              className="group w-full max-w-[240px] sm:w-[240px] inline-flex items-center justify-center gap-1.5 px-8 py-4 bg-[#256ab1] text-white text-base font-bold rounded-full hover:bg-[#1a4b82] active:scale-95 transition-all shadow-lg"
             >
               {t('home.hero.start')}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
             </a>
             <button
               onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex-1 inline-flex items-center justify-center px-4 py-3 sm:px-7 sm:py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/30 active:scale-95 transition-all"
+              className="w-full max-w-[240px] sm:w-[240px] inline-flex items-center justify-center px-8 py-4 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-base font-bold rounded-full hover:bg-white/30 active:scale-95 transition-all"
             >
               {t('nav.howItWorks')}
             </button>
@@ -791,7 +791,7 @@ export const Home = () => {
           <div className="mt-12 text-center">
             <Link
               to="/faq"
-              className="inline-flex items-center px-8 py-4 bg-[#256ab1] border border-transparent text-white font-bold rounded-full hover:bg-[#1a4b82] transition-all hover:scale-105 active:scale-95 shadow-sm group"
+              className="w-full max-w-[240px] sm:w-[240px] inline-flex items-center justify-center px-8 py-4 bg-[#256ab1] border border-transparent text-white font-bold rounded-full hover:bg-[#1a4b82] transition-all hover:scale-105 active:scale-95 shadow-sm group"
             >
               {t('home.faq.viewAll')}
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -828,7 +828,7 @@ export const Home = () => {
                   href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-[#0b1b34] text-white rounded-full font-bold hover:bg-[#1a2b4c] transition-all hover:scale-105 active:scale-95 group shadow-xl shadow-[#0b1b34]/10 animate-pulse"
+                  className="w-full max-w-[240px] sm:w-[240px] flex items-center justify-center px-8 py-4 bg-[#0b1b34] text-white rounded-full font-bold hover:bg-[#1a2b4c] transition-all hover:scale-105 active:scale-95 group shadow-xl shadow-[#0b1b34]/10 animate-pulse"
                 >
                   <svg
                     viewBox="0 0 24 24"
@@ -850,7 +850,7 @@ export const Home = () => {
                 </a>
 
                 <div
-                  className="w-full sm:w-auto flex items-center justify-center px-8 py-4 bg-gray-100 border border-gray-200 text-gray-400 rounded-full font-bold cursor-not-allowed group"
+                  className="w-full max-w-[240px] sm:w-[240px] flex items-center justify-center px-8 py-4 bg-gray-100 border border-gray-200 text-gray-400 rounded-full font-bold cursor-not-allowed group"
                 >
                   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mr-3">
                     <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85-.29-.15-.65-.06-.83.22l-1.88 3.24c-2.86-1.21-6.08-1.21-8.94 0L5.65 5.67c-.19-.29-.58-.38-.87-.22-.28.15-.4.54-.22.85L6.4 9.48C2.84 11.58.52 15.41.05 19.81h23.9c-.47-4.4-2.79-8.23-6.35-10.33zm-10.4 7.14c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15zm9.6 0c-.65 0-1.17-.51-1.17-1.15 0-.65.52-1.16 1.17-1.16.64 0 1.17.51 1.17 1.16 0 .64-.53 1.15-1.17 1.15z" />
