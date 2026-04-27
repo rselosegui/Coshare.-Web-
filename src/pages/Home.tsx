@@ -121,6 +121,7 @@ export const Home = () => {
   const [heroSlide, setHeroSlide] = useState(0);
   const prevHeroSlideRef = useRef(-1);
   const slideTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
 
   const heroSlides = useMemo(() => [
     { image: '/assets/yacht-slide1.jpeg',       text: t('home.hero.owner1.text'),   type: 'owner'   as const, pos: '65% 35%'  },
@@ -267,7 +268,22 @@ export const Home = () => {
         canonical="https://coshare.ai"
       />
       {/* Hero Section */}
-      <section className="relative h-[100svh] overflow-hidden">
+      <section
+        className="relative h-[100svh] overflow-hidden"
+        onTouchStart={e => { touchStartXRef.current = e.touches[0].clientX; }}
+        onTouchEnd={e => {
+          if (touchStartXRef.current === null) return;
+          const diff = touchStartXRef.current - e.changedTouches[0].clientX;
+          if (Math.abs(diff) < 50) return;
+          const next = diff > 0
+            ? (heroSlide + 1) % heroSlides.length
+            : (heroSlide - 1 + heroSlides.length) % heroSlides.length;
+          prevHeroSlideRef.current = heroSlide;
+          setHeroSlide(next);
+          startSlideTimer();
+          touchStartXRef.current = null;
+        }}
+      >
         <style>{`@keyframes heroIn { from { opacity: 0; } to { opacity: 1; } }`}</style>
 
         {/* Previous slide */}
@@ -356,7 +372,7 @@ export const Home = () => {
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-row gap-2 w-full max-w-md">
+          <div className="flex flex-col sm:flex-row gap-2 w-full max-w-md">
             <a
               href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
               target="_blank"
