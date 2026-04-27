@@ -69,7 +69,7 @@ export const translations: Translations = {
   'home.how.4.title': { EN: '04. AI Governance', AR: '04. حوكمة الذكاء الاصطناعي' },
   'home.how.4.desc': { EN: 'Experience total peace of mind. From automated maintenance alerts to fair dispute resolution, our AI handles the harmony.', AR: 'استمتع براحة بال تامة. من تنبيهات الصيانة التلقائية إلى حل النزاعات العادل، يتولى الذكاء الاصطناعي الخاص بنا التناغم.' },
   'home.useCases.title': { EN: 'Who is Coshare For?', AR: 'لمن منصة Coshare؟' },
-  'home.useCases.subtitle': { EN: 'Whether you\'re looking for lifestyle upgrades or smart sharing, there\'s a place for you.', AR: 'سواء كنت تبحث عن ترقية نمط حياتك أو المشاركة الذكية، فهناك مكان لك.' },
+  'home.useCases.subtitle': { EN: 'Share what you own, swap for the experiences you want, and co-own cars, boats, and more you love, all seamlessly handled by AI.', AR: 'شارك ما تملكه، وبادل للحصول على التجارب التي تريدها، وامتلك سيارات وقوارب والمزيد مما تحب، كل ذلك يتم إدارته بسلاسة بواسطة الذكاء الاصطناعي.' },
   'home.useCases.1.title': { EN: 'The Smart Sharer', AR: 'المشارك الذكي' },
   'home.useCases.1.desc': { EN: 'Have a car, boat, or jet ski sitting idle? List it on Coshare to share with verified groups. Unlock the hidden value of what you own and let our AI handle the logic and scheduling.', AR: 'هل لديك سيارة أو قارب أو دراجة مائية خاملة؟ اعرضها على Coshare لمشاركتها مع مجموعات موثقة. افتح القيمة الخفية لما تملكه واترك ذكاءنا الاصطناعي يتولى المنطق والجدولة.' },
   'home.useCases.2.title': { EN: 'The Swap Explorer', AR: 'مستكشف المبادلة' },

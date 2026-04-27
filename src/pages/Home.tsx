@@ -350,7 +350,7 @@ export const Home = () => {
           </div>
 
           {/* Resolution */}
-          <div className="mb-5">
+          <div className="mb-8">
             <p
               className="text-xs font-bold tracking-[0.4em] text-white/70 uppercase mb-2"
               style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}
@@ -364,14 +364,6 @@ export const Home = () => {
               {t('home.hero.resolution.row2')}
             </h1>
           </div>
-
-          {/* Subtitle */}
-          <p
-            className="text-sm md:text-lg text-white/80 mb-6 max-w-2xl font-light leading-relaxed"
-            style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}
-          >
-            {t('home.hero.subtitle')}
-          </p>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-2 w-full max-w-md">
