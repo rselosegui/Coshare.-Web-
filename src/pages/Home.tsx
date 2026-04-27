@@ -111,6 +111,14 @@ export const Home = () => {
     }
   ], [t]); // Only recalculate if translations change
 
+  // Preload all use case images on mount so accordion/desktop switch is instant
+  useEffect(() => {
+    useCasesData.forEach(({ image }) => {
+      const img = new Image();
+      img.src = image;
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleUseCaseClick = (index: number) => {
     setActiveUseCase(index);
     setMobileExpanded(mobileExpanded === index ? null : index);
@@ -134,18 +142,12 @@ export const Home = () => {
     { image: '/assets/speedBoat-slide8.jpeg',   text: t('home.hero.dreamer4.text'), type: 'dreamer' as const, pos: '65% 50%'  },
   ], [t]);
 
-  // Preload remaining slides via <link rel="preload"> — shares browser fetch cache with <img>
+  // Preload remaining slides into browser cache without DOM preload hints
   useEffect(() => {
-    const links: HTMLLinkElement[] = [];
     heroSlides.slice(1).forEach(({ image }) => {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = image;
-      document.head.appendChild(link);
-      links.push(link);
+      const img = new Image();
+      img.src = image;
     });
-    return () => links.forEach(l => l.remove());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Restartable auto-advance — called on mount and on every manual dot click
@@ -705,13 +707,13 @@ export const Home = () => {
                     {/* MOBILE ACCORDION: Pure React rendering (No Framer Motion) */}
                     {mobileExpanded === index && (
                       <div className="lg:hidden mt-2 bg-white rounded-2xl border border-gray-100 shadow-inner overflow-hidden">
-                        <div className="bg-gray-200 w-full h-48 relative">
+                        <div className="w-full h-48 relative bg-gray-200 overflow-hidden">
                           <img
-                            src={useCase.image.startsWith('http') ? `${useCase.image}&w=600&q=65` : useCase.image}
+                            src={useCase.image}
                             className="w-full h-full object-cover"
                             alt=""
                             loading="eager"
-                            decoding="async" // Critical: prevents main-thread lockup
+                            decoding="async"
                           />
                         </div>
                         <div className="p-4 bg-[#0b1b34] text-white">
@@ -724,20 +726,26 @@ export const Home = () => {
               })}
             </div>
 
-            {/* RIGHT COLUMN: DESKTOP ONLY — full image then content below (matches mobile layout) */}
+            {/* RIGHT COLUMN: DESKTOP ONLY */}
             <div className="hidden lg:block w-full lg:w-2/3 rounded-3xl overflow-hidden border border-gray-200">
-              <img
-                key={activeUseCase}
-                src={useCasesData[activeUseCase].image.startsWith('http') ? `${useCasesData[activeUseCase].image}&w=1200&q=80` : useCasesData[activeUseCase].image}
-                className="w-full block"
-                alt=""
-                decoding="async"
-              />
+              {/* Fixed aspect ratio prevents layout shift while images load */}
+              <div className="relative w-full aspect-[16/10] bg-gray-200">
+                {useCasesData.map((uc, i) => (
+                  <img
+                    key={i}
+                    src={uc.image}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${i === activeUseCase ? 'opacity-100' : 'opacity-0'}`}
+                    alt=""
+                    loading="eager"
+                    decoding="async"
+                  />
+                ))}
+              </div>
               <div className="px-8 py-6 bg-[#0b1b34]">
-                <p className="text-xs font-bold uppercase tracking-widest text-[#49bee4] mb-2">
+                <p className="text-xs font-bold uppercase tracking-widest text-[#49bee4] mb-2 transition-all duration-300">
                   {useCasesData[activeUseCase].title}
                 </p>
-                <p className="text-base md:text-lg text-white font-medium leading-relaxed">
+                <p className="text-base md:text-lg text-white font-medium leading-relaxed transition-all duration-300">
                   {useCasesData[activeUseCase].description}
                 </p>
               </div>

@@ -77,14 +77,14 @@ export const WhyCoshare = () => {
                 icon: Key,
                 title: t('home.why.6.title'),
                 description: t('home.why.6.desc'),
-                image: "https://images.unsplash.com/photo-1526495124232-a04e1849168c?auto=format&fit=crop&q=80&w=1000",
+                image: "/assets/smart-share.jpeg",
                 badge: t('home.why.6.badge')
               },
               {
                 icon: Users,
                 title: t('home.why.1.title'),
                 description: t('home.why.1.desc'),
-                image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&q=80&w=1000",
+                image: "/assets/share-swap.jpeg",
                 badge: t('home.why.1.badge')
               }
             ].map((feature, index) => (
