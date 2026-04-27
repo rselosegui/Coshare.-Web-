@@ -310,7 +310,7 @@ export const Home = () => {
               className="mb-5"
             >
               <p
-                className="text-2xl md:text-3xl lg:text-5xl font-display font-semibold text-white leading-snug max-w-3xl"
+                className="text-3xl md:text-3xl lg:text-5xl font-display font-semibold text-white leading-snug max-w-3xl"
                 style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}
               >
                 "{heroSlides[heroSlide].text}"
