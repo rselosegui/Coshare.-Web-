@@ -180,9 +180,15 @@ export const ListAsset = () => {
       {/* Why List With Us */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 mb-4">{t('listAsset.why.title')}</h2>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-gray-100 p-8 md:p-12 mb-16 text-center"
+          >
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">{t('listAsset.why.title')}</h2>
+          </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
               { title: t('listAsset.why.1.title'), desc: t('listAsset.why.1.desc') },

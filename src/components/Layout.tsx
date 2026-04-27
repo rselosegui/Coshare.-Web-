@@ -233,8 +233,39 @@ export const Layout = () => {
             </div>
           </div>
 
-          <div className="mt-12 pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 text-center">
-            &copy; {new Date().getFullYear()} Coshare. {t('footer.rights')}
+          <div className="mt-12 pt-8 border-t border-white/5 text-center">
+            <div className="text-sm text-gray-400 leading-relaxed max-w-3xl mx-auto mb-6">
+              {lang === 'EN' ? (
+                <>
+                  <p className="mb-4">
+                    Coshare is a modern network that transforms how you use tangible assets. We make it simple to{' '}
+                    <span className="text-white">share what you own</span>,{' '}
+                    <span className="text-white">swap for global experiences</span>, or collectively{' '}
+                    <span className="text-white">co-own cars, boats, and real estate</span>, ensuring legal protection and seamless AI management at every step.
+                  </p>
+                  <p>
+                    Through our <span className="text-white">global swap network</span>, you can release idle assets or unused fractional days in exchange for Swap Credits, giving you ultimate flexibility to book any asset on the platform. Stop paying 100% for things you barely use—split the maintenance costs, eliminate the friction of the{' '}
+                    <span className="text-white">sharing economy</span>, and unlock infinite utility.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="mb-4">
+                    Coshare هي شبكة حديثة تغير طريقة استخدامك للأصول المادية. نحن نسهل{' '}
+                    <span className="text-white">مشاركة ما تملكه</span>، أو{' '}
+                    <span className="text-white">المبادلة لتجارب عالمية</span>، أو بشكل جماعي{' '}
+                    <span className="text-white">الامتلاك المشترك للسيارات والقوارب والعقارات</span>، مع ضمان الحماية القانونية والإدارة السلسة للذكاء الاصطناعي في كل خطوة.
+                  </p>
+                  <p>
+                    من خلال <span className="text-white">شبكة التبادل العالمية</span> الخاصة بنا، يمكنك إتاحة الأصول الخاملة أو الأيام الجزئية غير المستخدمة مقابل أرصدة مبادلة، مما يمنحك المرونة المطلقة لحجز أي أصل على المنصة. توقف عن دفع 100٪ مقابل الأشياء التي نادراً ما تستخدمها - قم بتقسيم تكاليف الصيانة، وتخلص من احتكاك{' '}
+                    <span className="text-white">الاقتصاد التشاركي</span>، وافتح منفعة لا حصر لها.
+                  </p>
+                </>
+              )}
+            </div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500">
+              &copy; {new Date().getFullYear()} Coshare. {t('footer.rights')}
+            </p>
           </div>
         </div>
       </footer>

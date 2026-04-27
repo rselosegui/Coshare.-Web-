@@ -294,8 +294,11 @@ export const Home = () => {
           />
         </div>
 
+        {/* Dark gradient overlay — improves text contrast on bright slides */}
+        <div className="absolute inset-0 z-[15] bg-gradient-to-t from-black/70 via-black/30 to-transparent pointer-events-none" />
+
         {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-40 md:pb-20 flex flex-col items-center text-center">
+        <div className="absolute bottom-0 left-0 right-0 z-20 px-4 pb-52 md:pb-44 flex flex-col items-center text-center">
           {/* Quote */}
           <AnimatePresence mode="wait">
             <motion.div
@@ -304,10 +307,10 @@ export const Home = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.4 }}
-              className="mb-3 sm:mb-5"
+              className="mb-5"
             >
               <p
-                className="text-base sm:text-xl md:text-3xl lg:text-5xl font-display font-semibold text-white leading-snug max-w-3xl"
+                className="text-2xl md:text-3xl lg:text-5xl font-display font-semibold text-white leading-snug max-w-3xl"
                 style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}
               >
                 "{heroSlides[heroSlide].text}"
@@ -316,7 +319,7 @@ export const Home = () => {
           </AnimatePresence>
 
           {/* Progress dots */}
-          <div className="flex gap-1.5 mb-3 sm:mb-5" dir="ltr">
+          <div className="flex gap-1.5 mb-5" dir="ltr">
             {heroSlides.map((_, i) => (
               <button
                 key={i}
@@ -329,24 +332,24 @@ export const Home = () => {
           </div>
 
           {/* Resolution */}
-          <div className="mb-4 sm:mb-5">
+          <div className="mb-5">
             <p
-              className="text-[9px] sm:text-xs font-bold tracking-[0.4em] text-white/70 uppercase mb-1 sm:mb-2"
+              className="text-xs font-bold tracking-[0.4em] text-white/70 uppercase mb-2"
               style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}
             >
               {t('home.hero.resolution.row1')}
             </p>
             <h1
-              className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-none"
+              className="text-3xl md:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-none"
               style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}
             >
               {t('home.hero.resolution.row2')}
             </h1>
           </div>
 
-          {/* Subtitle hidden on mobile — saves space so buttons always fit */}
+          {/* Subtitle */}
           <p
-            className="hidden sm:block text-sm md:text-lg text-white/80 mb-5 sm:mb-6 max-w-2xl font-light leading-relaxed"
+            className="text-sm md:text-lg text-white/80 mb-6 max-w-2xl font-light leading-relaxed"
             style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9)' }}
           >
             {t('home.hero.subtitle')}
@@ -358,20 +361,42 @@ export const Home = () => {
               href="https://apps.apple.com/us/app/coshare-own-more-together/id6760332791"
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex-1 inline-flex items-center justify-center gap-1.5 px-4 py-3 sm:px-7 sm:py-3.5 bg-[#256ab1] text-white text-sm sm:text-base font-bold rounded-full hover:bg-[#1a4b82] active:scale-95 transition-all shadow-lg"
+              className="group flex-1 inline-flex items-center justify-center gap-1.5 px-5 py-3.5 sm:px-7 bg-[#256ab1] text-white text-base font-bold rounded-full hover:bg-[#1a4b82] active:scale-95 transition-all shadow-lg"
             >
               {t('home.hero.start')}
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform shrink-0" />
             </a>
             <button
               onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-              className="flex-1 inline-flex items-center justify-center px-4 py-3 sm:px-7 sm:py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-sm sm:text-base font-bold rounded-full hover:bg-white/30 active:scale-95 transition-all"
+              className="flex-1 inline-flex items-center justify-center px-5 py-3.5 sm:px-7 bg-white/20 backdrop-blur-sm border border-white/30 text-white text-base font-bold rounded-full hover:bg-white/30 active:scale-95 transition-all"
             >
               {t('nav.howItWorks')}
             </button>
           </div>
         </div>
       </section>
+
+      {/* Why Coshare — title floats at hero / why-coshare boundary */}
+      <div className="relative z-30 -mt-20 md:-mt-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-8 md:p-12 text-center"
+          >
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4 text-balance">
+              {t('home.why.title').split('Coshare.')[0]}
+              <span dir="ltr" className="inline-block">Coshare<span className="text-[#05A7E8]">.</span></span>
+              {t('home.why.title').split('Coshare.')[1]}
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl text-balance mx-auto">
+              {t('home.why.subtitle')}
+            </p>
+          </motion.div>
+        </div>
+      </div>
 
       <WhyCoshare />
 
@@ -400,7 +425,7 @@ export const Home = () => {
       </motion.div>
 
       {/* How it works - Scrolling Version */}
-      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative py-10 md:py-24">
+      <section id="how-it-works" ref={howRef} className="bg-[#0b1b34] text-white relative pt-10 md:pt-24 pb-28 md:pb-40">
         <motion.div
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
@@ -424,13 +449,10 @@ export const Home = () => {
             </div>
           </div>
 
+          {/* Toggle Switch */}
           <div className="mb-8 md:mb-16 text-left">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 text-balance">{t('home.how.title')}</h2>
-            <p className="text-lg text-gray-400 max-w-2xl text-balance mb-8">
-              {t('home.how.subtitle')}
-            </p>
-
-            {/* Toggle Switch */}
+            <p className="text-lg text-gray-400 max-w-2xl text-balance mb-8">{t('home.how.subtitle')}</p>
             <div className="inline-flex bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full relative z-20">
               <button
                 onClick={() => setActiveTab('share')}
@@ -615,13 +637,25 @@ export const Home = () => {
         </motion.div>
       </section>
 
+      {/* Use Cases — title floats at how-it-works / use-cases boundary */}
+      <div className="relative z-30 -mt-20 md:-mt-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-8 md:p-12 text-center"
+          >
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-[#0b1b34]">{t('home.useCases.title')}</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('home.useCases.subtitle')}</p>
+          </motion.div>
+        </div>
+      </div>
+
       {/* Use Cases */}
-      <section id="use-cases" className="py-12 md:py-24 bg-[#f8f9fa] text-[#0b1b34]">
+      <section id="use-cases" className="pt-8 md:pt-16 pb-12 md:pb-16 bg-[#f8f9fa] text-[#0b1b34]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-8">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">{t('home.useCases.title')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl">{t('home.useCases.subtitle')}</p>
-          </div>
 
           <div className="flex flex-col lg:flex-row gap-6">
             {/* Left Column: Fast Buttons */}
@@ -674,19 +708,16 @@ export const Home = () => {
               })}
             </div>
 
-            {/* RIGHT COLUMN: DESKTOP ONLY (Static) */}
-            <div className="hidden lg:block w-full lg:w-2/3 relative h-[500px] rounded-3xl overflow-hidden bg-gray-100 border border-gray-200">
+            {/* RIGHT COLUMN: DESKTOP ONLY — full image then content below (matches mobile layout) */}
+            <div className="hidden lg:block w-full lg:w-2/3 rounded-3xl overflow-hidden border border-gray-200">
               <img
                 key={activeUseCase}
                 src={useCasesData[activeUseCase].image.startsWith('http') ? `${useCasesData[activeUseCase].image}&w=1200&q=80` : useCasesData[activeUseCase].image}
-                className="w-full h-full object-cover"
+                className="w-full block"
                 alt=""
                 decoding="async"
               />
-              {/* Subtle top-to-mid gradient so image stays visible */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
-              {/* Frosted glass text panel */}
-              <div className="absolute bottom-0 left-0 right-0 px-8 py-6 bg-[#0b1b34]/70 backdrop-blur-md border-t border-white/10">
+              <div className="px-8 py-6 bg-[#0b1b34]">
                 <p className="text-xs font-bold uppercase tracking-widest text-[#49bee4] mb-2">
                   {useCasesData[activeUseCase].title}
                 </p>
@@ -702,9 +733,9 @@ export const Home = () => {
       {/* FAQ Section for SEO/GEO */}
       <section
         id="faq"
-        className="py-16 md:py-24 bg-[#0b1b34] relative overflow-hidden"
+        className="pt-8 md:pt-16 pb-16 md:pb-24 bg-[#0b1b34] relative overflow-hidden"
         style={{
-          contentVisibility: 'auto', // This is the most important line
+          contentVisibility: 'auto',
           containIntrinsicSize: '500px'
         }}
       >
@@ -715,7 +746,7 @@ export const Home = () => {
           }}
         />
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="mb-12">
+          <div className="mb-12 text-center">
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 text-balance">{t('home.faq.title')}</h2>
             <p className="text-gray-400 text-balance">{t('home.faq.subtitle')}</p>
           </div>

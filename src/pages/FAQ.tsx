@@ -51,10 +51,15 @@ export const FAQ = () => {
         })}</script>
       </Helmet>
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] border border-gray-100 p-8 md:p-12 mb-12 text-center"
+        >
           <h1 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4">{t('home.faq.title')}</h1>
           <p className="text-base md:text-lg text-gray-600">{t('home.faq.subtitle')}</p>
-        </div>
+        </motion.div>
         <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
           <div className="space-y-2">
             <FAQItem 

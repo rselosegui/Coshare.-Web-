@@ -363,8 +363,8 @@ export const HowItWorks = () => {
       {/* Financial Advantage Section */}
       <section className="py-24 bg-[#1a2b4c] relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">{t('how.math.title')}</h2>
+          <div className="bg-white/5 border border-white/10 rounded-[2rem] p-6 md:p-10 mb-16 text-center">
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">{t('how.math.title')}</h2>
             <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto font-light">{t('how.math.subtitle')}</p>
           </div>
 

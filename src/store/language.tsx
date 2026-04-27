@@ -272,6 +272,10 @@ export const translations: Translations = {
   'footer.download': { EN: 'Download on the', AR: 'حمل من' },
   'footer.appStore': { EN: 'App Store', AR: 'متجر التطبيقات' },
   'footer.rights': { EN: 'All rights reserved.', AR: 'جميع الحقوق محفوظة.' },
+  'footer.desc': {
+    EN: 'Coshare is a modern network that transforms how you use tangible assets. We make it simple to share what you own, swap for global experiences, or collectively co-own cars, boats, and real estate, ensuring legal protection and seamless AI management at every step.\n\nThrough our global swap network, you can release idle assets or unused fractional days in exchange for Swap Credits, giving you ultimate flexibility to book any asset on the platform. Stop paying 100% for things you barely use—split the maintenance costs, eliminate the friction of the sharing economy, and unlock infinite utility.',
+    AR: 'Coshare هي شبكة حديثة تغير طريقة استخدامك للأصول المادية. نحن نسهل مشاركة ما تملكه، أو المبادلة لتجارب عالمية، أو بشكل جماعي الامتلاك المشترك للسيارات والقوارب والعقارات، مع ضمان الحماية القانونية والإدارة السلسة للذكاء الاصطناعي في كل خطوة.\n\nمن خلال شبكة التبادل العالمية الخاصة بنا، يمكنك إتاحة الأصول الخاملة أو الأيام الجزئية غير المستخدمة مقابل أرصدة مبادلة، مما يمنحك المرونة المطلقة لحجز أي أصل على المنصة. توقف عن دفع 100٪ مقابل الأشياء التي نادراً ما تستخدمها - قم بتقسيم تكاليف الصيانة، وتخلص من احتكاك الاقتصاد التشاركي، وافتح منفعة لا حصر لها.'
+  },
   'footer.terms': { EN: 'Terms', AR: 'الشروط' },
   'footer.privacy': { EN: 'Privacy', AR: 'الخصوصية' },
   'how.steps.share.label1': { EN: 'LIST', AR: 'اعرض' },
