@@ -340,7 +340,7 @@ export const Home = () => {
               {t('home.hero.resolution.row1')}
             </p>
             <h1
-              className="text-3xl md:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-none"
+              className="text-xl md:text-3xl lg:text-4xl font-display font-bold text-white tracking-tight leading-none"
               style={{ textShadow: '0 2px 16px rgba(0,0,0,0.9)' }}
             >
               {t('home.hero.resolution.row2')}
