@@ -132,14 +132,16 @@ export const Home = () => {
   const touchStartXRef = useRef<number | null>(null);
 
   const heroSlides = useMemo(() => [
-    { image: '/assets/yacht-slide1.jpeg',       text: t('home.hero.owner1.text'),   type: 'owner'   as const, pos: '65% 35%'  },
-    { image: '/assets/4x4-slide2.jpeg',         text: t('home.hero.dreamer1.text'), type: 'dreamer' as const, pos: '65% 50%'  },
-    { image: '/assets/gt3-slide3.jpeg',         text: t('home.hero.owner2.text'),   type: 'owner'   as const, pos: '70% 35%'  },
-    { image: '/assets/efoil-slide4.jpeg',       text: t('home.hero.dreamer2.text'), type: 'dreamer' as const, pos: '35% 50%'  },
-    { image: '/assets/harley-slide5.jpeg',      text: t('home.hero.owner3.text'),   type: 'owner'   as const, pos: '50% 35%'  },
-    { image: '/assets/convertible-slide6.jpeg', text: t('home.hero.dreamer3.text'), type: 'dreamer' as const, pos: '40% 50%'  },
-    { image: '/assets/beach-house-slide7.jpeg', text: t('home.hero.owner4.text'),   type: 'owner'   as const, pos: '45% 50%'  },
-    { image: '/assets/speedBoat-slide8.jpeg',   text: t('home.hero.dreamer4.text'), type: 'dreamer' as const, pos: '65% 50%'  },
+    { image: '/assets/multiple-cars.jpeg',      text: t('home.hero.owner1.text'),   type: 'owner'   as const, pos: '50% 50%'  },
+    { image: '/assets/efoil-slide4.jpeg',       text: t('home.hero.dreamer1.text'), type: 'dreamer' as const, pos: '35% 50%'  },
+    { image: '/assets/yacht-slide1.jpeg',       text: t('home.hero.owner2.text'),   type: 'owner'   as const, pos: '65% 35%'  },
+    { image: '/assets/4x4-slide2.jpeg',         text: t('home.hero.dreamer2.text'), type: 'dreamer' as const, pos: '65% 50%'  },
+    { image: '/assets/gt3-slide3.jpeg',         text: t('home.hero.owner3.text'),   type: 'owner'   as const, pos: '70% 35%'  },
+    { image: '/assets/four-lifestyles.jpeg',    text: t('home.hero.dreamer3.text'), type: 'dreamer' as const, pos: '50% 50%'  },
+    { image: '/assets/harley-slide5.jpeg',      text: t('home.hero.owner4.text'),   type: 'owner'   as const, pos: '50% 35%'  },
+    { image: '/assets/convertible-slide6.jpeg', text: t('home.hero.dreamer4.text'), type: 'dreamer' as const, pos: '40% 50%'  },
+    { image: '/assets/beach-house-slide7.jpeg', text: t('home.hero.owner5.text'),   type: 'owner'   as const, pos: '45% 50%'  },
+    { image: '/assets/speedBoat-slide8.jpeg',   text: t('home.hero.dreamer5.text'), type: 'dreamer' as const, pos: '65% 50%'  },
   ], [t]);
 
   // Preload remaining slides into browser cache without DOM preload hints
