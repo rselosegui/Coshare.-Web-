@@ -105,7 +105,7 @@ export const translations: Translations = {
   'home.faq.10.a': { EN: 'Conflicts are mediated by our dedicated support team using clear guidelines, with the primary goal of preserving the asset\'s value for everyone involved.', AR: '.يتم التوسط في النزاعات من قبل فريق الدعم المخصص لدينا باستخدام إرشادات واضحة، والهدف الأساسي هو الحفاظ على قيمة الأصل لجميع المعنيين' },
   'home.cta.title1': { EN: 'Start Cosharing', AR: 'ابدأ المشاركة' },
   'home.cta.title2': { EN: 'Today.', AR: 'اليوم.' },
-  'home.cta.desc': { EN: 'Join a growing community of co-owners all around the world sharing Cars (supercars, 4x4s, classics), with Boats & Real Estate coming soon. Download the Coshare mobile app to browse available assets, purchase shares, and book your time to use and enjoy instantly.', AR: '.انضم إلى مجتمع متنامٍ من الملاك المشاركين في جميع أنحاء العالم الذين يتشاركون السيارات (الخارقة، وذات الدفع الرباعي، والكلاسيكية)، مع اقتراب توفر اليخوت والعقارات قريباً. حمّل تطبيق كوشير للهواتف المحمولة لتصفح الأصول المتاحة وشراء الحصص وحجز وقتك للاستخدام والاستمتاع فوراً'},
+  'home.cta.desc': { EN: 'Share what you have, swap for what you want, and co-own what you love with verified friends, family or community, while our AI handles the rest. Discover your next chapter.', AR: 'شارك ما لديك، وبادل بما تريد، وامتلك مشتركاً ما تحب مع الأصدقاء والعائلة أو المجتمع الموثوق، بينما يتولى الذكاء الاصطناعي الباقي. اكتشف فصلك القادم.' },
   'home.cta.downloadOn': { EN: 'Download on the', AR: 'تنزيل من' },
   'home.cta.appStore': { EN: 'App Store', AR: 'متجر التطبيقات' },
   'home.cta.getItOn': { EN: 'Coming soon', AR: 'قريباً' },
