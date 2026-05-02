@@ -37,7 +37,7 @@ export const FAQ = () => {
       <SEO
         title="Coshare FAQ | Co-ownership, Sharing & Platform Questions"
         description="Find answers about how Coshare works, co-ownership structure, safety, usage, and payments."
-        canonical="https://coshare.ai/faq"
+        canonical="https://www.coshare.ai/faq"
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify({

@@ -269,7 +269,7 @@ export const Home = () => {
       <SEO
         title="Coshare: My Hub | Share, Swap & Co-own Cars, Boats, Property & More"
         description="Coshare is the platform to share, swap, and co-own assets — cars, boats, properties and more. List what you own. Access what you want. AI manages everything."
-        canonical="https://coshare.ai"
+        canonical="https://www.coshare.ai"
       />
       {/* Hero Section */}
       <section

@@ -103,7 +103,7 @@ export const HowItWorks = () => {
       <SEO
         title="How Coshare Works | Co-ownership, Sharing & Asset Management"
         description="Learn how Coshare lets you co-own and share high-value assets like cars, boats, and property. AI manages scheduling, usage, payments, and agreements automatically."
-        canonical="https://coshare.ai/how-it-works"
+        canonical="https://www.coshare.ai/how-it-works"
       />
 
       {/* Hero Section */}

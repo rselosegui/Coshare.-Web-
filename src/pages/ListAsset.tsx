@@ -24,15 +24,15 @@ export const ListAsset = () => {
       <SEO
         title="List Your Asset | Coshare — Fractional Co-Ownership"
         description="List your supercar, yacht, or property on Coshare. Sell fractional shares, unlock liquidity, and join a global network of co-owners."
-        canonical="https://coshare.ai/list-asset"
+        canonical="https://www.coshare.ai/list-asset"
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Service",
           "name": "List Your Asset on Coshare",
-          "url": "https://coshare.ai/list-asset",
-          "provider": { "@type": "Organization", "name": "Coshare", "url": "https://coshare.ai" },
+          "url": "https://www.coshare.ai/list-asset",
+          "provider": { "@type": "Organization", "name": "Coshare", "url": "https://www.coshare.ai" },
           "description": "List your supercar, yacht, or property on Coshare. Sell fractional shares, unlock liquidity, and join a global network of co-owners.",
           "serviceType": "Fractional Asset Co-Ownership"
         })}</script>
