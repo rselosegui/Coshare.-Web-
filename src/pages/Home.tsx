@@ -132,16 +132,16 @@ export const Home = () => {
   const touchStartXRef = useRef<number | null>(null);
 
   const heroSlides = useMemo(() => [
-    { image: '/assets/multiple-cars.jpeg',      text: t('home.hero.owner1.text'),   type: 'owner'   as const, pos: '50% 50%'  },
-    { image: '/assets/efoil-slide4.jpeg',       text: t('home.hero.dreamer1.text'), type: 'dreamer' as const, pos: '35% 50%'  },
-    { image: '/assets/yacht-slide1.jpeg',       text: t('home.hero.owner2.text'),   type: 'owner'   as const, pos: '65% 35%'  },
-    { image: '/assets/4x4-slide2.jpeg',         text: t('home.hero.dreamer2.text'), type: 'dreamer' as const, pos: '65% 50%'  },
-    { image: '/assets/gt3-slide3.jpeg',         text: t('home.hero.owner3.text'),   type: 'owner'   as const, pos: '70% 35%'  },
-    { image: '/assets/four-lifestyles.jpeg',    text: t('home.hero.dreamer3.text'), type: 'dreamer' as const, pos: '50% 50%'  },
-    { image: '/assets/harley-slide5.jpeg',      text: t('home.hero.owner4.text'),   type: 'owner'   as const, pos: '50% 35%'  },
-    { image: '/assets/convertible-slide6.jpeg', text: t('home.hero.dreamer4.text'), type: 'dreamer' as const, pos: '40% 50%'  },
-    { image: '/assets/beach-house-slide7.jpeg', text: t('home.hero.owner5.text'),   type: 'owner'   as const, pos: '45% 50%'  },
-    { image: '/assets/speedBoat-slide8.jpeg',   text: t('home.hero.dreamer5.text'), type: 'dreamer' as const, pos: '65% 50%'  },
+    { image: '/assets/multiple-cars.jpeg', mobileImage: '/assets/multiple-cars.jpeg', text: t('home.hero.owner1.text'), type: 'owner' as const, pos: '50% 50%', mobilePos: '50% 50%' },
+    { image: '/assets/efoil-slide4.jpeg', mobileImage: '/assets/efoil-slide4.jpeg', text: t('home.hero.dreamer1.text'), type: 'dreamer' as const, pos: '35% 50%', mobilePos: '35% 50%' },
+    { image: '/assets/yacht-slide1-web.jpeg', mobileImage: '/assets/yacht-slide1.jpeg', text: t('home.hero.owner2.text'), type: 'owner' as const, pos: '65% 50%', mobilePos: '65% 50%' },
+    { image: '/assets/4x4-slide2.jpeg', mobileImage: '/assets/4x4-slide2.jpeg', text: t('home.hero.dreamer2.text'), type: 'dreamer' as const, pos: '65% 70%', mobilePos: '75% 70%' },
+    { image: '/assets/gt3-slide3-web.jpeg', mobileImage: '/assets/gt3-slide3.jpeg', text: t('home.hero.owner3.text'), type: 'owner' as const, pos: '80% 85%', mobilePos: '70% 35%' },
+    { image: '/assets/four-lifestyles.jpeg', mobileImage: '/assets/four-lifestyles.jpeg', text: t('home.hero.dreamer3.text'), type: 'dreamer' as const, pos: '50% 50%', mobilePos: '50% 50%' },
+    { image: '/assets/harley-slide5.jpeg', mobileImage: '/assets/harley-slide5.jpeg', text: t('home.hero.owner4.text'), type: 'owner' as const, pos: '50% 70%', mobilePos: '50% 35%' },
+    { image: '/assets/convertible-slide6.jpeg', mobileImage: '/assets/convertible-slide6-mobile.jpeg', text: t('home.hero.dreamer4.text'), type: 'dreamer' as const, pos: '40% 50%', mobilePos: '30% 80%' },
+    { image: '/assets/beach-house-slide7-web.jpeg', mobileImage: '/assets/beach-house-slide7.jpeg', text: t('home.hero.owner5.text'), type: 'owner' as const, pos: '45% 50%', mobilePos: '45% 50%' },
+    { image: '/assets/speedBoat-slide8-web.jpeg', mobileImage: '/assets/speedBoat-slide8.jpeg', text: t('home.hero.dreamer5.text'), type: 'dreamer' as const, pos: '65% 50%', mobilePos: '65% 50%' },
   ], [t]);
 
   // Preload remaining slides into browser cache without DOM preload hints
@@ -217,7 +217,7 @@ export const Home = () => {
 
   const homeStepIndex = useTransform(howScrollY, [0, 0.10, 0.25, 0.50, 0.75, 1], [0, 0, 1, 2, 3, 3]);
 
-  const arabicDigits = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+  const arabicDigits = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
   const formatStepNum = (n: number) => {
     const raw = `0${n + 1}`;
     return lang === 'AR' ? raw.replace(/[0-9]/g, d => arabicDigits[parseInt(d)]) : raw;
@@ -293,7 +293,17 @@ export const Home = () => {
         {/* Previous slide */}
         {prevHeroSlideRef.current >= 0 && (
           <div key={`prev-${heroSlide}`} className="absolute inset-0 z-0">
-            <img src={heroSlides[prevHeroSlideRef.current].image} alt="" className="w-full h-full object-cover" style={{ objectPosition: heroSlides[prevHeroSlideRef.current].pos }} loading="lazy" decoding="async" />
+            <picture className="w-full h-full">
+              <source media="(min-width: 768px)" srcSet={heroSlides[prevHeroSlideRef.current].image} />
+              <img
+                src={heroSlides[prevHeroSlideRef.current].mobileImage}
+                alt=""
+                className="w-full h-full object-cover [object-position:var(--mobile-pos)] md:[object-position:var(--desktop-pos)]"
+                style={{ '--mobile-pos': heroSlides[prevHeroSlideRef.current].mobilePos, '--desktop-pos': heroSlides[prevHeroSlideRef.current].pos } as React.CSSProperties}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
           </div>
         )}
 
@@ -303,15 +313,18 @@ export const Home = () => {
           className="absolute inset-0 z-10"
           style={{ animation: prevHeroSlideRef.current < 0 ? 'none' : 'heroIn 1.2s ease-in-out forwards' }}
         >
-          <img
-            src={heroSlides[heroSlide].image}
-            alt=""
-            className="w-full h-full object-cover"
-            style={{ objectPosition: heroSlides[heroSlide].pos }}
-            loading="eager"
-            fetchPriority={heroSlide === 0 ? 'high' : 'auto'}
-            decoding="async"
-          />
+          <picture className="w-full h-full">
+            <source media="(min-width: 768px)" srcSet={heroSlides[heroSlide].image} />
+            <img
+              src={heroSlides[heroSlide].mobileImage}
+              alt=""
+              className="w-full h-full object-cover [object-position:var(--mobile-pos)] md:[object-position:var(--desktop-pos)]"
+              style={{ '--mobile-pos': heroSlides[heroSlide].mobilePos, '--desktop-pos': heroSlides[heroSlide].pos } as React.CSSProperties}
+              loading="eager"
+              fetchPriority={heroSlide === 0 ? 'high' : 'auto'}
+              decoding="async"
+            />
+          </picture>
         </div>
 
         {/* Dark gradient overlay — improves text contrast on bright slides */}
@@ -344,9 +357,8 @@ export const Home = () => {
               <button
                 key={i}
                 onClick={() => { prevHeroSlideRef.current = heroSlide; setHeroSlide(i); startSlideTimer(); }}
-                className={`h-[3px] rounded-full transition-all duration-500 ${
-                  i === heroSlide ? 'w-8 bg-[#49bee4]' : 'w-3 bg-white/40'
-                }`}
+                className={`h-[3px] rounded-full transition-all duration-500 ${i === heroSlide ? 'w-8 bg-[#49bee4]' : 'w-3 bg-white/40'
+                  }`}
               />
             ))}
           </div>
@@ -462,7 +474,7 @@ export const Home = () => {
           </div>
 
           {/* Toggle Switch */}
-          <div className="mb-8 md:mb-16 text-left">
+          <div className={`mb-8 md:mb-16 ${lang === 'AR' ? 'text-right' : 'text-left'}`}>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4 text-balance">{t('home.how.title')}</h2>
             <p className="text-lg text-gray-400 max-w-2xl text-balance mb-8">{t('home.how.subtitle')}</p>
             <div className="inline-flex bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-full relative z-20">
@@ -572,7 +584,7 @@ export const Home = () => {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: false, margin: "-20% 0px" }}
                         transition={{ duration: 0.4 }}
-                        className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 rtl:pr-20 group"
+                        className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 md:rtl:pr-20 group"
                       >
                         {/* Mobile Number */}
                         <div className="text-6xl font-display font-bold text-white/5 mb-4 md:hidden -mt-4">
@@ -605,11 +617,13 @@ export const Home = () => {
 
                           <div className="relative z-10">
                             {/* Mobile Image */}
-                            <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mb-12 md:hidden relative mx-auto">
-                              {/* Dynamic Island Notch */}
-                              <div className="absolute top-1.5 inset-x-0 h-5 bg-black/40 backdrop-blur-md rounded-full w-24 mx-auto z-20 border border-white/5" />
-                              <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative rounded-[2.5rem] overflow-hidden">
-                                <step.Visual />
+                            <div className="flex justify-center mb-12 md:hidden">
+                              <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden relative">
+                                {/* Dynamic Island Notch */}
+                                <div className="absolute top-1.5 inset-x-0 h-5 bg-black/40 backdrop-blur-md rounded-full w-24 mx-auto z-20 border border-white/5" />
+                                <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative rounded-[2.5rem] overflow-hidden">
+                                  <step.Visual />
+                                </div>
                               </div>
                             </div>
 

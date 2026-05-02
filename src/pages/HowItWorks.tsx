@@ -289,7 +289,7 @@ export const HowItWorks = () => {
                         whileInView={{ opacity: 1 }}
                         viewport={{ once: false, margin: "-20% 0px" }}
                         transition={{ duration: 0.4 }}
-                        className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 rtl:pr-20 group"
+                        className="md:min-h-[60vh] flex flex-col justify-center relative pl-0 md:pl-20 rtl:pl-0 md:rtl:pr-20 group"
                       >
                         {/* Scroll-Animated Desktop Node (F) */}
                         <motion.div
@@ -323,11 +323,13 @@ export const HowItWorks = () => {
 
                           <div className="relative z-10">
                             {/* Mobile Phone per Step */}
-                            <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden mb-12 md:hidden relative mx-auto">
-                              {/* Dynamic Island Notch */}
-                              <div className="absolute top-1.5 inset-x-0 h-5 bg-black/40 backdrop-blur-md rounded-full w-24 mx-auto z-20 border border-white/5" />
-                              <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative rounded-[2.5rem] overflow-hidden">
-                                <step.Visual />
+                            <div className="flex justify-center mb-12 md:hidden">
+                              <div className="w-[260px] h-[540px] bg-black rounded-[2.5rem] border-[6px] border-gray-800 shadow-2xl shadow-black/50 overflow-hidden relative">
+                                {/* Dynamic Island Notch */}
+                                <div className="absolute top-1.5 inset-x-0 h-5 bg-black/40 backdrop-blur-md rounded-full w-24 mx-auto z-20 border border-white/5" />
+                                <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative rounded-[2.5rem] overflow-hidden">
+                                  <step.Visual />
+                                </div>
                               </div>
                             </div>
 
