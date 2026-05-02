@@ -12,6 +12,8 @@ import { Home } from './pages/Home';
 import { HowItWorks } from './pages/HowItWorks';
 import { FAQ } from './pages/FAQ';
 import { ListAsset } from './pages/ListAsset';
+import { Privacy } from './pages/Privacy';
+import { Terms } from './pages/Terms';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ScrollToTop } from './components/ScrollToTop';
 
@@ -28,6 +30,8 @@ export default function App() {
                 <Route path="how-it-works" element={<HowItWorks />} />
                 <Route path="faq" element={<FAQ />} />
                 <Route path="list-asset" element={<ListAsset />} />
+                <Route path="privacy" element={<Privacy />} />
+                <Route path="terms" element={<Terms />} />
               </Route>
             </Routes>
           </BrowserRouter>

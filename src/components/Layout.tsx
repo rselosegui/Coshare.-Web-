@@ -227,8 +227,8 @@ export const Layout = () => {
                 <Link to="/#how-it-works" className="hover:text-white transition-colors">{t('nav.howItWorks')}</Link>
                 <Link to="/faq" className="hover:text-white transition-colors">{t('nav.faq')}</Link>
                 <Link to="/list-asset" className="hover:text-white transition-colors">{t('nav.listAsset')}</Link>
-                <a href="#" className="hover:text-white transition-colors">{t('footer.terms')}</a>
-                <a href="#" className="hover:text-white transition-colors">{t('footer.privacy')}</a>
+                <Link to="/terms" className="hover:text-white transition-colors">{t('footer.terms')}</Link>
+                <Link to="/privacy" className="hover:text-white transition-colors">{t('footer.privacy')}</Link>
               </div>
             </div>
           </div>
@@ -263,6 +263,10 @@ export const Layout = () => {
                 </>
               )}
             </div>
+            <div className="border-t border-white/5 mt-6 mb-6" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500 mb-1">
+              Coshare FZ-LLC &nbsp;•&nbsp; 📍 Dubai Internet City
+            </p>
             <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-gray-500">
               &copy; {new Date().getFullYear()} Coshare. {t('footer.rights')}
             </p>
