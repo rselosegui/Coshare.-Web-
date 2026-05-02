@@ -137,7 +137,7 @@ export const Home = () => {
     { image: '/assets/yacht-slide1-web.jpeg', mobileImage: '/assets/yacht-slide1.jpeg', text: t('home.hero.owner2.text'), type: 'owner' as const, pos: '65% 50%', mobilePos: '65% 50%' },
     { image: '/assets/4x4-slide2.jpeg', mobileImage: '/assets/4x4-slide2.jpeg', text: t('home.hero.dreamer2.text'), type: 'dreamer' as const, pos: '65% 70%', mobilePos: '75% 70%' },
     { image: '/assets/gt3-slide3-web.jpeg', mobileImage: '/assets/gt3-slide3.jpeg', text: t('home.hero.owner3.text'), type: 'owner' as const, pos: '80% 85%', mobilePos: '70% 35%' },
-    { image: '/assets/four-lifestyles.jpeg', mobileImage: '/assets/four-lifestyles.jpeg', text: t('home.hero.dreamer3.text'), type: 'dreamer' as const, pos: '50% 50%', mobilePos: '50% 50%' },
+    { image: '/assets/four-lifestyles.jpeg', mobileImage: '/assets/four-lifestyles-mobile.jpeg', text: t('home.hero.dreamer3.text'), type: 'dreamer' as const, pos: '50% 50%', mobilePos: '50% 50%' },
     { image: '/assets/harley-slide5.jpeg', mobileImage: '/assets/harley-slide5.jpeg', text: t('home.hero.owner4.text'), type: 'owner' as const, pos: '50% 70%', mobilePos: '50% 35%' },
     { image: '/assets/convertible-slide6.jpeg', mobileImage: '/assets/convertible-slide6-mobile.jpeg', text: t('home.hero.dreamer4.text'), type: 'dreamer' as const, pos: '40% 50%', mobilePos: '30% 80%' },
     { image: '/assets/beach-house-slide7-web.jpeg', mobileImage: '/assets/beach-house-slide7.jpeg', text: t('home.hero.owner5.text'), type: 'owner' as const, pos: '45% 50%', mobilePos: '45% 50%' },
