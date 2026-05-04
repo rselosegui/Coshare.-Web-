@@ -44,7 +44,7 @@ export const VisualShare2 = () => (
       <div className="font-bold text-lg text-[#0b1b34] mt-auto">Guest Vetted</div>
       <ShieldCheck className="w-5 h-5 text-emerald-500 mt-auto" />
     </div>
-    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-y-auto no-scrollbar">
+    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-hidden">
       <motion.div variants={itemVariants} className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
         <div className="flex items-center gap-3 border-b border-gray-50 pb-3 mb-3">
           <div className="w-10 h-10 rounded-full bg-gray-200 overflow-hidden">
@@ -94,7 +94,7 @@ export const VisualShare3 = () => (
     <div className="pt-12 pb-4 px-6 bg-white border-b border-gray-100 flex items-end h-24">
       <div className="font-bold text-lg text-[#0b1b34]">Digital Handover</div>
     </div>
-    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-y-auto no-scrollbar">
+    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-hidden">
       <motion.div variants={itemVariants} className="bg-[#0b1b34] rounded-2xl p-4 text-white relative shadow-lg">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-full flex items-center justify-center bg-white/10">
@@ -144,7 +144,7 @@ export const VisualShare4 = () => (
         <Wallet className="w-5 h-5 text-gray-400" />
       </div>
     </div>
-    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-y-auto no-scrollbar">
+    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-hidden">
       <motion.div variants={itemVariants} className="bg-[#0b1b34] rounded-2xl p-5 text-white shadow-xl shadow-[#0b1b34]/20">
         <div className="text-[10px] uppercase tracking-widest font-bold mb-1 opacity-80 text-[#49bee4]">Total Earnings</div>
         <div className="text-4xl font-display font-bold flex items-center gap-2">
@@ -182,7 +182,7 @@ export const VisualOwn1 = () => (
     <div className="pt-12 pb-4 px-6 bg-white border-b border-gray-100 flex items-end h-24">
       <div className="font-bold text-lg text-[#0b1b34]">Co-own Assets</div>
     </div>
-    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-y-auto no-scrollbar">
+    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-hidden">
       <motion.div variants={itemVariants} className="bg-white rounded-3xl p-2.5 shadow-sm border border-gray-100">
         <div className="h-32 rounded-2xl overflow-hidden mb-3">
           <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&q=80&w=400" alt="Villa" className="w-full h-full object-cover" loading="lazy" />
@@ -214,7 +214,7 @@ export const VisualOwn2 = () => (
     <div className="pt-12 pb-4 px-6 bg-white border-b border-gray-100 flex items-end h-24">
       <div className="font-bold text-lg text-[#0b1b34]">Your Team</div>
     </div>
-    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-y-auto no-scrollbar">
+    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-hidden">
       <motion.div variants={itemVariants} className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100">
         <div className="text-[10px] font-bold text-gray-400 uppercase mb-3">Verified Co-owners (4/8)</div>
         <div className="flex justify-start gap-2 mb-4">
@@ -260,7 +260,7 @@ export const VisualOwn3 = () => (
         <Settings className="w-5 h-5 text-gray-400" />
       </div>
     </div>
-    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-y-auto no-scrollbar">
+    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-hidden">
       <motion.div variants={itemVariants} className="bg-white p-4 rounded-3xl shadow-sm border border-gray-100">
         <div className="flex justify-between items-start mb-4">
           <motion.div
@@ -308,7 +308,7 @@ export const VisualOwn4 = () => (
     <div className="pt-12 pb-4 px-6 bg-white border-b border-gray-100 flex items-end h-24">
       <div className="font-bold text-lg text-[#0b1b34]">Your Shares</div>
     </div>
-    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-y-auto no-scrollbar">
+    <div className="flex-1 p-5 pb-24 flex flex-col gap-4 overflow-hidden">
       <motion.div variants={itemVariants} className="bg-[#0b1b34] rounded-2xl p-5 text-white relative shadow-xl overflow-hidden">
         <div className="relative z-10">
           <div className="text-[10px] text-blue-200 uppercase tracking-widest font-bold mb-1">Total Ownership Value</div>
