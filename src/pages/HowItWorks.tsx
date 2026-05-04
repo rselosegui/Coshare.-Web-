@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'motion/react';
-import { ArrowLeftRight, CalendarCheck, Sparkles, ShieldCheck, FileText, Wrench, ArrowRight, CheckCircle2, Search, Users, PieChart, Key } from 'lucide-react';
-import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
+import { ArrowLeftRight, CalendarCheck, Sparkles, ShieldCheck, FileText, Wrench, ArrowRight, CheckCircle2, Search, Users, PieChart, Key, BatteryCharging, Truck, ShoppingBag, ClipboardCheck } from 'lucide-react';
+import { VisualShare1, VisualShare2, VisualShare3, VisualShare4, VisualOwn1, VisualOwn2, VisualOwn3, VisualOwn4 } from '../components/HowItWorksVisuals';
 
 export const HowItWorks = () => {
   const { t, lang } = useLanguage();
@@ -83,17 +83,17 @@ export const HowItWorks = () => {
   useMotionValueEvent(stepIndex, 'change', v => setActiveStepIdx(Math.floor(v)));
 
   const shareSteps = [
-    { icon: Key, title: t('how.share.step1.title'), description: t('how.share.step1.desc'), points: [t('how.share.step1.point1'), t('how.share.step1.point2'), t('how.share.step1.point3')], num: '01', Visual: Visual1 },
-    { icon: Sparkles, title: t('how.share.step2.title'), description: t('how.share.step2.desc'), points: [t('how.share.step2.point1'), t('how.share.step2.point2'), t('how.share.step2.point3')], num: '02', Visual: Visual2 },
-    { icon: Search, title: t('how.share.step3.title'), description: t('how.share.step3.desc'), points: [t('how.share.step3.point1'), t('how.share.step3.point2'), t('how.share.step3.point3')], num: '03', Visual: Visual3 },
-    { icon: CalendarCheck, title: t('how.share.step4.title'), description: t('how.share.step4.desc'), points: [t('how.share.step4.point1'), t('how.share.step4.point2'), t('how.share.step4.point3')], num: '04', Visual: Visual4 }
+    { icon: Key, title: t('how.share.step1.title'), description: t('how.share.step1.desc'), points: [t('how.share.step1.point1'), t('how.share.step1.point2'), t('how.share.step1.point3')], num: '01', Visual: VisualShare1 },
+    { icon: Sparkles, title: t('how.share.step2.title'), description: t('how.share.step2.desc'), points: [t('how.share.step2.point1'), t('how.share.step2.point2'), t('how.share.step2.point3')], num: '02', Visual: VisualShare2 },
+    { icon: Search, title: t('how.share.step3.title'), description: t('how.share.step3.desc'), points: [t('how.share.step3.point1'), t('how.share.step3.point2'), t('how.share.step3.point3')], num: '03', Visual: VisualShare3 },
+    { icon: CalendarCheck, title: t('how.share.step4.title'), description: t('how.share.step4.desc'), points: [t('how.share.step4.point1'), t('how.share.step4.point2'), t('how.share.step4.point3')], num: '04', Visual: VisualShare4 }
   ];
 
   const ownSteps = [
-    { icon: PieChart, title: t('how.own.step1.title'), description: t('how.own.step1.desc'), points: [t('how.own.step1.point1'), t('how.own.step1.point2'), t('how.own.step1.point3')], num: '01', Visual: Visual1 },
-    { icon: Users, title: t('how.own.step2.title'), description: t('how.own.step2.desc'), points: [t('how.own.step2.point1'), t('how.own.step2.point2'), t('how.own.step2.point3')], num: '02', Visual: Visual2 },
-    { icon: ShieldCheck, title: t('how.own.step3.title'), description: t('how.own.step3.desc'), points: [t('how.own.step3.point1'), t('how.own.step3.point2'), t('how.own.step3.point3')], num: '03', Visual: Visual3 },
-    { icon: Key, title: t('how.own.step4.title'), description: t('how.own.step4.desc'), points: [t('how.own.step4.point1'), t('how.own.step4.point2'), t('how.own.step4.point3')], num: '04', Visual: Visual4 }
+    { icon: PieChart, title: t('how.own.step1.title'), description: t('how.own.step1.desc'), points: [t('how.own.step1.point1'), t('how.own.step1.point2'), t('how.own.step1.point3')], num: '01', Visual: VisualOwn1 },
+    { icon: Users, title: t('how.own.step2.title'), description: t('how.own.step2.desc'), points: [t('how.own.step2.point1'), t('how.own.step2.point2'), t('how.own.step2.point3')], num: '02', Visual: VisualOwn2 },
+    { icon: ShieldCheck, title: t('how.own.step3.title'), description: t('how.own.step3.desc'), points: [t('how.own.step3.point1'), t('how.own.step3.point2'), t('how.own.step3.point3')], num: '03', Visual: VisualOwn3 },
+    { icon: Key, title: t('how.own.step4.title'), description: t('how.own.step4.desc'), points: [t('how.own.step4.point1'), t('how.own.step4.point2'), t('how.own.step4.point3')], num: '04', Visual: VisualOwn4 }
   ];
 
   const currentSteps = journey === 'share' ? shareSteps : ownSteps;
@@ -254,10 +254,10 @@ export const HowItWorks = () => {
                 {/* Dynamic Island Notch */}
                 <div className="absolute top-2 inset-x-0 h-6 bg-black/40 backdrop-blur-md rounded-full w-28 mx-auto z-20 border border-white/5" />
                 <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
-                  <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}><Visual1 /></motion.div>
-                  <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}><Visual2 /></motion.div>
-                  <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}><Visual3 /></motion.div>
-                  <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}><Visual4 /></motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>{journey === 'share' ? <VisualShare1 /> : <VisualOwn1 />}</motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}>{journey === 'share' ? <VisualShare2 /> : <VisualOwn2 />}</motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}>{journey === 'share' ? <VisualShare3 /> : <VisualOwn3 />}</motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}>{journey === 'share' ? <VisualShare4 /> : <VisualOwn4 />}</motion.div>
                 </div>
               </div>
             </div>
@@ -363,66 +363,77 @@ export const HowItWorks = () => {
       </section>
 
       {/* Financial Advantage Section */}
-      <section className="py-24 bg-[#1a2b4c] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="bg-white/5 border border-white/10 rounded-[2rem] p-6 md:p-10 mb-16 text-center">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-4">{t('how.math.title')}</h2>
-            <p className="text-base md:text-lg text-gray-400 max-w-2xl mx-auto font-light">{t('how.math.subtitle')}</p>
+      <section className="py-24 bg-white text-gray-900 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-[#0b1b34] mb-6">
+              {t('how.math.title')}
+            </h2>
+            <p className="text-lg text-gray-600">
+              {t('how.math.subtitle')}
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            <div className="bg-[#0b1b34] rounded-3xl p-8 border border-white/10">
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">{t('how.math.traditional')}</h3>
-              <div className="space-y-6">
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                  <span className="text-gray-400">{t('how.math.purchase')}</span>
-                  <span className="text-white font-bold">{t('how.math.100')}</span>
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* The Old Way */}
+            <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100 relative overflow-hidden">
+              <div className="absolute top-0 end-0 p-6 opacity-10">
+                <Sparkles className="w-24 h-24 text-gray-900" />
+              </div>
+              <div className="relative z-10">
+                <div className="inline-block px-4 py-1 bg-red-100 text-red-600 rounded-full text-sm font-bold mb-6">
+                  {t('how.math.old.badge')}
                 </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                  <span className="text-gray-400">{t('how.math.depreciation')}</span>
-                  <span className="text-red-400 font-bold">{t('how.math.100')}</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                  <span className="text-gray-400">{t('how.math.maintenance')}</span>
-                  <span className="text-red-400 font-bold">{t('how.math.high')}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400">{t('how.math.utilization')}</span>
-                  <span className="text-gray-500 font-bold">{t('how.math.low')}</span>
-                </div>
+                <h3 className="text-2xl font-bold mb-4">100% Cost, 10% Usage</h3>
+                <ul className="space-y-4">
+                  {[
+                    'Pay full purchase price upfront',
+                    'Shoulder 100% of maintenance & insurance',
+                    'Asset sits idle 90% of the year',
+                    'Suffer maximum depreciation',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center text-gray-600">
+                      <span className="w-2 h-2 bg-red-400 rounded-full me-3 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-[#05A7E8]/20 to-[#49bee4]/10 rounded-3xl p-8 border border-[#49bee4]/30 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#49bee4]/20 blur-3xl rounded-full" />
-              <h3 className="text-2xl font-bold text-white mb-8 text-center">{t('how.math.coshare')}</h3>
-              <div className="space-y-6 relative z-10">
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                  <span className="text-gray-300">{t('how.math.purchase')}</span>
-                  <span className="text-[#49bee4] font-bold">{t('how.math.12')}</span>
+            {/* The Coshare Way */}
+            <div className="bg-[#0b1b34] text-white rounded-3xl p-8 shadow-xl relative overflow-hidden md:-translate-y-4">
+              <div className="absolute top-0 end-0 p-6 opacity-10">
+                <ShieldCheck className="w-24 h-24 text-white" />
+              </div>
+              <div className="relative z-10">
+                <div className="inline-block px-4 py-1 bg-[#49bee4]/20 text-[#49bee4] rounded-full text-sm font-bold mb-6">
+                  {t('how.math.new.badge')}
                 </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                  <span className="text-gray-300">{t('how.math.depreciation')}</span>
-                  <span className="text-[#49bee4] font-bold">{t('how.math.12')}</span>
-                </div>
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                  <span className="text-gray-300">{t('how.math.maintenance')}</span>
-                  <span className="text-[#49bee4] font-bold">{t('how.math.split')}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-300">{t('how.math.utilization')}</span>
-                  <span className="text-[#49bee4] font-bold">{t('how.math.optimized')}</span>
-                </div>
+                <h3 className="text-2xl font-bold mb-4 text-white">Smart Ownership</h3>
+                <ul className="space-y-4">
+                  {[
+                    'Pay only for what you use (1/8th cost)',
+                    'Expenses split fairly among verified co-owners',
+                    'Earn credits for unused days to travel the world',
+                    'Retain equity allowing you to sell your fraction',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-center text-gray-300">
+                      <CheckCircle2 className="w-5 h-5 text-[#49bee4] me-3 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Red-Carpet Concierge Section (I) */}
+      {/* Concierge Section */}
       <section className="py-24 bg-gray-50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div className="grid md:grid-cols-2 gap-16 items-start">
             <div>
               <h2 className="text-3xl md:text-5xl font-display font-bold text-[#0b1b34] mb-6">
                 {t('how.concierge.title')}
@@ -431,83 +442,46 @@ export const HowItWorks = () => {
                 {t('how.concierge.subtitle')}
               </p>
 
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                  <Wrench className="w-8 h-8 text-[#05A7E8] mb-3" />
-                  <h4 className="font-bold text-gray-900 mb-1">{t('how.concierge.maintenance')}</h4>
-                  <p className="text-sm text-gray-500">{t('how.concierge.maintenanceDesc')}</p>
-                </div>
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                  <ShieldCheck className="w-8 h-8 text-[#05A7E8] mb-3" />
-                  <h4 className="font-bold text-gray-900 mb-1">{t('how.concierge.legal')}</h4>
-                  <p className="text-sm text-gray-500">{t('how.concierge.legalDesc')}</p>
-                </div>
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                  <FileText className="w-8 h-8 text-[#05A7E8] mb-3" />
-                  <h4 className="font-bold text-gray-900 mb-1">{t('how.concierge.insurance')}</h4>
-                  <p className="text-sm text-gray-500">{t('how.concierge.insuranceDesc')}</p>
-                </div>
-                <div className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
-                  <Sparkles className="w-8 h-8 text-[#05A7E8] mb-3" />
-                  <h4 className="font-bold text-gray-900 mb-1">{t('how.concierge.storage')}</h4>
-                  <p className="text-sm text-gray-500">{t('how.concierge.storageDesc')}</p>
-                </div>
+              <div className="space-y-3">
+                {[
+                  { icon: FileText, key: 'legal' },
+                  { icon: ShieldCheck, key: 'insurance' },
+                  { icon: Wrench, key: 'maintenance' },
+                  { icon: ClipboardCheck, key: 'handover' },
+                  { icon: Sparkles, key: 'valet' },
+                  { icon: BatteryCharging, key: 'refueling' },
+                  { icon: Truck, key: 'relocation' },
+                  { icon: ShoppingBag, key: 'provisioning' },
+                  { icon: ArrowRight, key: 'resale' },
+                ].map(({ icon: Icon, key }) => (
+                  <div key={key} className="flex items-start gap-4 bg-white p-4 md:p-5 rounded-2xl border border-gray-100 shadow-sm">
+                    <div className="w-10 h-10 md:w-12 md:h-12 bg-[#0b1b34] rounded-xl flex items-center justify-center shrink-0">
+                      <Icon className="w-4 h-4 md:w-5 md:h-5 text-[#49bee4]" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-900 text-sm md:text-base mb-0.5">{t(`how.concierge.${key}`)}</h4>
+                      <p className="text-xs md:text-sm text-gray-500 leading-relaxed">{t(`how.concierge.${key}Desc`)}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div>
-              {/* Image with floating cards (desktop) */}
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#49bee4]/10 rounded-full blur-[80px]" />
-                <img
-                  src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=800"
-                  alt="Concierge Service"
-                  className="relative z-10 w-full h-[400px] sm:h-[500px] object-cover rounded-[2.5rem] shadow-2xl"
-                  loading="lazy"
-                />
-
-                {/* Floating Card 1 — desktop only */}
-                <div className="absolute -start-8 top-1/4 bg-white p-4 rounded-2xl shadow-xl z-20 border border-gray-100 hidden sm:flex items-center gap-4">
-                  <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
-                    <CheckCircle2 className="w-6 h-6 text-green-500" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Valet Check-in</div>
-                    <div className="font-bold text-gray-900">Completed</div>
-                  </div>
+            <div className="relative md:sticky md:top-24">
+              <div className="absolute inset-0 bg-[#49bee4]/10 rounded-full blur-[80px]" />
+              <img
+                src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=800"
+                alt="Concierge Service"
+                className="relative z-10 w-full h-[500px] object-cover rounded-[2.5rem] shadow-2xl"
+                loading="lazy"
+              />
+              <div className="absolute -start-8 top-1/4 bg-white p-4 rounded-2xl shadow-xl z-20 border border-gray-100 hidden sm:flex items-center gap-4">
+                <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-500" />
                 </div>
-
-                {/* Floating Card 2 — desktop only */}
-                <div className="absolute -end-8 bottom-1/4 bg-white p-4 rounded-2xl shadow-xl z-20 border border-gray-100 hidden sm:flex items-center gap-4">
-                  <div className="w-12 h-12 bg-[#49bee4]/10 rounded-full flex items-center justify-center">
-                    <ShieldCheck className="w-6 h-6 text-[#49bee4]" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Insurance</div>
-                    <div className="font-bold text-gray-900">Active & Covered</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Floating Cards — mobile, side-by-side below image */}
-              <div className="sm:hidden flex gap-3 mt-4">
-                <div className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-green-50 rounded-full flex items-center justify-center shrink-0">
-                    <CheckCircle2 className="w-5 h-5 text-green-500" />
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Valet Check-in</div>
-                    <div className="text-sm font-bold text-gray-900">Completed</div>
-                  </div>
-                </div>
-                <div className="flex-1 bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[#49bee4]/10 rounded-full flex items-center justify-center shrink-0">
-                    <ShieldCheck className="w-5 h-5 text-[#49bee4]" />
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Insurance</div>
-                    <div className="text-sm font-bold text-gray-900">Active & Covered</div>
-                  </div>
+                <div>
+                  <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Valet Check-in</div>
+                  <div className="font-bold text-gray-900">Completed</div>
                 </div>
               </div>
             </div>

@@ -9,7 +9,7 @@ import {
   Car, Plane, Home as HomeIcon, Wallet,
   ChevronDown, Key, Users, PieChart, ArrowLeftRight, CheckCircle2
 } from 'lucide-react';
-import { Visual1, Visual2, Visual3, Visual4 } from '../components/HowItWorksVisuals';
+import { VisualShare1, VisualShare2, VisualShare3, VisualShare4, VisualOwn1, VisualOwn2, VisualOwn3, VisualOwn4 } from '../components/HowItWorksVisuals';
 import { WhyCoshare } from '../components/WhyCoshare';
 import { cn } from '../utils/cn';
 
@@ -249,17 +249,17 @@ export const Home = () => {
   };
 
   const shareSteps = [
-    { icon: Key, title: t('how.share.step1.title'), description: t('how.share.step1.desc'), points: [t('how.share.step1.point1'), t('how.share.step1.point2'), t('how.share.step1.point3')], num: '01', Visual: Visual1 },
-    { icon: Sparkles, title: t('how.share.step2.title'), description: t('how.share.step2.desc'), points: [t('how.share.step2.point1'), t('how.share.step2.point2'), t('how.share.step2.point3')], num: '02', Visual: Visual2 },
-    { icon: Search, title: t('how.share.step3.title'), description: t('how.share.step3.desc'), points: [t('how.share.step3.point1'), t('how.share.step3.point2'), t('how.share.step3.point3')], num: '03', Visual: Visual3 },
-    { icon: CalendarCheck, title: t('how.share.step4.title'), description: t('how.share.step4.desc'), points: [t('how.share.step4.point1'), t('how.share.step4.point2'), t('how.share.step4.point3')], num: '04', Visual: Visual4 }
+    { icon: Key, title: t('how.share.step1.title'), description: t('how.share.step1.desc'), points: [t('how.share.step1.point1'), t('how.share.step1.point2'), t('how.share.step1.point3')], num: '01', Visual: VisualShare1 },
+    { icon: Sparkles, title: t('how.share.step2.title'), description: t('how.share.step2.desc'), points: [t('how.share.step2.point1'), t('how.share.step2.point2'), t('how.share.step2.point3')], num: '02', Visual: VisualShare2 },
+    { icon: Search, title: t('how.share.step3.title'), description: t('how.share.step3.desc'), points: [t('how.share.step3.point1'), t('how.share.step3.point2'), t('how.share.step3.point3')], num: '03', Visual: VisualShare3 },
+    { icon: CalendarCheck, title: t('how.share.step4.title'), description: t('how.share.step4.desc'), points: [t('how.share.step4.point1'), t('how.share.step4.point2'), t('how.share.step4.point3')], num: '04', Visual: VisualShare4 }
   ];
 
   const ownSteps = [
-    { icon: PieChart, title: t('how.own.step1.title'), description: t('how.own.step1.desc'), points: [t('how.own.step1.point1'), t('how.own.step1.point2'), t('how.own.step1.point3')], num: '01', Visual: Visual1 },
-    { icon: Users, title: t('how.own.step2.title'), description: t('how.own.step2.desc'), points: [t('how.own.step2.point1'), t('how.own.step2.point2'), t('how.own.step2.point3')], num: '02', Visual: Visual2 },
-    { icon: ShieldCheck, title: t('how.own.step3.title'), description: t('how.own.step3.desc'), points: [t('how.own.step3.point1'), t('how.own.step3.point2'), t('how.own.step3.point3')], num: '03', Visual: Visual3 },
-    { icon: Key, title: t('how.own.step4.title'), description: t('how.own.step4.desc'), points: [t('how.own.step4.point1'), t('how.own.step4.point2'), t('how.own.step4.point3')], num: '04', Visual: Visual4 }
+    { icon: PieChart, title: t('how.own.step1.title'), description: t('how.own.step1.desc'), points: [t('how.own.step1.point1'), t('how.own.step1.point2'), t('how.own.step1.point3')], num: '01', Visual: VisualOwn1 },
+    { icon: Users, title: t('how.own.step2.title'), description: t('how.own.step2.desc'), points: [t('how.own.step2.point1'), t('how.own.step2.point2'), t('how.own.step2.point3')], num: '02', Visual: VisualOwn2 },
+    { icon: ShieldCheck, title: t('how.own.step3.title'), description: t('how.own.step3.desc'), points: [t('how.own.step3.point1'), t('how.own.step3.point2'), t('how.own.step3.point3')], num: '03', Visual: VisualOwn3 },
+    { icon: Key, title: t('how.own.step4.title'), description: t('how.own.step4.desc'), points: [t('how.own.step4.point1'), t('how.own.step4.point2'), t('how.own.step4.point3')], num: '04', Visual: VisualOwn4 }
   ];
 
   const currentSteps = activeTab === 'share' ? shareSteps : ownSteps;
@@ -267,7 +267,7 @@ export const Home = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <SEO
-        title="Coshare: My Hub | Share, Swap & Co-own Cars, Boats, Property & More"
+        title="Coshare: Own More. Together | Share, Swap & Co-own Cars, Boats, Property & More"
         description="Coshare is the platform to share, swap, and co-own assets — cars, boats, properties and more. List what you own. Access what you want. AI manages everything."
         canonical="https://www.coshare.ai"
       />
@@ -408,14 +408,14 @@ export const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-8 md:p-12 text-center"
+            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-8 md:p-12 ltr:text-left rtl:text-right"
           >
             <h2 className="text-3xl md:text-4xl font-display font-bold text-[#0b1b34] mb-4 text-balance">
               {t('home.why.title').split('Coshare.')[0]}
               <span dir="ltr" className="inline-block">Coshare<span className="text-[#05A7E8]">.</span></span>
               {t('home.why.title').split('Coshare.')[1]}
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl text-balance mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl text-balance">
               {t('home.why.subtitle')}
             </p>
           </motion.div>
@@ -548,10 +548,10 @@ export const Home = () => {
                 {/* Dynamic Island Notch */}
                 <div className="absolute top-2 inset-x-0 h-6 bg-black/40 backdrop-blur-md rounded-full w-28 mx-auto z-20 border border-white/5" />
                 <div className="w-full h-full bg-[#f8f9fa] flex flex-col relative">
-                  <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}><Visual1 /></motion.div>
-                  <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}><Visual2 /></motion.div>
-                  <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}><Visual3 /></motion.div>
-                  <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}><Visual4 /></motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img1Opacity }}>{activeTab === 'share' ? <VisualShare1 /> : <VisualOwn1 />}</motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img2Opacity }}>{activeTab === 'share' ? <VisualShare2 /> : <VisualOwn2 />}</motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img3Opacity }}>{activeTab === 'share' ? <VisualShare3 /> : <VisualOwn3 />}</motion.div>
+                  <motion.div className="absolute inset-0" style={{ opacity: img4Opacity }}>{activeTab === 'share' ? <VisualShare4 /> : <VisualOwn4 />}</motion.div>
                 </div>
               </div>
             </div>
@@ -671,10 +671,10 @@ export const Home = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-8 md:p-12 text-center"
+            className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.1)] border border-gray-100 p-8 md:p-12 ltr:text-left rtl:text-right"
           >
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-[#0b1b34]">{t('home.useCases.title')}</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">{t('home.useCases.subtitle')}</p>
+            <p className="text-lg text-gray-600 max-w-2xl">{t('home.useCases.subtitle')}</p>
           </motion.div>
         </div>
       </div>
