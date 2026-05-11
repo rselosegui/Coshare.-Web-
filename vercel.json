@@ -1,16 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "https://www.coshare.ai/:path*",
-      "destination": "https://coshare.ai/:path*",
-      "permanent": true
-    },
-    {
-      "source": "http://www.coshare.ai/:path*",
-      "destination": "https://coshare.ai/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/(.*)",
