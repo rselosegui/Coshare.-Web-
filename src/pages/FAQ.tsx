@@ -37,16 +37,23 @@ export const FAQ = () => {
       <SEO
         title="Coshare FAQ | Co-ownership, Sharing & Platform Questions"
         description="Find answers about how Coshare works, co-ownership structure, safety, usage, and payments."
-        canonical="https://www.coshare.ai/faq"
+        canonical="https://coshare.ai/faq"
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "FAQPage",
           "mainEntity": [
-            { "@type": "Question", "name": "What is cosharing?", "acceptedAnswer": { "@type": "Answer", "text": "Cosharing allows multiple individuals to share ownership of a high-value asset, such as a car or yacht. Each owner is officially registered as an authorized co-owner to ensure legal compliance." } },
-            { "@type": "Question", "name": "How does Coshare work?", "acceptedAnswer": { "@type": "Answer", "text": "Coshare identifies assets, protects them under a comprehensive co-ownership agreement, and allows users to buy shares (from 1/8th). We handle all maintenance, insurance, and storage while you enjoy guaranteed usage days." } },
-            { "@type": "Question", "name": "Is cosharing legal?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, Coshare utilizes a streamlined legal structure protected by a comprehensive co-ownership agreement and official registration to ensure strict compliance." } }
+            { "@type": "Question", "name": "What is cosharing?", "acceptedAnswer": { "@type": "Answer", "text": "Cosharing is a modern ownership model where multiple parties share the cost and usage of a tangible asset. In Coshare's case, this includes cars, and we are working to bring boats and real estate soon." } },
+            { "@type": "Question", "name": "Is it legal?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Phase 1 utilizes a streamlined legal structure protected by a comprehensive co-ownership agreement and official registration to ensure strict compliance." } },
+            { "@type": "Question", "name": "How are maintenance and insurance handled?", "acceptedAnswer": { "@type": "Answer", "text": "We facilitate maintenance and insurance to keep things simple. While we offer a fully managed service if required, costs are transparently split, and you only pay for the services you need." } },
+            { "@type": "Question", "name": "Can I sell my fraction later?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Coshare provides a secondary marketplace where you can list your fraction for sale to the public, providing liquidity without waiting for the asset to be sold entirely." } },
+            { "@type": "Question", "name": "How do I book time with the asset?", "acceptedAnswer": { "@type": "Answer", "text": "You can book time through the Coshare app. Our AI-powered calendar ensures fair distribution of peak and off-peak days based on your share percentage." } },
+            { "@type": "Question", "name": "What happens if an asset is damaged?", "acceptedAnswer": { "@type": "Answer", "text": "In the event of damage, repair costs may be covered fully or partially according to the user's insurance policy. To preserve the asset's value, our team can handle the entire claims and repair process if desired." } },
+            { "@type": "Question", "name": "Are there any hidden fees?", "acceptedAnswer": { "@type": "Answer", "text": "No, there are no hidden fees. We pride ourselves on complete transparency. While the core co-ownership structure is clear, we do offer optional additional services (like premium storage, specialized cleaning, or delivery) whose prices may vary according to the specific asset and user requests." } },
+            { "@type": "Question", "name": "Who can use the asset?", "acceptedAnswer": { "@type": "Answer", "text": "Only verified co-owners who have passed our strict KYC and background checks are authorized to use the asset." } },
+            { "@type": "Question", "name": "How are expenses split?", "acceptedAnswer": { "@type": "Answer", "text": "All running costs—including insurance, routine maintenance, and registration—are divided proportionally based on your ownership stake. Our platform automates this process, providing transparent, itemized billing so you only pay your fair share." } },
+            { "@type": "Question", "name": "How are conflicts resolved?", "acceptedAnswer": { "@type": "Answer", "text": "Conflicts are mediated by our dedicated support team using clear guidelines, with the primary goal of preserving the asset's value for everyone involved." } }
           ]
         })}</script>
       </Helmet>

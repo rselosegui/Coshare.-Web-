@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'motion/react';
 import { ArrowLeftRight, CalendarCheck, Sparkles, ShieldCheck, FileText, Wrench, ArrowRight, CheckCircle2, Search, Users, PieChart, Key, BatteryCharging, Truck, ShoppingBag, ClipboardCheck } from 'lucide-react';
 import { VisualShare1, VisualShare2, VisualShare3, VisualShare4, VisualOwn1, VisualOwn2, VisualOwn3, VisualOwn4 } from '../components/HowItWorksVisuals';
@@ -103,8 +104,78 @@ export const HowItWorks = () => {
       <SEO
         title="How Coshare Works | Co-ownership, Sharing & Asset Management"
         description="Learn how Coshare lets you co-own and share high-value assets like cars, boats, and property. AI manages scheduling, usage, payments, and agreements automatically."
-        canonical="https://www.coshare.ai/how-it-works"
+        canonical="https://coshare.ai/how-it-works"
       />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to Share Your Asset on Coshare",
+            "description": "List your idle car, boat, or property on Coshare and earn income or Swap Credits while AI manages the entire process.",
+            "url": "https://coshare.ai/how-it-works",
+            "step": [
+              {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "List Your Asset",
+                "text": "Got a car, boat, or property sitting idle? Set your availability, define custom rules, and let AI smoothly create the perfect listing for you in minutes."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Rest Easy",
+                "text": "Never worry about who is using your asset. Every single user undergoes strict identity checks and continuous behavioral scoring before they can book."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Seamless Handovers",
+                "text": "Sit back while our platform manages the entire process. From digital key handovers to automated condition reports before and after every trip."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Earn & Swap",
+                "text": "Turn idle time into real value. Offset your ownership costs through direct earnings, or collect Swap Credits to spend on other assets in the network."
+              }
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            "name": "How to Co-own an Asset on Coshare",
+            "description": "Buy a verified fractional share of a car, boat, or property and enjoy smart AI-managed co-ownership without the full cost or hassle.",
+            "url": "https://coshare.ai/how-it-works",
+            "step": [
+              {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Buy a Share",
+                "text": "Why pay 100% for something you only use 10% of the time? Browse verified real estate, boats, and cars, and buy exactly the slice you need (like 1/8th)."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Team Up Safely",
+                "text": "Connect with verified co-owners in a secure environment. We handle the legal paperwork, secure payments, and insurance automatically so you don't have to."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Smart Management",
+                "text": "Enjoy the asset without the stress. AI takes the friction out of ownership by fairly sharing the calendar, tracking maintenance, and automatically splitting bills."
+              },
+              {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Swap or Sell",
+                "text": "You're never locked in. Release your unused days to the network for global Swap Credits, or easily list your share on our marketplace if you're ready to move on."
+              }
+            ]
+          }
+        ])}</script>
+      </Helmet>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-48 md:pt-48 md:pb-64 overflow-hidden bg-[#0b1b34] rounded-b-[60px] md:rounded-b-[100px] z-10 shadow-2xl shadow-[#0b1b34]/20">

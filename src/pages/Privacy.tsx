@@ -50,7 +50,7 @@ export const Privacy = () => {
       <SEO
         title="Privacy Policy | Coshare"
         description="Learn how Coshare collects, uses, and protects your personal information."
-        canonical="https://www.coshare.ai/privacy"
+        canonical="https://coshare.ai/privacy"
       />
 
       <div className="max-w-3xl mx-auto px-6 sm:px-8">

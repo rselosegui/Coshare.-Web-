@@ -58,7 +58,7 @@ export const Terms = () => {
       <SEO
         title="Terms of Service | Coshare"
         description="Read the Coshare Terms of Service governing your use of the platform."
-        canonical="https://www.coshare.ai/terms"
+        canonical="https://coshare.ai/terms"
       />
 
       <div className="max-w-3xl mx-auto px-6 sm:px-8">

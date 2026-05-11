@@ -2,6 +2,7 @@ import React, { useRef, useState, useMemo, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../store/language';
 import { SEO } from '../components/SEO';
+import { Helmet } from 'react-helmet-async';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent } from 'motion/react';
 import {
   ArrowRight, CalendarCheck, Search, Sparkles,
@@ -269,8 +270,17 @@ export const Home = () => {
       <SEO
         title="Coshare: Own More. Together | Share, Swap & Co-own Cars, Boats, Property & More"
         description="Coshare is the platform to share, swap, and co-own assets — cars, boats, properties and more. List what you own. Access what you want. AI manages everything."
-        canonical="https://www.coshare.ai"
+        canonical="https://coshare.ai"
       />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Coshare",
+          "url": "https://coshare.ai",
+          "description": "Coshare is the platform to share, swap, and co-own assets — cars, boats, properties and more. List what you own. Access what you want. AI manages everything."
+        })}</script>
+      </Helmet>
       {/* Hero Section */}
       <section
         className="relative h-[100svh] overflow-hidden"
