@@ -104,7 +104,7 @@ export const HowItWorks = () => {
       <SEO
         title="How Coshare Works | Co-ownership, Sharing & Asset Management"
         description="Learn how Coshare lets you co-own and share high-value assets like cars, boats, and property. AI manages scheduling, usage, payments, and agreements automatically."
-        canonical="https://coshare.ai/how-it-works"
+        canonical="https://www.coshare.ai/how-it-works"
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify([
@@ -113,7 +113,7 @@ export const HowItWorks = () => {
             "@type": "HowTo",
             "name": "How to Share Your Asset on Coshare",
             "description": "List your idle car, boat, or property on Coshare and earn income or Swap Credits while AI manages the entire process.",
-            "url": "https://coshare.ai/how-it-works",
+            "url": "https://www.coshare.ai/how-it-works",
             "step": [
               {
                 "@type": "HowToStep",
@@ -146,7 +146,7 @@ export const HowItWorks = () => {
             "@type": "HowTo",
             "name": "How to Co-own an Asset on Coshare",
             "description": "Buy a verified fractional share of a car, boat, or property and enjoy smart AI-managed co-ownership without the full cost or hassle.",
-            "url": "https://coshare.ai/how-it-works",
+            "url": "https://www.coshare.ai/how-it-works",
             "step": [
               {
                 "@type": "HowToStep",

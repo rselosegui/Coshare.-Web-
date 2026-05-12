@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://coshare.ai/sitemap.xml
+Sitemap: https://www.coshare.ai/sitemap.xml

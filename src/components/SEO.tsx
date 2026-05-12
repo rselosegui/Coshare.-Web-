@@ -12,16 +12,16 @@ interface SEOProps {
 export const SEO: React.FC<SEOProps> = ({ 
   title = "Coshare | Co-own and Share Assets", 
   description = "Join the future of ownership. Co-own cars, boats, real estate and more all around the world with Coshare's AI-powered cosharing marketplace.",
-  canonical = "https://coshare.ai",
-  image = "https://coshare.ai/assets/og-image.png",
+  canonical = "https://www.coshare.ai",
+  image = "https://www.coshare.ai/assets/og-image.png",
   type = 'website'
 }) => {
   const organizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Coshare",
-    "url": "https://coshare.ai",
-    "logo": "https://coshare.ai/logo.png",
+    "url": "https://www.coshare.ai",
+    "logo": "https://www.coshare.ai/logo.png",
     "description": "Cosharing platform for high-value assets all around the world.",
     "sameAs": [
       "https://instagram.com/coshare.ai",

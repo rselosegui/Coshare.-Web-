@@ -270,14 +270,14 @@ export const Home = () => {
       <SEO
         title="Coshare: Own More. Together | Share, Swap & Co-own Cars, Boats, Property & More"
         description="Coshare is the platform to share, swap, and co-own assets — cars, boats, properties and more. List what you own. Access what you want. AI manages everything."
-        canonical="https://coshare.ai"
+        canonical="https://www.coshare.ai"
       />
       <Helmet>
         <script type="application/ld+json">{JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
           "name": "Coshare",
-          "url": "https://coshare.ai",
+          "url": "https://www.coshare.ai",
           "description": "Coshare is the platform to share, swap, and co-own assets — cars, boats, properties and more. List what you own. Access what you want. AI manages everything."
         })}</script>
       </Helmet>
