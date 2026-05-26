@@ -36,7 +36,7 @@ export const ListAsset = () => {
           "description": "List your supercar, yacht, or property on Coshare. Sell fractional shares, unlock liquidity, and join a global network of co-owners.",
           "serviceType": "Fractional Asset Co-Ownership",
           "areaServed": "Worldwide",
-          "image": "https://www.coshare.ai/assets/og-image.png"
+          "image": "https://www.coshare.ai/assets/og-image.jpeg"
         })}</script>
       </Helmet>
 
